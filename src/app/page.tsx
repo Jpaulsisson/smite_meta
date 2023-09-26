@@ -1,12 +1,9 @@
 "use client";
 
-import Image from 'next/image'
-import { supabase } from '../database/supabase'
+import { supabase } from '../database/supabase.js'
+import { addAllItemsToSupabase, addItemToSupabase } from '../database/hirez-calls'
 
 export default function Home() {
-
-  const thisThing = process.env.NEXT_PUBLIC_THIS_THING;
-  const thatThing = process.env.NEXT_PUBLIC_THAT_THING;
 
   const getAllItemsFromSupabase = async() => {
     try {
@@ -20,9 +17,7 @@ export default function Home() {
   
   return (
     <main>
-      <button onClick={() => console.log(getAllItemsFromSupabase())}>Log from supabase</button>
-      <button onClick={() => console.log(thisThing)}>Log this thing</button>
-      <button onClick={() => console.log(thatThing)}>Log that thing</button>
+      <button onClick={() => addAllItemsToSupabase()}>Log from supabase</button>
 
     </main>
   )

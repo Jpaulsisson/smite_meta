@@ -1,9 +1,9 @@
 import md5 from 'md5';
+import { supabase } from './supabase';
 
 const devId = process.env.HIREZ_DEVID;
 const authKey = process.env.HIREZ_AUTHKEY;
 const smiteAPI = process.env.HIREZ_API_URL;
-
 
 /// Create Timestamp ///
 
@@ -62,7 +62,7 @@ const eSportsProLeagueDetailsSignature = makeSignature('getesportsproleaguedetai
 
 // create a session id //
 //  * a session ID must be included in every call //
-const getSessionId = async () => {
+export const getSessionId = async () => {
   const response = await fetch(
     `${smiteAPI}/createsessionjson/${devId}/${sessionSignature}/${timestamp}`
   );
@@ -164,4 +164,66 @@ const getAllGodSkinsHelper = async (godId, sessionId) => {
       console.error(err);
   }
 
+}
+
+
+export const addItemToSupabase = async () => {
+  try {
+    const { data, error } = await supabase
+  .from('items')
+  .insert([
+    { id: '1234', name: 'otherValue' },
+  ])
+  .select();
+
+  console.log('hit')
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// IT'S ALIVE!!!!!! (it's working now) //
+export const addAllItemsToSupabase = async () => {
+  try {
+  
+    const items = await getItems();
+
+    items.forEach(async (item) => {
+        const { ItemId, ActiveFlag, DeviceName, itemIcon_URL, RestrictedRoles, StartingItem, Glyph, ItemTier, ShortDesc, Type, Price } = item;
+  
+      const { data, error } = await supabase
+        .from('items')
+        .insert({ 
+              id: ItemId ,
+              name: DeviceName ,
+              pic_url: itemIcon_URL ,
+              restricted: RestrictedRoles ,
+              starter: StartingItem ,
+              glyph: Glyph ,
+              tier: ItemTier ,
+              special: item?.ItemDescription?.SecondaryDescription ,
+              short_description: ShortDesc ,
+              stat_1_desc: item?.ItemDescription?.Menuitems[0]?.Description ,
+              stat_1_val: item?.ItemDescription?.Menuitems[0]?.Value ,
+              stat_2_desc: item?.ItemDescription?.Menuitems[1]?.Description,
+              stat_2_val: item?.ItemDescription?.Menuitems[1]?.Value,
+              stat_3_desc: item?.ItemDescription?.Menuitems[2]?.Description,
+              stat_3_val: item?.ItemDescription?.Menuitems[2]?.Value,
+              stat_4_desc: item?.ItemDescription?.Menuitems[3]?.Description,
+              stat_4_val: item?.ItemDescription?.Menuitems[3]?.Value,
+              stat_5_desc: item?.ItemDescription?.Menuitems[4]?.Description,
+              stat_5_val: item?.ItemDescription?.Menuitems[4]?.Value,
+              stat_6_desc: item?.ItemDescription?.Menuitems[5]?.Description,
+              stat_6_val: item?.ItemDescription?.Menuitems[5]?.Value,
+              active_status: ActiveFlag,
+              type: Type,
+              price: Price 
+            })      
+      })
+
+    console.log('item added successfully');
+
+  } catch (error) {
+    console.error(error.message)
+  }
 }
