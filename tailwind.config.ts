@@ -8,10 +8,21 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        'bg-color': 'var(--primaryBgColor)',
+        'font-color': 'var(--primaryFontColor)',
+        'neutral': 'var(--neutralFontColor)',
+      },
+      borderWidth: {
+        'thin': '1px',
+      },
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'grade': 'radial-gradient(circle at bottom right, black 10%, transparent, transparent)',
+        'charon-overlay': 'linear-gradient(90deg, hsla(198, 71%, 11%, 0.95), hsla(198, 71%, 11%, 0.95)), url(../resources/charon.png)',
+        'charon': 'url(../resources/charon.png)',
+      },
+      boxShadow: {
+        'link-shadow': '5px 5px 10px silver',
       },
     },
   },
