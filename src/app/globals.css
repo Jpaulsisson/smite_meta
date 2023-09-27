@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primaryBgColor: hsl(198, 71%, 11%);
+  --primaryFontColor: hsl(45deg 80% 40%);
+  --neutralFontColor: hsl(60, 41%, 95%);
+}
+
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background: linear-gradient(hsla(220, 42%, 14%, 0.92), hsla(220, 42%, 14%, 0.92)),url(../resources/charon.png);
+  background-size: 400%;
+  background-position: top;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.home-page-link {
+  box-shadow: 2px 2px 5px 0 #bb800b;
+}
+
+::-webkit-scrollbar {
+  width: 2px;
+  background-color: var(--primaryBgColor);
+}
+
+::-webkit-scrollbar-thumb {
+  width: 2px;
+  background-color: goldenrod;
+}
+
+
+@media screen and (min-width: 768px) {
+  html {
+    background-size: cover;
+    background-position: top;
+  }
+}
