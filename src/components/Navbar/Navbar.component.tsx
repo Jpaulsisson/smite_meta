@@ -14,7 +14,7 @@ const exoFont = Exo_2({
 export default function Navbar() {
   return (
     <nav className={`p-8 mt-2 grid grid-cols-10 items-center ${exoFont.className} text-center bg-slate-900/40`}>
-      <h1 className={`col-start-4 col-end-8 md:col-start-1 md:col-end-2 text-font-color text-3xl flex flex-col items-center`}>
+      <h1 className={`col-start-4 col-end-8 md:col-start-1 md:col-end-2 text-primaryFontColor text-3xl flex flex-col items-center`}>
         <Link href="/" className="w-full h-full">
           <Image src={SmiteLogo} alt='Smite logo' />
         </Link>

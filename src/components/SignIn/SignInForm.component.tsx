@@ -1,6 +1,7 @@
 import React from 'react'
+import { supabase } from '@/database/supabase'
 
-export default function SignIn() {
+export default function SignInForm() {
   return (
     <div>
       {/* 

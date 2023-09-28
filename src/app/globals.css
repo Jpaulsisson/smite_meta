@@ -4,6 +4,7 @@
 
 :root {
   --primaryBgColor: hsl(198, 71%, 11%);
+  --secondaryBgColor: hsl(221, 45%, 13%);
   --primaryFontColor: hsl(45deg 80% 40%);
   --neutralFontColor: hsl(60, 41%, 95%);
 }

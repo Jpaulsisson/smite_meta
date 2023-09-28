@@ -9,8 +9,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'bg-color': 'var(--primaryBgColor)',
-        'font-color': 'var(--primaryFontColor)',
+        'primaryBgColor': 'var(--primaryBgColor)',
+        'secondaryBgColor': 'var(--secondaryBgColor)',
+        'primaryFontColor': 'var(--primaryFontColor)',
         'neutral': 'var(--neutralFontColor)',
       },
       borderWidth: {
@@ -24,6 +25,9 @@ const config: Config = {
       boxShadow: {
         'link-shadow': '5px 5px 10px silver',
       },
+      maxWidth: {
+        'max': '800px'
+      }
     },
   },
   plugins: [],

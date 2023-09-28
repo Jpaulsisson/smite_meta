@@ -1,36 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Smite Meta
+***Smite Meta***™ is a simple-to-use resource for players of all experience levels.
 
-## Getting Started
+### Main site features:
+  - Create custom or get recommended builds
+  - Create your profile and save your favorite builds to it
+  - See your build's final stats on the god of your choosing (level 20 stats) or just the stats
+  - Find out what the pros are doing and learn from them
+  - Read up on god info and see which gods are most popular currently
 
-First, run the development server:
+The overall objective of Smite Meta is to make the game easier for beginner players and to help more experienced players keep up with the changes to the game smoothly. 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Your saved builds will be updated automatically at every patch to ensure the final stats are always accurate with the current game.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+We will keep a log of a few famous/pro players and what they are building/what gods they are playing most, so you can try it out yourself.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+MOBAs have a natural learning curve that is **very** steep due to the amount of information in the game. This makes them both amazing to play and extremely difficult for newbies. We are hoping our efforts here will, at minimum, ease that burden by giving you the answers you need about Smite within 3 clicks.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Have fun and GGs!
 
-## Learn More
+(Smite tip #1: Don't be that guy spamming "You Rock!" "Cancel that")
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
