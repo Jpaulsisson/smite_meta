@@ -3,6 +3,7 @@
 import './BuildsDropdown.styles.css';
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Quicksand } from 'next/font/google';
 
 import DropdownArrow from '../../resources/arrow-down.svg';
@@ -47,24 +48,24 @@ export default function BuildsDropdown() {
         <div
           className={`${isActive} dropdown-content w-full h-full grid grid-rows-3 gap-16 text-2xl`}
         >
-          <a
+          <Link
             href="/CreateBuild"
             className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center justify-start p-2 border-2 border-yellow-600/70 rounded-md bg-slate-100/95 text-slate-800`}
           >
             Create a Build +
-          </a>
-          <a
+          </Link>
+          <Link
             href=""
             className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center justify-start p-2 border-2 border-yellow-600/70 rounded-md bg-slate-200/95 text-slate-800`}
           >
             My Saved Builds
-          </a>
-          <a
+          </Link>
+          <Link
             href=""
             className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center justify-start p-2 border-2 border-yellow-600/70 rounded-md bg-slate-300/95 text-slate-800`}
           >
             Recommended Builds
-          </a>
+          </Link>
         </div>
       </div>
     </>

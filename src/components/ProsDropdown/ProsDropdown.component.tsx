@@ -3,6 +3,7 @@
 import './ProsDropdown.styles.css';
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Quicksand } from 'next/font/google';
 
 import DropdownArrow from '../../resources/arrow-down.svg';
@@ -29,14 +30,14 @@ export default function ProsDropdown() {
           <Image src={DropdownArrow} alt='dropdown arrow' width={15} className={`${isActive === 'active' ? 'rotate-0 mix-blend-difference' : '-rotate-90 '}`} />
         </button>
         <div className={`${isActive} dropdown-content w-full h-full grid grid-cols-2 gap-1 text-2xl`}>
-          <a href="" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-100/95 border-2 border-yellow-600/70 rounded-md`}>Mid</a>
-          <a href="" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-100/95 border-2 border-yellow-600/70 rounded-md`}>Carry</a>
-          <a href="" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-200/95 border-2 border-yellow-600/70 rounded-md`}>Jungle</a>
-          <a href="" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-200/95 border-2 border-yellow-600/70 rounded-md`}>Solo</a>
-          <a href="" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-300/95 border-2 border-yellow-600/70 rounded-md`}>Support</a>
-          <a href="" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-300/95 border-2 border-yellow-600/70 rounded-md`}>Joust</a>
-          <a href="" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-400/95 border-2 border-yellow-600/70 rounded-md`}>Duel</a>
-          <a href="" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-400/95 border-2 border-yellow-600/70 rounded-md`}>Help</a>
+          <Link href="" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-100/95 border-2 border-yellow-600/70 rounded-md`}>Mid</Link>
+          <Link href="" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-100/95 border-2 border-yellow-600/70 rounded-md`}>Carry</Link>
+          <Link href="" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-200/95 border-2 border-yellow-600/70 rounded-md`}>Jungle</Link>
+          <Link href="" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-200/95 border-2 border-yellow-600/70 rounded-md`}>Solo</Link>
+          <Link href="" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-300/95 border-2 border-yellow-600/70 rounded-md`}>Support</Link>
+          <Link href="" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-300/95 border-2 border-yellow-600/70 rounded-md`}>Joust</Link>
+          <Link href="" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-400/95 border-2 border-yellow-600/70 rounded-md`}>Duel</Link>
+          <Link href="" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-400/95 border-2 border-yellow-600/70 rounded-md`}>Help</Link>
 
         </div>
       </div>

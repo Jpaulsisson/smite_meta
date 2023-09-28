@@ -3,6 +3,7 @@
 import './GodsItemsDropdown.styles.css';
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Quicksand } from 'next/font/google';
 
 import DropdownArrow from '../../resources/arrow-down.svg';
@@ -43,24 +44,24 @@ export default function GodsItemsDropdown() {
         <div
           className={`${isActive} dropdown-content w-full h-full grid grid-rows-3 gap-16 text-2xl`}
         >
-          <a
-            href="/AllGods"
+          <Link
+            href="/Gods"
             className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-100/95 border-2 border-yellow-600/70 rounded-md`}
           >
             Gods
-          </a>
-          <a
-            href="/AllItems"
+          </Link>
+          <Link
+            href="/Items"
             className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-200/95 border-2 border-yellow-600/70 rounded-md`}
           >
             Items
-          </a>
-          <a
-            href=""
+          </Link>
+          <Link
+            href="/RecommendedItems"
             className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-300/95 border-2 border-yellow-600/70 rounded-md`}
           >
             Tier Lists
-          </a>
+          </Link>
         </div>
       </div>
     </>
