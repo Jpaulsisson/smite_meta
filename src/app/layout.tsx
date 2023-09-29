@@ -1,11 +1,18 @@
 import './globals.css'
 import type { Metadata } from 'next'
+import UserContextProvider from '@/contexts/user.context'
 import Navbar from '@/components/Navbar/Navbar.component'
+import { Quicksand } from 'next/font/google'
 
 export const metadata: Metadata = {
   title: 'Smite Meta',
   description: 'Making Smite at least a little less frustrating'
 }
+
+const font = Quicksand({
+  weight: '300',
+  subsets: ['latin']
+})
 
 export default function RootLayout({
   children,
@@ -13,11 +20,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body>
-        <Navbar />
-        {children}
-        </body>
+    <html className={font.className} lang="en">
+      <body id='app'>
+        <UserContextProvider>
+          <Navbar />
+          {children}
+        </UserContextProvider>
+      </body> 
     </html>
   )
 }
