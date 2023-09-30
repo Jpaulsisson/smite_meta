@@ -2,7 +2,8 @@
 
 import { supabase } from '@/database/supabase';
 import { Session } from '@supabase/supabase-js';
-import React, { createContext, ReactNode, useContext, useState, useEffect } from 'react';
+import React, {Dispatch, SetStateAction, createContext, ReactNode, useContext, useState, useEffect } from 'react';
+import md5 from 'md5';
 
 type UserContextProviderProps = {
   children: ReactNode;
@@ -10,7 +11,7 @@ type UserContextProviderProps = {
 
 type UserContext = {
   currentSession: object | null;
-  setCurrentSession: React.Dispatch<React.SetStateAction<Session | null>>;
+  setCurrentSession: Dispatch<SetStateAction<Session | null>>;
   appElement: HTMLElement | undefined;
   currentUsername: string | null;
   currentUserId: string | null;
@@ -23,6 +24,7 @@ export default function UserContextProvider({ children }: UserContextProviderPro
   const [appElement, setAppElement] = useState<HTMLElement | undefined>(undefined);
   const [currentUsername, setcurrentUsername] = useState<string | null>(null);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [hashedId, setHashedId] = useState<string | null>(null);
 
   useEffect(() => {
     if (document) {
@@ -35,18 +37,16 @@ export default function UserContextProvider({ children }: UserContextProviderPro
       const unsubscribe = supabase.auth.onAuthStateChange((event, session) => {
         if (session) {
           setCurrentSession(session);
+          setCurrentUserId(session.user.id);
+          setHashedId(md5(session.user.id));
         }
         if (!session) {
           setCurrentSession(null);
+          setCurrentUserId(null);
+          setHashedId(null);
         }
       });
   }, [])
-  
-  useEffect(() => {
-    if (currentSession !== null) {
-      setCurrentUserId(currentSession.user.id);
-    }
-  }, [currentSession])
 
   return (
     <UserContext.Provider
