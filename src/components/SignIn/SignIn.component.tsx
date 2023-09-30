@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from 'react';
-import { signInWithThirdParty } from '@/database/supabase';
+import React, { ChangeEvent, useState } from 'react';
+import { signInWithEmailAndPassword, signInWithThirdParty } from '@/database/supabase';
 import ReactModal from "react-modal";
 import { useUserContext } from '@/contexts/user.context';
 import { Exo_2 } from 'next/font/google';
@@ -10,6 +10,7 @@ import GoogleIcon from '@/resources/google.svg';
 import FacebookIcon from '@/resources/facebook.svg';
 import DiscordIcon from '@/resources/discord.svg';
 import Image from 'next/image';
+import { redirect } from 'next/dist/server/api-utils/index';
 
 const font = Exo_2({
   weight: ['200', '400'],
@@ -20,9 +21,20 @@ export default function SignInForm() {
 
   const { appElement } = useUserContext();
   const [isOpen, setIsOpen] = useState(false);
+  const [loginInfo, setLoginInfo] = useState({
+    email: '',
+    password: '',
+  })
 
   const handleModalToggle = () => {
     setIsOpen(prev => !prev);
+  }
+
+  const handleLoginInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setLoginInfo((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }))
   }
 
   return (
@@ -60,11 +72,11 @@ export default function SignInForm() {
         </div>
         <div className='w-full md:w-4/5 m-auto flex flex-col items-center justify-center gap-4'>
           <h2 className='text-xl md:text-5xl w-5/6 md:w-1/2'>Sign in</h2>
-          <div className='w-full md:w-1/2 flex flex-col gap-1 md:gap-4'>
-            <input type="text" placeholder='Email' className='p-2 md:p-4 placeholder:text-slate-600 placeholder:text-xl rounded-md focus:outline-2 focus:outline-amber-400' />
-            <input type="text" placeholder='Password' className='p-2 md:p-4 placeholder:text-slate-600 placeholder:text-xl rounded-md focus:outline-2 focus:outline-amber-400' />
+          <div className='w-full md:w-1/2 flex flex-col gap-1 md:gap-4 text-black text-xl'>
+            <input onChange={handleLoginInputChange} name='email' type="text" placeholder='Email' className='p-2 md:p-4 placeholder:text-slate-600 placeholder:text-xl rounded-md focus:outline-2 focus:outline-amber-400' />
+            <input onChange={handleLoginInputChange} name='password' type="password" placeholder='Password' className='p-2 md:p-4 placeholder:text-slate-600 placeholder:text-xl rounded-md focus:outline-2 focus:outline-amber-400' />
           </div>
-          <button className='bg-slate-700 p-2 md:p-4 w-1/2 rounded-md text-xl border-thin border-black'>Sign In</button>
+          <button onClick={() => signInWithEmailAndPassword(loginInfo.email, loginInfo.password)} className='bg-slate-700 p-2 md:p-4 w-1/2 rounded-md text-xl border-thin border-black'>Sign In</button>
           <div className="p-2 md:p-4 flex flex-col items-center w-full gap-3 font-normal text-center border-white border-t-2">
           <h2 className='text-xs md:text-base'>Or use one of these easy mode sign in options</h2>
           <button

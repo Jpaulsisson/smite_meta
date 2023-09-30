@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import { useRouter } from 'next/navigation';
 
 
 const url = process.env.SUPABASE_URL
@@ -27,15 +28,14 @@ const key = process.env.SUPABASE_KEY
       let { data, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password
-      })
-      if(data) console.log(data);
-      if(error) console.log(error);
+      }, {redirectTo: 'http://localhost:3000'});
+      if (error) alert(`That email and password combo doesn't exist in our database`)
     } 
 
     export const signInWithThirdParty = async (provider) => {
       let { data, error } = await supabase.auth.signInWithOAuth({
         provider: provider,
-      })
+      }, {redirectTo: 'http://localhost:3000'});
       console.log(data);
       if (error) {
         console.log(error.message);
@@ -43,10 +43,14 @@ const key = process.env.SUPABASE_KEY
     }
 
     export const signOut = async () => {
-      
       let { error } = await supabase.auth.signOut()
-
     }
+
+    export const getUser = async () => {
+      let { data } = await supabase.auth.getUser()
+      return data;
+    }
+
 
   module.exports = {
     supabase,
@@ -54,5 +58,6 @@ const key = process.env.SUPABASE_KEY
     signUpWithEmailAndPassword,
     signInWithEmailAndPassword,
     signInWithThirdParty,
-    signOut
+    signOut,
+    getUser
   }

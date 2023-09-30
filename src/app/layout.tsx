@@ -6,7 +6,7 @@ import { Quicksand } from 'next/font/google'
 
 export const metadata: Metadata = {
   title: 'Smite Meta',
-  description: 'Making Smite at least a little less frustrating'
+  description: 'Making Smite a little less frustrating'
 }
 
 const font = Quicksand({
