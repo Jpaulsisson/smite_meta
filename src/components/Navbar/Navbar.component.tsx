@@ -22,16 +22,15 @@ export default function Navbar() {
   return (
     <nav className={`p-8 grid grid-cols-10 items-center ${exoFont.className} text-center bg-slate-900/40`}>
       <h1 className={`col-start-4 col-end-8 md:col-start-1 md:col-end-2 text-primaryFontColor text-3xl flex flex-col items-center`}>
-        <Link href={`/User/${currentUserId}`} className="w-full h-full">
+        <Link href='/' className="w-full h-full">
           <Image src={SmiteLogo} alt='Smite logo' />
         </Link>
         META
       </h1>
-      <button onClick={() => console.log(currentUserId)} className="bg-orange-300 p-6"> log User info </button>
-      {currentUsername ?
-        <h2 className="text-neutral text-6xl hidden md:block md:col-start-3 md:col-end-9">Welcome, Logged in user!</h2>
+      {!currentUsername ?
+        <h2 className="text-neutral text-6xl hidden md:block md:col-start-3 md:col-end-9">Welcome, You Rock!</h2>
         :
-        <h2 className="text-neutral text-6xl hidden md:block md:col-start-3 md:col-end-9">Welcome, NOT logged in user!</h2>
+        <h2 className="text-neutral text-6xl hidden md:block md:col-start-3 md:col-end-9">Welcome, {currentUsername}</h2>
         }
       {!currentSession ?
         <div className="w-full col-start-9 col-span-2 p-2">
@@ -39,7 +38,7 @@ export default function Navbar() {
         </div>
         :
         <div className="col-start-9 md:col-start-10 md:col-span-1 col-span-2 flex flex-col gap-2 md:w-1/2">
-          <Link href={`/${currentUserId}`} className="border-thin border-primaryFontColor rounded-sm p-2">
+          <Link href={`/User/${currentUserId}`} className="border-thin border-primaryFontColor rounded-sm p-2">
             <Image src={AvatarPlaceHolder} alt='avatar placeholder'  className='max-h-[40px]' />
           </Link>
           <button className="text-neutral text-sm border-thin border-primaryFontColor rounded-sm" onClick={signOut}>Log Out</button>

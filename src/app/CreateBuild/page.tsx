@@ -7,7 +7,15 @@ import { useDataContext } from '@/contexts/data.context';
 import Items from '@/components/Items/Items.component';
 
 export default function CreateBuild() {
+  const { gods, items } = useDataContext();
 
+  useEffect(() => {
+    if (items) {
+      setIsLoading(false);
+    }
+  }, [items])
+
+  const [isLoading, setIsLoading] = useState(true);
   const [isChecked, setIsChecked] = useState(true);
   const [values, setValues] = useState({
     user_id: '',
@@ -19,7 +27,7 @@ export default function CreateBuild() {
     item_6_id: 0,
     god_id: 1789
   })
-  const { gods, items } = useDataContext();
+
 
   function handleChange() {
     setIsChecked((prev) => !prev);
@@ -59,25 +67,31 @@ export default function CreateBuild() {
           <input type='checkbox' checked={!isChecked} onChange={handleChange}/>
         </div>
       </div>
-      <div className='w-4/5 flex flex-col items-center'> 
-        {isChecked ?
-        
-          <Items />
-        
+      
+        {isLoading ?
+          <h2 className='text-neutral text-3xl'>Loading items and gods...</h2>
           :
-          <div className='w-4/5 grid grid-cols-3 gap-2'>
-          {gods &&
-            gods.map((god) => {
-            return (
-              <div key={god.id} style={{backgroundImage: `url(${god.pic_url})`, backgroundSize: 'cover'}} className='aspect-square'>
-                <h3 className='bg-stone-200/80 text-center'>{god.name}</h3>
-              </div>
-              )
-          })
-          }
+          <div className='w-11/12 flex flex-col items-center'> 
+          {isChecked ?
+          
+            <Items />
+          
+            :
+            <div className='w-4/5 grid grid-cols-3 gap-2'>
+            {gods &&
+              gods.map((god) => {
+              return (
+                <div key={god.id} style={{backgroundImage: `url(${god.pic_url})`, backgroundSize: 'cover'}} className='aspect-square'>
+                  <h3 className='bg-stone-200/80 text-center'>{god.name}</h3>
+                </div>
+                )
+            })
+            }
+            </div>
+            }
           </div>
           }
-      </div>
+      
     </div>
   )
 }
