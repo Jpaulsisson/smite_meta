@@ -1,8 +1,9 @@
-import './globals.css'
-import type { Metadata } from 'next'
-import UserContextProvider from '@/contexts/user.context'
-import Navbar from '@/components/Navbar/Navbar.component'
-import { Quicksand } from 'next/font/google'
+import './globals.css';
+import type { Metadata } from 'next';
+import UserContextProvider from '@/contexts/user.context';
+import DataContextProvider from '@/contexts/data.context';
+import Navbar from '@/components/Navbar/Navbar.component';
+import { Quicksand } from 'next/font/google';
 
 export const metadata: Metadata = {
   title: 'Smite Meta',
@@ -23,8 +24,10 @@ export default function RootLayout({
     <html className={font.className} lang="en">
       <body id='app'>
         <UserContextProvider>
-          <Navbar />
-          {children}
+          <DataContextProvider>
+            <Navbar />
+            {children}
+          </DataContextProvider>
         </UserContextProvider>
       </body> 
     </html>

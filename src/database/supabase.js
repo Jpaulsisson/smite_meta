@@ -59,6 +59,28 @@ const key = process.env.SUPABASE_KEY
 
   ///// END OF AUTH /////
   ///// ///// ///// /////
+  ///// GET FROM SUPABASE SECTION /////
+
+  // Get all gods data //
+  export const getGods = async () => {
+    let { data: gods, error } = await supabase
+    .from('gods')
+    .select('*');
+
+    if(gods) return gods;
+    if(error) alert('something went wrong. Try hitting refresh');
+  }
+
+  // Get all items data //
+  export const getItems = async () => {
+    let { data: items, error } = await supabase
+    .from('items')
+    .select('*');
+
+    if(items) return items;
+    if(error) alert('something went wrong. Try hitting refresh');
+  }
+
   ///// POST TO SUPABASE SECTION /////
 
   // Insert on the BUILDS table //
@@ -91,5 +113,7 @@ const key = process.env.SUPABASE_KEY
     signInWithThirdParty,
     signOut,
     getUser,
+    getGods,
+    getItems,
     addBuild
   }

@@ -6,6 +6,15 @@ const nextConfig = {
     HIREZ_DEVID: process.env.HIREZ_DEVID,
     HIREZ_AUTHKEY: process.env.HIREZ_AUTHKEY,
     HIREZ_API_URL: process.env.HIREZ_API_URL,
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'webcdn.hirezstudios.com',
+        pathname: '/smite/*/*'
+      }
+    ]
   }
 }
 
