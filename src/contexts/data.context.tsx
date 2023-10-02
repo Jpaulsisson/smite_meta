@@ -8,7 +8,7 @@ type DataContextProviderProps = {
   children: ReactNode;
 }
 
-type God = {
+export type God = {
   id: number,
   name: string,
   attack_speed: number,
@@ -36,7 +36,7 @@ type God = {
   type: string,
 }
 
-type Item = {
+export type Item = {
   id: number,
   name: string,
   pic_url: string,

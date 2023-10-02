@@ -77,7 +77,7 @@ export default function CreateBuild() {
             <Items />
           
             :
-            <div className='w-4/5 grid grid-cols-3 gap-2'>
+            <div className='w-4/5 grid grid-cols-10 gap-2'>
             {gods &&
               gods.map((god) => {
               return (
