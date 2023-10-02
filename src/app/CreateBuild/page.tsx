@@ -3,11 +3,13 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { supabase } from '@/database/supabase';
-import { useDataContext } from '@/contexts/data.context';
+import { useDataContext, Item } from '@/contexts/data.context';
+import { useUserContext } from '@/contexts/user.context';
 import Items from '@/components/Items/Items.component';
 
 export default function CreateBuild() {
   const { gods, items } = useDataContext();
+  const { currentUserId } = useUserContext();
 
   useEffect(() => {
     if (items) {
@@ -17,17 +19,33 @@ export default function CreateBuild() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isChecked, setIsChecked] = useState(true);
+  const [buildItems, setBuildItems] = useState<Item[]>([])
   const [values, setValues] = useState({
-    user_id: '',
-    item_1_id: 0,
-    item_2_id: 0,
-    item_3_id: 0,
-    item_4_id: 0,
-    item_5_id: 0,
-    item_6_id: 0,
-    god_id: 1789
+    user_id: currentUserId,
+    item_1_id: null,
+    item_2_id: null,
+    item_3_id: null,
+    item_4_id: null,
+    item_5_id: null,
+    item_6_id: null,
+    god_id: null
   })
 
+  const addBuildItem = (item_id: number) => {
+    const target = items?.find(item => item.id === item_id);
+
+    if (target !== undefined){
+      if (buildItems.includes(target)) {
+      return;
+      }
+      if (buildItems.length < 6) {
+        setBuildItems((prev) => [...prev, target])
+      }
+    }
+    
+    
+      return;
+    }
 
   function handleChange() {
     setIsChecked((prev) => !prev);
@@ -41,28 +59,40 @@ export default function CreateBuild() {
           - save build button / sign up & login to save builds button
           - compiled stats table updating live underneath
           - item passive list in some form of dropdown option
-          - items/gods search bar
-          - item filter checkboxes
-          - switch for viewing items or gods
-          - items or gods conditionally on the switch
+
       */}
       {/* Ideas:
           - maybe have a conditionally rendered header at the top if a god is selected and have the backgournd behind the build be the god card if one is selected or just transparent if no god is selected
       */}
+      
+      {/* Build items containers + optional god name header */}
 
-      {values.god_id ? 
-        <h2 className='text-neutral text-4xl'>{}</h2>
-      :
-        <h2 className='hidden'></h2>
-      }
+      <div className='flex flex-col'>
 
-      <div className='w-4/5 flex gap-4 text-neutral my-3'>
-        <h4 className='w-1/2'>Currently showing:</h4>
+        {/* optional god header */}
+
+        {values.god_id ? 
+          <h2 className='text-neutral text-4xl'>{}</h2>
+        :
+          <h2 className='hidden'></h2>
+        }
+
+        {/* build item containers */}
+
         <div>
+          
+        </div>
+      </div>
+      
+      
+
+      <div className='w-3/5 flex items-center justify-center gap-4 text-neutral my-3'>
+        <h4>Viewing:</h4>
+        <div className='flex gap-2'>
           <label>Items</label>
           <input type='checkbox' checked={isChecked} onChange={handleChange} />
         </div>
-        <div>
+        <div className='flex gap-2'>
           <label>Gods</label>
           <input type='checkbox' checked={!isChecked} onChange={handleChange}/>
         </div>
@@ -74,7 +104,7 @@ export default function CreateBuild() {
           <div className='w-11/12 flex flex-col items-center'> 
           {isChecked ?
           
-            <Items />
+            <Items setBuild={setBuildItems} />
           
             :
             <div className='w-4/5 grid grid-cols-10 gap-2'>

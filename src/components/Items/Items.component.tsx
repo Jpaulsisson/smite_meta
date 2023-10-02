@@ -1,17 +1,39 @@
 "use client";
 
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, SetStateAction, useEffect, useState } from 'react';
 import { useDataContext } from '@/contexts/data.context';
 import Image from 'next/image';
 import { Item } from '@/contexts/data.context';
 
+// type ItemPropsType = {
+//   setBuild: SetStateAction<Item[]>
+// }
 
-export default function Items() {
+// checkbox info
+const checkboxes = [
+  { name: "Physical Power", label: "Physical Power" },
+  { name: "Physical Penetration", label: "Physical Penetration" },
+  { name: "Magical Power", label: "Magical Power" },
+  { name: "Magical Penetration", label: "Magical Penetration" },
+  { name: "Attack Speed", label: "Attack Speed" },
+  { name: "Critical Strike Chance", label: "Crit Chance" },
+  { name: "Physical Lifesteal", label: "Physical Lifesteal" },
+  { name: "Magical Lifesteal", label: "Magical Lifesteal" },
+  { name: "Physical Protection", label: "Physical Protection" },
+  { name: "Magical Protection", label: "Magical Protection" },
+  { name: "Health", label: "Health" },
+  { name: "Mana", label: "Mana" },
+  { name: "Cooldown Reduction", label: "CDR" },
+  { name: "Crowd Control Reduction", label: "CCR" },
+  { name: "Movement Speed", label: "Movement Speed" }
+]
+
+export default function Items({ setBuild }: any) {
+
   // Bring in the item info
   const { items } = useDataContext();
 
-  // Sort the items (they are already alphabetical)
-  // Only allow active items
+  // Filter out inactive items and Ratatoskr special items
   const activeItems = items?.filter((item) => item.active_status && item.tier >= 3 && item.type === 'Item' && !item.name.includes('Acorn'));
 
   const [currentlyViewedItems, setCurrentlyViewedItems] = useState<Item[] | undefined>([]);
@@ -21,6 +43,7 @@ export default function Items() {
     'Physical Power': false,
     'Magical Power': false,
     'Attack Speed': false,
+    'Critical Strike Chance': false,
     'Physical Lifesteal': false,
     'Magical Lifesteal': false,
     'Physical Protection': false,
@@ -32,11 +55,8 @@ export default function Items() {
     'Movement Speed': false,
   });
   
-  // // Filter by search bar
+  // Filter by search bar
   const searchAllItems = activeItems?.filter((item) => item.name.toLowerCase().includes(itemSearch))
-  
-
-  const arrayOfItems = []
 
   // Keeping track of the current filters to use
   useEffect(() => {
@@ -64,12 +84,13 @@ export default function Items() {
   setCurrentlyViewedItems(searchBarFilteredItems);
   }, [currentFilters, items, itemSearch]);
 
-
+  // Search bar functionality
   const handleItemSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value.toLowerCase();
     setItemSearch(input);
   }
 
+  // Toggle filters 
   const handleItemFilterToggle = (e: ChangeEvent<HTMLInputElement>) => {
 
     const { name, checked } = e.target
@@ -87,12 +108,12 @@ export default function Items() {
 
       {/* Search bar and checkboxes */}
 
-      <div className='w-full'>
+      <div className='w-full flex flex-col items-center'>
 
         {/* search bar */}
 
         <input
-          className="w-full p-2 mb-2 rounded-sm bg-neutral"
+          className="w-full md:w-1/2 p-2 mb-3 rounded-sm bg-neutral"
           type="text"
           value={itemSearch}
           onChange={handleItemSearch}
@@ -101,127 +122,37 @@ export default function Items() {
 
         {/* checkboxes */}
 
-        <div className='grid grid-cols-6 grid-rows-3 text-xs text-neutral gap-2'>
-          <div className='w-full flex flex-col items-center text-center gap-1'>
-            <input
-              name="Physical Power"
-              checked={filterOptions['Physical Power']}
-              onChange={handleItemFilterToggle}
-              type="checkbox"
-            />
-            <label htmlFor='Physical Power'>Physical Power</label>
-          </div>
-          <div className='w-full flex flex-col items-center text-center gap-1'>
-            <input
-              name="Magical Power"
-              checked={filterOptions['Magical Power']}
-              onChange={handleItemFilterToggle}
-              type="checkbox"
-            />
-            <label htmlFor='Magical Power'>Magical Power</label>
-          </div>
-          <div className='w-full flex flex-col items-center text-center gap-1'>
-            <input
-              name="Attack Speed"
-              checked={filterOptions['Attack Speed']}
-              onChange={handleItemFilterToggle}
-              type="checkbox"
-            />
-            <label htmlFor='Attack Speed'>Attack Speed</label>
-          </div>
-          <div className='w-full flex flex-col items-center text-center gap-1'>
-            <input
-              name="Physical Lifesteal"
-              checked={filterOptions['Physical Lifesteal']}
-              onChange={handleItemFilterToggle}
-              type="checkbox"
-            />
-            <label htmlFor='Physical Lifesteal'>Physical Lifesteal</label>
-          </div>
-          <div className='w-full flex flex-col items-center text-center gap-1'>
-            <input
-              name="Magical Lifesteal"
-              checked={filterOptions['Magical Lifesteal']}
-              onChange={handleItemFilterToggle}
-              type="checkbox"
-            />
-            <label htmlFor='Magical Lifesteal'>Magical Lifesteal</label>
-          </div>
-          <div className='w-full flex flex-col items-center text-center gap-1'>
-            <input
-              name="Physical Protection"
-              checked={filterOptions['Physical Protection']}
-              onChange={handleItemFilterToggle}
-              type="checkbox"
-            />
-            <label htmlFor='Physical Protection'>Physical Protection</label>
-          </div>
-          <div className='w-full flex flex-col items-center text-center gap-1'>
-            <input
-              name="Magical Protection"
-              checked={filterOptions['Magical Protection']}
-              onChange={handleItemFilterToggle}
-              type="checkbox"
-            />
-            <label htmlFor='Magical Protection'>Magical Protection</label>
-          </div>
-          <div className='w-full flex flex-col items-center text-center gap-1'>
-            <input
-              name="Health"
-              checked={filterOptions['Health']}
-              onChange={handleItemFilterToggle}
-              type="checkbox"
-            />
-            <label htmlFor='Health'>Health</label>
-          </div>
-          <div className='w-full flex flex-col items-center text-center gap-1'>
-            <input
-              name="Mana"
-              checked={filterOptions['Mana']}
-              onChange={handleItemFilterToggle}
-              type="checkbox"
-            />
-            <label htmlFor='Mana'>Mana</label>
-          </div>
-          <div className='w-full flex flex-col items-center text-center gap-1'>
-            <input
-              name="Cooldown Reduction"
-              checked={filterOptions['Cooldown Reduction']}
-              onChange={handleItemFilterToggle}
-              type="checkbox"
-            />
-            <label htmlFor='Cooldown Reduction'>CDR</label>
-          </div>
-          <div className='w-full flex flex-col items-center text-center gap-1'>
-            <input
-              name="Crowd Control Reduction"
-              checked={filterOptions['Crowd Control Reduction']}
-              onChange={handleItemFilterToggle}
-              type="checkbox"
-            />
-            <label htmlFor='Crowd Control Reduction'>CCR</label>
-          </div>
-          <div className='w-full flex flex-col items-center text-center gap-1'>
-            <input
-              name="Movement Speed"
-              checked={filterOptions['Movement Speed']}
-              onChange={handleItemFilterToggle}
-              type="checkbox"
-            />
-            <label htmlFor='Movement Speed'>Movement Speed</label>
-          </div>
+        <div className='grid grid-cols-5 grid-rows-3 text-xs md:text-base text-neutral gap-2 mb-4'>
+          {checkboxes.map((checkbox) => {
+            const { name, label } = checkbox;
+            return (
+              <div key={name} className='w-full flex flex-col items-center text-center gap-1'>
+                <input
+                  name={name}
+                  checked={filterOptions[name as keyof typeof filterOptions]}
+                  onChange={handleItemFilterToggle}
+                  type="checkbox"
+                />
+                <label htmlFor={name}>{label}</label>
+              </div>
+            )
+          })}
         </div>
       </div>
 
-
+        {/* The items */}
 
       <div className="w-full grid grid-cols-4 md:grid-cols-10 gap-2">
+        
         {currentFilters.length === 0 ?
         <>
+
+        {/* if no filters are applied, use just the search bar on all items */}
+
           {searchAllItems?.map((item) => {
           const { id, pic_url, name, special } = item;
           return (
-            <button key={id} className="flex flex-col items-center">
+            <button key={id} onClick={() => setBuild(id)} className="flex flex-col items-center">
               <Image
                 src={pic_url}
                 alt={name}
@@ -236,6 +167,9 @@ export default function Items() {
         </>
         :
         <>
+
+        {/* if filters are applied, use them + the search bar on all items */}
+
           {currentlyViewedItems?.map((item) => {
           const { id, pic_url, name, special } = item;
           return (
