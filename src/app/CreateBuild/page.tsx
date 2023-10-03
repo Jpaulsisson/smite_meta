@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { supabase } from '@/database/supabase';
 import { useDataContext, Item } from '@/contexts/data.context';
 import { useUserContext } from '@/contexts/user.context';
 import Items from '@/components/Items/Items.component';
@@ -19,7 +17,7 @@ export default function CreateBuild() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isChecked, setIsChecked] = useState(true);
-  const [buildItems, setBuildItems] = useState<Item[]>([])
+  const [buildItems, setBuildItems] = useState<Item[]>([]);
   const [values, setValues] = useState({
     user_id: currentUserId,
     item_1_id: null,
@@ -29,7 +27,7 @@ export default function CreateBuild() {
     item_5_id: null,
     item_6_id: null,
     god_id: null
-  })
+  });
 
   const addBuildItem = (item_id: number) => {
     const target = items?.find(item => item.id === item_id);
@@ -42,9 +40,13 @@ export default function CreateBuild() {
         setBuildItems((prev) => [...prev, target])
       }
     }
-    
-    
       return;
+    }
+
+    const removeBuildItem = (item: Item) => {
+      const target = buildItems.find(target => target.id === item.id);
+      const newBuildItems = buildItems.filter(item => item.id !== target!.id);
+      setBuildItems(newBuildItems)
     }
 
   function handleChange() {
@@ -79,12 +81,77 @@ export default function CreateBuild() {
 
         {/* build item containers */}
 
-        <div>
-          
-        </div>
-      </div>
+        <div className='text-xl text-white grid grid-cols-3 gap-4'>
+                {buildItems[0] ? 
+                  <button
+                    onClick={() => removeBuildItem(buildItems[0])}
+                    className="aspect-square w-full max-w-[40px]"
+                    style={{ backgroundImage: `url(${buildItems[0].pic_url})` }}
+                  >
+                    {buildItems[0].name}
+                  </button>
+                : 
+                  <p className="aspect-square w-full min-w-[40px] flex items-center justify-center bg-white/50 border-thin border-white">+</p>
+                }
+                {buildItems[1] ? 
+                  <button
+                    onClick={() => removeBuildItem(buildItems[1])}
+                    className="aspect-square w-full max-w-[40px]"
+                    style={{ backgroundImage: `url(${buildItems[1].pic_url})` }}
+                  >
+                    {buildItems[1].name}
+                  </button>
+                : 
+                  <p className="aspect-square w-full min-w-[40px] flex items-center justify-center bg-white/50 border-thin border-white">+</p>
+                }
+                {buildItems[2] ? 
+                  <button
+                    onClick={() => removeBuildItem(buildItems[2])}
+                    className="aspect-square w-full max-w-[40px]"
+                    style={{ backgroundImage: `url(${buildItems[2].pic_url})` }}
+                  >
+                    {buildItems[2].name}
+                  </button>
+                : 
+                  <p className="aspect-square w-full min-w-[40px] flex items-center justify-center bg-white/50 border-thin border-white">+</p>
+                }
+                {buildItems[3] ? 
+                  <button
+                    onClick={() => removeBuildItem(buildItems[3])}
+                    className="aspect-square w-full max-w-[40px]"
+                    style={{ backgroundImage: `url(${buildItems[3].pic_url})` }}
+                  >
+                    {buildItems[3].name}
+                  </button>
+                : 
+                  <p className="aspect-square w-full min-w-[40px] flex items-center justify-center bg-white/50 border-thin border-white">+</p>
+                }
+                {buildItems[4] ? 
+                  <button
+                    onClick={() => removeBuildItem(buildItems[4])}
+                    className="aspect-square w-full max-w-[40px]"
+                    style={{ backgroundImage: `url(${buildItems[4].pic_url})` }}
+                  >
+                    {buildItems[4].name}
+                  </button>
+                : 
+                  <p className="aspect-square w-full min-w-[40px] flex items-center justify-center bg-white/50 border-thin border-white">+</p>
+                }
+                {buildItems[5] ? 
+                  <button
+                    onClick={() => removeBuildItem(buildItems[5])}
+                    className="aspect-square w-full max-w-[40px]"
+                    style={{ backgroundImage: `url(${buildItems[5].pic_url})` }}
+                  >
+                    {buildItems[5].name}
+                  </button>
+                : 
+                  <p className="aspect-square w-full min-w-[40px] flex items-center justify-center bg-white/50 border-thin border-white">+</p>
+                }
+            </div>
+        </div>      
       
-      
+        {/* Gods or Items switch */}
 
       <div className='w-3/5 flex items-center justify-center gap-4 text-neutral my-3'>
         <h4>Viewing:</h4>
@@ -99,24 +166,24 @@ export default function CreateBuild() {
       </div>
       
         {isLoading ?
-          <h2 className='text-neutral text-3xl'>Loading items and gods...</h2>
+          <h2 className='text-neutral text-3xl m-auto'>Loading items...</h2>
           :
           <div className='w-11/12 flex flex-col items-center'> 
           {isChecked ?
           
-            <Items setBuild={setBuildItems} />
+            <Items addToBuild={addBuildItem} />
           
             :
             <div className='w-4/5 grid grid-cols-10 gap-2'>
-            {gods &&
-              gods.map((god) => {
-              return (
-                <div key={god.id} style={{backgroundImage: `url(${god.pic_url})`, backgroundSize: 'cover'}} className='aspect-square'>
-                  <h3 className='bg-stone-200/80 text-center'>{god.name}</h3>
-                </div>
+              {gods &&
+                gods.map((god) => {
+                return (
+                  <div key={god.id} style={{backgroundImage: `url(${god.pic_url})`, backgroundSize: 'cover'}} className='aspect-square'>
+                    <h3 className='bg-stone-200/80 text-center'>{god.name}</h3>
+                  </div>
                 )
-            })
-            }
+              })
+              }
             </div>
             }
           </div>

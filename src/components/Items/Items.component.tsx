@@ -28,7 +28,7 @@ const checkboxes = [
   { name: "Movement Speed", label: "Movement Speed" }
 ]
 
-export default function Items({ setBuild }: any) {
+export default function Items({ addToBuild }: any) {
 
   // Bring in the item info
   const { items } = useDataContext();
@@ -152,7 +152,7 @@ export default function Items({ setBuild }: any) {
           {searchAllItems?.map((item) => {
           const { id, pic_url, name, special } = item;
           return (
-            <button key={id} onClick={() => setBuild(id)} className="flex flex-col items-center">
+            <button key={id} onClick={() => addToBuild(id)} className="flex flex-col items-center">
               <Image
                 src={pic_url}
                 alt={name}
@@ -173,7 +173,7 @@ export default function Items({ setBuild }: any) {
           {currentlyViewedItems?.map((item) => {
           const { id, pic_url, name, special } = item;
           return (
-            <button key={id} className="flex flex-col items-center">
+            <button key={id} onClick={() => addToBuild(id)} className="flex flex-col items-center">
               <Image
                 src={pic_url}
                 alt={name}
