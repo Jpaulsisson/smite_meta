@@ -1,13 +1,10 @@
 "use client";
 
-import React, { ChangeEvent, SetStateAction, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useDataContext } from '@/contexts/data.context';
 import Image from 'next/image';
+import DropdownArrow from '@/resources/arrow-down.svg';
 import { Item } from '@/contexts/data.context';
-
-// type ItemPropsType = {
-//   setBuild: SetStateAction<Item[]>
-// }
 
 // checkbox info
 const checkboxes = [
@@ -34,10 +31,11 @@ export default function Items({ addToBuild }: any) {
   const { items } = useDataContext();
 
   // Filter out inactive items and Ratatoskr special items
-  const activeItems = items?.filter((item) => item.active_status && item.tier >= 3 && item.type === 'Item' && !item.name.includes('Acorn'));
+  const activeItems = items?.filter((item) => item.active_status && (item.tier >= 3 || (item.tier === 2 && item.starter === true)) && item.type === 'Item' && !item.name.includes('Acorn'));
 
   const [currentlyViewedItems, setCurrentlyViewedItems] = useState<Item[] | undefined>([]);
   const [itemSearch, setItemSearch] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
   const [currentFilters, setCurrentFilters] = useState<string[]>([]);
   const [filterOptions, setFilterOptions] = useState({
     'Physical Power': false,
@@ -122,7 +120,15 @@ export default function Items({ addToBuild }: any) {
 
         {/* checkboxes */}
 
-        <div className='grid grid-cols-5 grid-rows-3 text-xs md:text-base text-neutral gap-2 mb-4'>
+        <div className='w-full grid grid-cols-5 grid-rows-3 text-xs md:text-base text-neutral gap-2 mb-4'>
+          
+          {!showFilters ?
+            <button className='col-span-full row-span-2 w-full flex items-center justify-center gap-3 text-lg' onClick={() => setShowFilters(prev => !prev)}>
+              Show filters
+              <Image src={DropdownArrow} alt='dropdown arrow' width={15} />
+            </button>
+          :
+          <>
           {checkboxes.map((checkbox) => {
             const { name, label } = checkbox;
             return (
@@ -137,6 +143,13 @@ export default function Items({ addToBuild }: any) {
               </div>
             )
           })}
+          <button className='col-span-full row-span-2 w-full flex items-center justify-center gap-3 text-lg' onClick={() => setShowFilters(prev => !prev)}>
+              Hide filters
+              <Image src={DropdownArrow} className='rotate-180' alt='dropdown arrow' width={15} />
+            </button>
+          </>
+          }
+          
         </div>
       </div>
 
