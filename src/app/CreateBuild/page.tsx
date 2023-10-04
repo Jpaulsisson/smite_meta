@@ -3,8 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDataContext, Item, God } from '@/contexts/data.context';
 import { useUserContext } from '@/contexts/user.context';
-import Items from '@/components/Items/Items.component';
-import Gods from '@/components/Gods/Gods.component';
+import ItemsList from '@/components/ItemsList/ItemsList.component';
+import RatItemsList from '@/components/RatItemsList/RatItemsList.component';
+import GodsList from '@/components/GodsList/GodsList.component';
 import Image from 'next/image';
 
 export default function CreateBuild() {
@@ -66,7 +67,10 @@ export default function CreateBuild() {
       {/* Build items containers + optional god name header */}
 
       <div className='flex flex-col w-full items-center'>
-        
+
+        {selectedGod ? 
+          <h2 className='text-neutral'>{selectedGod.name} build</h2> : <></>}
+
         <div className=' w-5/6 md:w-1/2 text-neutral grid grid-cols-4 md:flex gap-4 p-2'>
         
         {/* build item containers */}
@@ -149,17 +153,18 @@ export default function CreateBuild() {
             <p className="aspect-square w-full min-w-[40px] flex items-center justify-center bg-white/50 border-thin border-white">+</p>
           }
 
-          {/* selected god container */}
+          {/* selected god */}
 
           {selectedGod ?
             <button 
+              onClick={() => setSelectedGod(null)}
               style={{ backgroundImage: `url(${selectedGod.pic_url})` }}
-              className="aspect-square w-full bg-cover border-thin border-primaryFontColor rounded-sm self-start col-start-4 row-start-1"
+              className="aspect-square w-full bg-cover border-4 border-primaryFontColor rounded-sm self-start col-start-4 row-start-1"
               >
             </button>
           :
             <button 
-              className="aspect-square w-full border-thin border-primaryFontColor rounded-sm self-start col-start-4 row-start-1 text-sm"
+              className="aspect-square w-full border-4 border-primaryFontColor rounded-sm self-start col-start-4 row-start-1 text-sm"
               >
                 no god selected
             </button>
@@ -199,10 +204,18 @@ export default function CreateBuild() {
           :
           <div className='w-11/12 flex flex-col items-center'> 
           {isChecked ?
-            <Items addToBuild={addBuildItem} />
-            :
-            <Gods selectGod={selectGod} />
+            <>
+            {selectedGod?.name === "Ratatoskr" ?
+
+              <RatItemsList addToBuild={addBuildItem} />
+              :
+              <ItemsList addToBuild={addBuildItem} />
             }
+            </>
+            :
+            <GodsList selectGod={selectGod} />
+            }
+            
           </div>
           }
       

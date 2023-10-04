@@ -25,13 +25,13 @@ const checkboxes = [
   { name: "Movement Speed", label: "Movement Speed" }
 ]
 
-export default function Items({ addToBuild }: any) {
+export default function ItemsList({ addToBuild }: any) {
 
   // Bring in the item info
   const { items } = useDataContext();
 
   // Filter out inactive items and Ratatoskr special items
-  const activeItems = items?.filter((item) => item.active_status && (item.tier >= 3 || (item.tier === 2 && item.starter === true)) && item.type === 'Item' && !item.name.includes('Acorn'));
+  const activeItems = items?.filter((item) => item.active_status && (item.tier >= 3 || (item.tier === 2 && item.starter === true)) && item.type === 'Item');
 
   const [currentlyViewedItems, setCurrentlyViewedItems] = useState<Item[] | undefined>([]);
   const [itemSearch, setItemSearch] = useState('');
@@ -76,7 +76,7 @@ export default function Items({ addToBuild }: any) {
       ];
       return currentFilters.every(filter => statDescriptions.includes(filter));
   }
-  const allItems = items?.filter((item) => item.active_status && item.tier >= 3 && item.type === 'Item' && !item.name.includes('Acorn'));
+  const allItems = items?.filter((item) => item.active_status && item.tier >= 3 && item.type === 'Item');
   const filteredItems = allItems?.filter(item => matchesAllFilters(item));
   const searchBarFilteredItems = filteredItems?.filter((item) => item.name.toLowerCase().includes(itemSearch))
   setCurrentlyViewedItems(searchBarFilteredItems);
@@ -120,7 +120,7 @@ export default function Items({ addToBuild }: any) {
 
         {/* checkboxes */}
 
-        <div className='w-full grid grid-cols-5 grid-rows-3 text-xs md:text-base text-neutral gap-2 mb-4'>
+          <div className='w-full grid grid-cols-5 grid-rows-3 text-xs md:text-base text-neutral gap-2 mb-4'>
           
           {!showFilters ?
             <button className='col-span-full row-span-2 w-full flex items-center justify-center gap-3 text-lg' onClick={() => setShowFilters(prev => !prev)}>
@@ -159,7 +159,6 @@ export default function Items({ addToBuild }: any) {
         
         {currentFilters.length === 0 ?
         <>
-
         {/* if no filters are applied, use just the search bar on all items */}
 
           {searchAllItems?.map((item) => {
@@ -184,7 +183,7 @@ export default function Items({ addToBuild }: any) {
         {/* if filters are applied, use them + the search bar on all items */}
 
           {currentlyViewedItems?.map((item) => {
-          const { id, pic_url, name, special } = item;
+          const { id, pic_url, name } = item;
           return (
             <button key={id} onClick={() => addToBuild(id)} className="flex flex-col items-center">
               <Image
