@@ -1,10 +1,12 @@
-import React from 'react'
+import React from 'react';
+import GodsLinks from '@/components/GodsLinks/GodsLinks.component';
 
 export default function Gods() {
   return (
-    <div>
-      {/* This realistically should just be a title and list of all the gods
-      in clickable icons form that take you to the specific page for that god */}
+    <div className='w-full md:w-11/12 m-auto'>
+      
+      <GodsLinks />
+
     </div>
   )
 }

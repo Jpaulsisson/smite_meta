@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --primaryBgColor: hsl(198, 71%, 11%);
-  --secondaryBgColor: hsl(221, 45%, 13%);
+  --primaryBgColor: hsl(221, 45%, 13%);
+  --secondaryBgColor: hsl(221, 69%, 8%);
   --primaryFontColor: hsl(45deg 80% 40%);
   --neutralFontColor: hsl(60, 41%, 95%);
 }
@@ -18,9 +18,7 @@
 }
 
 html {
-  background: linear-gradient(hsla(220, 42%, 14%, 0.92), hsla(220, 42%, 14%, 0.92)),url(../resources/charon.png);
-  background-size: 400%;
-  background-position: top;
+  background: linear-gradient(var(--primaryBgColor), hsl(215, 100%, 4%))
 }
 
 img {
@@ -47,9 +45,9 @@ body {
 }
 
 
-@media screen and (min-width: 768px) {
+/* @media screen and (min-width: 768px) {
   html {
     background-size: cover;
     background-position: top;
   }
-}
+} */

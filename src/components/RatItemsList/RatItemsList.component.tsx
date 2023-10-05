@@ -120,11 +120,11 @@ export default function ItemsList({ addToBuild }: any) {
 
         {/* checkboxes */}
 
-          <div className='w-full grid grid-cols-5 grid-rows-3 text-xs md:text-base text-neutral gap-2 mb-4'>
+          <div className='w-full md:w-1/2 grid grid-cols-5 grid-rows-3 text-xs md:text-base text-neutral gap-2 mb-4'>
           
           {!showFilters ?
-            <button className='col-span-full row-span-2 w-full flex items-center justify-center gap-3 text-lg' onClick={() => setShowFilters(prev => !prev)}>
-              Show filters
+            <button className='col-span-full row-span-2 w-full flex items-center justify-center gap-3 text-lg bg-secondaryBgColor rounded-sm p-2' onClick={() => setShowFilters(prev => !prev)}>
+              Item Filters
               <Image src={DropdownArrow} alt='dropdown arrow' width={15} />
             </button>
           :
@@ -143,7 +143,7 @@ export default function ItemsList({ addToBuild }: any) {
               </div>
             )
           })}
-          <button className='col-span-full row-span-2 w-full flex items-center justify-center gap-3 text-lg' onClick={() => setShowFilters(prev => !prev)}>
+          <button className='col-span-full row-span-2 w-full flex items-center justify-center gap-3 text-lg bg-secondaryBgColor rounded-sm p-2' onClick={() => setShowFilters(prev => !prev)}>
               Hide filters
               <Image src={DropdownArrow} className='rotate-180' alt='dropdown arrow' width={15} />
             </button>

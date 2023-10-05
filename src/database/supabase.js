@@ -80,6 +80,16 @@ const key = process.env.SUPABASE_KEY
     if(items) return items;
     if(error) console.error(error);
   }
+  
+  // Get all abilities data //
+  export const getAbilities = async () => {
+    let { data: abilities, error } = await supabase
+    .from('abilities')
+    .select('*');
+
+    if(abilities) return abilities;
+    if(error) console.error(error);
+  }
 
   ///// POST TO SUPABASE SECTION /////
 
@@ -100,7 +110,6 @@ const key = process.env.SUPABASE_KEY
         god_id: god_id
       },
     ])
-    .select()
 
       }
 
@@ -115,5 +124,6 @@ const key = process.env.SUPABASE_KEY
     getUser,
     getGods,
     getItems,
+    getAbilities,
     addBuild
   }

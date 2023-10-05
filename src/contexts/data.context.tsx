@@ -1,6 +1,6 @@
 "use client"
 
-import { supabase, getGods, getItems } from '@/database/supabase';
+import { getGods, getItems, getAbilities } from '@/database/supabase';
 import React, { createContext, ReactNode, useContext, useState, useEffect } from 'react';
 
 
@@ -63,9 +63,30 @@ export type Item = {
   price: number
 }
 
+export type Ability = {
+  id: number,
+  name: string,
+  description: string,
+  cooldown: string,
+  mana_cost: string,
+  ability_type: string,
+  effect_1: string | null,
+  effect_1_value: string | null,
+  effect_2: string | null,
+  effect_2_value: string | null,
+  effect_3: string | null,
+  effect_3_value: string | null,
+  effect_4: string | null,
+  effect_4_value: string | null,
+  effect_5: string | null,
+  effect_5_value: string | null,
+  pic_url: string
+}
+
 type DataContext = {
   gods: God[] | undefined,
   items: Item[] | undefined,
+  abilities: Ability[] | undefined,
 }
 
 const DataContext = createContext<DataContext | null>(null);
@@ -74,17 +95,20 @@ export default function DataContextProvider({ children }: DataContextProviderPro
 
   const [gods, setGods] = useState<God[] | undefined>(undefined);
   const [items, setItems] = useState<Item[] | undefined>([]);
+  const [abilities, setAbilities] = useState<Ability[] | undefined>(undefined);
 
   useEffect(() => {
     const dataFetch = async () => {
       const godsData = await getGods();
       const itemsData = await getItems();
+      const abilitiesData = await getAbilities();
 
       const organizedGodsData = godsData?.sort((a, b) => a.name.localeCompare(b.name))
       const organizedItemsData = itemsData?.sort((a, b) => a.name.localeCompare(b.name))
 
       setGods(organizedGodsData);
       setItems(organizedItemsData);
+      setAbilities(abilitiesData);
     }
 
     dataFetch();
@@ -96,7 +120,8 @@ export default function DataContextProvider({ children }: DataContextProviderPro
     <DataContext.Provider
       value={{
         gods,
-        items
+        items,
+        abilities
       }}
     >
       {children}

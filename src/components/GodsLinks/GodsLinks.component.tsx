@@ -2,9 +2,7 @@
 
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useDataContext } from '@/contexts/data.context';
-import Image from 'next/image';
-import DropdownArrow from '@/resources/arrow-down.svg';
-import { God } from '@/contexts/data.context';
+import Link from 'next/link';
 
 const radioButtons = [
   { role: 'Mage', label: 'Mages'},
@@ -14,7 +12,7 @@ const radioButtons = [
   { role: 'Guardian', label: 'Guardians'},
 ]
 
-export default function GodsList({ selectGod }: any) {
+export default function GodsLinks() {
 
   const { gods } = useDataContext();
 
@@ -77,12 +75,12 @@ export default function GodsList({ selectGod }: any) {
               const { id, pic_url, name } = god;
               return (
                 <div key={id} className="text-neutral text-sm md:text-base" >
-                  <button
-                    onClick={() => selectGod(id)}
+                  <Link
+                    href={`/Gods/${id}`}
                     style={{ backgroundImage: `url(${pic_url})`}}
                     className="flex flex-col items-center w-full aspect-square border-thin border-neutral rounded-sm bg-cover bg-top"
                   >
-                  </button>
+                  </Link>
                   <h2>{name}</h2>
                 </div>
                 );
@@ -94,12 +92,12 @@ export default function GodsList({ selectGod }: any) {
               const { id, pic_url, name } = god;
               return (
                 <div key={id} className="text-neutral text-sm md:text-base" >
-                  <button
-                    onClick={() => selectGod(id)}
+                  <Link
+                    href={`/Gods/${id}`}
                     style={{ backgroundImage: `url(${pic_url})`}}
                     className="flex flex-col items-center w-full aspect-square border-thin border-neutral rounded-sm bg-cover bg-top"
                   >
-                  </button>
+                  </Link>
                   <h2>{name}</h2>
                 </div>
                 );

@@ -20,7 +20,7 @@ export default function Navbar() {
   const { currentSession, currentUsername, currentUserId } = useUserContext();
 
   return (
-    <nav className={`p-8 grid grid-cols-10 items-center ${exoFont.className} text-center bg-slate-900/40`}>
+    <nav className={`p-8 grid grid-cols-10 items-center ${exoFont.className} text-center`}>
       <Link href='/' className={`col-start-4 col-end-8 md:col-start-1 md:col-end-2 text-primaryFontColor text-3xl flex flex-col items-center`}>
         <h1 className='w-full h-full'>
           <Image src={SmiteLogo} alt='Smite logo' />
