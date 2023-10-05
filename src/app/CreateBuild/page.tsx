@@ -6,7 +6,7 @@ import { useUserContext } from '@/contexts/user.context';
 import ItemsList from '@/components/ItemsList/ItemsList.component';
 import RatItemsList from '@/components/RatItemsList/RatItemsList.component';
 import GodsList from '@/components/GodsList/GodsList.component';
-import Image from 'next/image';
+import { buildStatsCalculator, godStatsCalculator, combineStats } from './buildCalculator';
 
 export default function CreateBuild() {
   const { gods, items } = useDataContext();
@@ -22,6 +22,39 @@ export default function CreateBuild() {
   const [isChecked, setIsChecked] = useState(true);
   const [buildItems, setBuildItems] = useState<Item[]>([]);
   const [selectedGod, setSelectedGod] = useState<God | null>(null);
+  const [buildStats, setBuildStats] = useState({
+      physical_power:  0,
+      magical_power:  0,
+      critical_strike_chance: 0,
+      physical_lifesteal: 0,
+      magical_lifesteal:  0,
+      physical_percent_penetration:  0,
+      magical_percent_penetration:  0,
+      physical_flat_penetration:  0,
+      magical_flat_penetration:  0,
+      attack_speed:  0,
+      basic_attack_damage:  0,
+      hp5:  0,
+      mp5:  0,
+      health:  0,
+      mana:  0,
+      speed:  0,
+      physical_protection:  0,
+      magical_protection:  0,
+      damage_reduction:  0,
+      cooldown_reduction:  0,
+      crowd_control_reduction:  0,
+    })
+
+  useEffect(() => {
+    const currentBuildStats = buildStatsCalculator(buildItems);
+    const currentGodStats = selectedGod ? godStatsCalculator(selectedGod) : null;
+    if (!currentGodStats) setBuildStats(currentBuildStats);
+    if (currentGodStats) {
+      const combinedStats = combineStats(currentBuildStats, currentGodStats);
+      setBuildStats(combinedStats);
+    }
+  }, [buildItems, selectedGod])
 
   // Add an item to the buildItems state array
   const addBuildItem = (item_id: number) => {
@@ -62,8 +95,9 @@ export default function CreateBuild() {
           - save build button / sign up & login to save builds button
           - compiled stats table updating live underneath
           - item passive list in some form of dropdown option
-
       */}
+
+      <button className='bg-green-200 text-orange-600 text-xl' onClick={() => console.log(buildStats)}> Log build stats </button>
       {/* Build items containers + optional god name header */}
 
       <div className='flex flex-col w-full items-center'>

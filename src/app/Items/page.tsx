@@ -1,5 +1,5 @@
-import React from 'react'
-import ItemLinks from '@/components/ItemLinks/ItemLinks.component'
+import React from 'react';
+import ItemLinks from '@/components/ItemLinks/ItemLinks.component';
 
 export default function Items() {
   return (

@@ -55,7 +55,7 @@ export default function Item() {
         {/* Restrictions */}
 
         {item.restricted !== "no restrictions" &&
-          <p className=' text-primaryFontColor text-sm'>&#10026; Restricted to: {item.restricted}</p>}
+          <p className=' text-primaryFontColor text-sm'>&#10026; Restricted item. Can&apos;t be used by: {item.restricted}</p>}
 
         {/* Stats */}
 
@@ -77,9 +77,11 @@ export default function Item() {
 
         {/* Passive/Special */}
 
+        {item.special &&
         <div className='mt-4 p-3 bg-secondaryBgColor text-neutral rounded-md tracking-wide md:w-1/3'>
           <p>{item.special}</p>
         </div>
+          }
 
         </div>
         :

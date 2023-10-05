@@ -68,7 +68,7 @@ const key = process.env.SUPABASE_KEY
     .select('*');
 
     if(gods) return gods;
-    if(error) alert('something went wrong. Try hitting refresh');
+    if(error) console.error(error);
   }
 
   // Get all items data //
@@ -78,7 +78,7 @@ const key = process.env.SUPABASE_KEY
     .select('*');
 
     if(items) return items;
-    if(error) alert('something went wrong. Try hitting refresh');
+    if(error) console.error(error);
   }
 
   ///// POST TO SUPABASE SECTION /////
