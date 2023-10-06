@@ -59,11 +59,41 @@ export default function CreateBuild() {
 
   // Set item type warning
   useEffect(() => {
-    if (buildStats.magical_power > 0 && buildStats.physical_power > 0) setItemWarning(true);
+    // Problem item 1
+    const griffonWingEarrings = items?.find(item => item.id === 23146);
+    // Problem item 2
+    const sphinxBaubles = items?.find(item => item.id === 23102);
+
+    // If both stats exist, warn user
+    if (buildStats.magical_power > 0 && buildStats.physical_power > 0) setItemWarning(true); 
+
+    // If items are corrected, remove warning
     if (buildStats.magical_power > 0 && buildStats.physical_power === 0) setItemWarning(false);
     if (buildStats.magical_power === 0 && buildStats.physical_power > 0) setItemWarning(false);
-  }, [buildStats]);
+
+    // Check if double stats is because of problem item 1
+    if (buildStats.magical_power > 0 && buildStats.physical_power > 0 && buildItems.includes(griffonWingEarrings!)) {
+
+      // If it is, check each power against the power from this item instead of 0s and respond accordingly
+      buildStats.magical_power > parseInt(griffonWingEarrings?.stat_2_val as string) && buildStats.physical_power > parseInt(griffonWingEarrings?.stat_1_val as string) ? setItemWarning(true) : setItemWarning(false);
+    }
+
+    // Check if double stats is because of problem item 2
+    if (buildStats.magical_power > 0 && buildStats.physical_power > 0 && buildItems.includes(sphinxBaubles!)) {
+
+      // If it is, check each power against the power from this item instead of 0s and respond accordingly
+      buildStats.magical_power > parseInt(sphinxBaubles?.stat_2_val as string) && buildStats.physical_power > parseInt(sphinxBaubles?.stat_1_val as string) ? setItemWarning(true) : setItemWarning(false);
+    }
+    
+    // Check if double stats is because of problem item 1 & 2
+    if (buildStats.magical_power > 0 && buildStats.physical_power > 0 && buildItems.includes(griffonWingEarrings!) && buildItems.includes(sphinxBaubles!)) {
+
+      // If it is, check each power against the power from these items instead of 0s and respond accordingly
+      buildStats.magical_power > (parseInt(griffonWingEarrings?.stat_2_val as string) + parseInt(sphinxBaubles?.stat_2_val as string)) && buildStats.physical_power > (parseInt(griffonWingEarrings?.stat_1_val as string) + parseInt(sphinxBaubles?.stat_2_val as string)) ? setItemWarning(true) : setItemWarning(false);
+    }
+  }, [buildStats, buildItems, items]);
   
+  // Set starter warning
   useEffect(() => {
     let count = 0;
     buildItems.forEach((item) => {
@@ -100,6 +130,8 @@ export default function CreateBuild() {
 
     console.log(values);
     await addBuild(values);
+
+
 
     console.log('added')
   }
@@ -171,8 +203,8 @@ export default function CreateBuild() {
         
         {/* Starter warning */}
 
-        {itemWarning &&
-          <p className='text-red-500 text-xs'>* Warning: Gods must use items of same type (ignore if using GW Earrings or Sphinx Baubles)</p>}
+        {starterWarning &&
+          <p className='text-red-500 text-xs'>* Warning: Only one starter item is allowed</p>}
           
           {/* Build item containers */}
 
@@ -396,35 +428,37 @@ export default function CreateBuild() {
       
         {/* Build passives dropdown */}
 
-        <div className='w-11/12 md:w-1/2 text-neutral bg-secondaryBgColor rounded-sm mt-2 p-2'>
-          <button 
-            onClick={handleToggleBuildPassivesDropdown}
-            className='text-center text-lg w-full flex items-center justify-center gap-2'>
-            Build Passives
-            <Image
-              src={DropdownArrow}
-              alt="dropdown arrow"
-              width={15}
-              className={`
-              transition-all duration-300
-              ${
-                buildPassivesDropdown === 'active'
-                  ? 'rotate-0 mix-blend-difference'
-                  : '-rotate-90 '
-              }`}
-          />
-          </button>
-          <div className={`${buildPassivesDropdown === 'active' ? 'grid' : 'hidden'} text-xs md:text-sm p-1 transition-all ease duration-500`}>
-            {buildItems.map((item) => {
-              return <p key={item.id} className='mb-4' >{item.special}</p>
-            })}
+        {buildItems.length > 0 &&
+          <div className='w-11/12 md:w-1/2 text-neutral bg-secondaryBgColor rounded-sm mt-2 p-2'>
+            <button 
+              onClick={handleToggleBuildPassivesDropdown}
+              className='text-center text-lg w-full flex items-center justify-center gap-2'>
+              Build Passives
+              <Image
+                src={DropdownArrow}
+                alt="dropdown arrow"
+                width={15}
+                className={`
+                transition-all duration-300
+                ${
+                  buildPassivesDropdown === 'active'
+                    ? 'rotate-0 mix-blend-difference'
+                    : '-rotate-90 '
+                }`}
+            />
+            </button>
+            <div className={`${buildPassivesDropdown === 'active' ? 'grid' : 'hidden'} text-xs md:text-sm p-1 transition-all ease duration-500`}>
+              {buildItems.map((item) => {
+                return <p key={item.id} className='mb-4' >{item.special}</p>
+              })}
+            </div>
           </div>
-        </div>
+        }
 
         {/* Gods or items switch */}
 
-      <div className='w-3/5 flex items-center justify-center gap-4 text-neutral my-3'>
-        <h4>Viewing:</h4>
+      <div className='w-4/5 flex items-center justify-center gap-4 text-lg md:text-xl text-neutral my-3'>
+        <h4>Select:</h4>
         <div className='flex gap-2'>
           <label>Items</label>
           <input type='checkbox' checked={isChecked} onChange={handleViewChange} />
