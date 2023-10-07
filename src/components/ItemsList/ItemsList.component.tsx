@@ -39,7 +39,9 @@ export default function ItemsList({ addToBuild }: any) {
   const [currentFilters, setCurrentFilters] = useState<string[]>([]);
   const [filterOptions, setFilterOptions] = useState({
     'Physical Power': false,
+    'Physical Penetration': false,
     'Magical Power': false,
+    'Magical Penetration': false,
     'Attack Speed': false,
     'Critical Strike Chance': false,
     'Physical Lifesteal': false,
@@ -63,20 +65,20 @@ export default function ItemsList({ addToBuild }: any) {
     setCurrentFilters(selectedOptions);
   }, [filterOptions]);
 
-  // Update shown items based on current filters
+  // Update currentlyViewedItems based on current filters
   useEffect(() => {
     function matchesAllFilters(item: Item) {
       const statDescriptions = [
-          item.stat_1_desc,
-          item.stat_2_desc,
-          item.stat_3_desc,
-          item.stat_4_desc,
-          item.stat_5_desc,
-          item.stat_6_desc
+          item.stat_1_desc?.toLowerCase(),
+          item.stat_2_desc?.toLowerCase(),
+          item.stat_3_desc?.toLowerCase(),
+          item.stat_4_desc?.toLowerCase(),
+          item.stat_5_desc?.toLowerCase(),
+          item.stat_6_desc?.toLowerCase()
       ];
-      return currentFilters.every(filter => statDescriptions.includes(filter));
+      return currentFilters.every(filter => statDescriptions.includes(filter?.toLowerCase()));
   }
-  const allItems = items?.filter((item) => item.active_status && item.tier >= 3 && item.type === 'Item' && !item.name.includes('Acorn'));
+  const allItems = items?.filter((item) => item.active_status && (item.tier >= 3 || (item.tier === 2 && item.starter === true)) && item.type === 'Item' && !item.name.includes('Acorn'));
   const filteredItems = allItems?.filter(item => matchesAllFilters(item));
   const searchBarFilteredItems = filteredItems?.filter((item) => item.name.toLowerCase().includes(itemSearch))
   setCurrentlyViewedItems(searchBarFilteredItems);

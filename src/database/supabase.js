@@ -91,6 +91,18 @@ const key = process.env.SUPABASE_KEY
     if(error) console.error(error);
   }
 
+  // Get all skins for ONE GOD //
+  export const getGodSkins = async (god_id) => {
+
+    let { data: skins, error } = await supabase
+    .from('skins')
+    .select("*")
+    .eq('god_id', god_id)
+
+    if(skins) return skins;
+    if(error) return console.error(error)
+  }
+
   ///// POST TO SUPABASE SECTION /////
 
   // Insert on the BUILDS table //
@@ -124,6 +136,7 @@ const key = process.env.SUPABASE_KEY
     getUser,
     getGods,
     getItems,
+    getGodSkins,
     getAbilities,
     addBuild
   }

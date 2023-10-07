@@ -165,7 +165,7 @@ export default function ItemsList({ addToBuild }: any) {
           {searchAllItems?.map((item) => {
           const { id, pic_url, name, special } = item;
           return (
-            <Link href={`/Items/${id}`} key={id} onClick={() => addToBuild(id)} className="flex flex-col items-center">
+            <Link href={`/Items/${id}`} key={id} className="flex flex-col items-center">
               <Image
                 src={pic_url}
                 alt={name}
@@ -186,7 +186,7 @@ export default function ItemsList({ addToBuild }: any) {
           {currentlyViewedItems?.map((item) => {
           const { id, pic_url, name } = item;
           return (
-            <Link href={`/Items/${id}`} key={id} onClick={() => addToBuild(id)} className="flex flex-col items-center">
+            <Link href={`/Items/${id}`} key={id} className="flex flex-col items-center">
               <Image
                 src={pic_url}
                 alt={name}

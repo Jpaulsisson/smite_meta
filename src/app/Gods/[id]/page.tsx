@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useDataContext } from '@/contexts/data.context';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 
 // This is the page for ONE SINGULAR ITEM //
 
@@ -31,10 +32,11 @@ export default function God() {
         <div className=''>
           <h2 className='text-5xl md:text-7xl text-neutral'>{god.name}</h2>
           
-          {/* <Image priority src={god.pic_url} alt={god.name} width={500} height={500} className='max-h-96 mt-4 border-thin border-neutral rounded-sm' /> */}
           <div style={{ backgroundImage: `url(${god.pic_url}`}} className='mt-4 bg-cover bg-no-repeat bg-top h-52 w-1/2 md:w-1/6 flex items-end justify-end rounded-sm border-neutral border-thin'>
             <aside className='text-lg text-neutral bg-slate-800/90 p-3 rounded-sm'>{god.role}</aside>
           </div>
+          
+          <Link href={`/Gods/${god.id}/Skins`} className='text-lg text-primaryFontColor underline w-24 text-end' >Go to {god.name}&apos;s skins</Link>
 
           <h3 className='mt-4 text-xl text-neutral'>Abilities:</h3>
           <div className='flex flex-col mt-4 gap-4 md:w-1/2'>

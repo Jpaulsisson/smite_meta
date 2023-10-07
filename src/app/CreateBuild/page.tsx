@@ -6,10 +6,11 @@ import { useUserContext } from '@/contexts/user.context';
 import ItemsList from '@/components/ItemsList/ItemsList.component';
 import RatItemsList from '@/components/RatItemsList/RatItemsList.component';
 import GodsList from '@/components/GodsList/GodsList.component';
-import { buildStatsCalculator, godStatsCalculator, combineStats } from './buildCalculator';
+import { buildStatsCalculator, godStatsCalculator, combineStats, itemWarningHelper } from './buildCalculator';
 import Image from 'next/image';
 import DropdownArrow from '@/resources/arrow-down.svg';
 import { addBuild } from '@/database/supabase';
+import SignIn from '@/components/SignIn/SignIn.component';
 
 export default function CreateBuild() {
 
@@ -59,38 +60,12 @@ export default function CreateBuild() {
 
   // Set item type warning
   useEffect(() => {
-    // Problem item 1
-    const griffonWingEarrings = items?.find(item => item.id === 23146);
-    // Problem item 2
-    const sphinxBaubles = items?.find(item => item.id === 23102);
+    const { physical_power_base, magical_power_base } = itemWarningHelper(items as Item[], buildItems as Item[]);
+    const { physical_power, magical_power } = buildStats;
 
-    // If both stats exist, warn user
-    if (buildStats.magical_power > 0 && buildStats.physical_power > 0) setItemWarning(true); 
-
-    // If items are corrected, remove warning
-    if (buildStats.magical_power > 0 && buildStats.physical_power === 0) setItemWarning(false);
-    if (buildStats.magical_power === 0 && buildStats.physical_power > 0) setItemWarning(false);
-
-    // Check if double stats is because of problem item 1
-    if (buildStats.magical_power > 0 && buildStats.physical_power > 0 && buildItems.includes(griffonWingEarrings!)) {
-
-      // If it is, check each power against the power from this item instead of 0s and respond accordingly
-      buildStats.magical_power > parseInt(griffonWingEarrings?.stat_2_val as string) && buildStats.physical_power > parseInt(griffonWingEarrings?.stat_1_val as string) ? setItemWarning(true) : setItemWarning(false);
-    }
-
-    // Check if double stats is because of problem item 2
-    if (buildStats.magical_power > 0 && buildStats.physical_power > 0 && buildItems.includes(sphinxBaubles!)) {
-
-      // If it is, check each power against the power from this item instead of 0s and respond accordingly
-      buildStats.magical_power > parseInt(sphinxBaubles?.stat_2_val as string) && buildStats.physical_power > parseInt(sphinxBaubles?.stat_1_val as string) ? setItemWarning(true) : setItemWarning(false);
-    }
+    if (physical_power > physical_power_base && magical_power > magical_power_base) setItemWarning(true);
+    else setItemWarning(false);
     
-    // Check if double stats is because of problem item 1 & 2
-    if (buildStats.magical_power > 0 && buildStats.physical_power > 0 && buildItems.includes(griffonWingEarrings!) && buildItems.includes(sphinxBaubles!)) {
-
-      // If it is, check each power against the power from these items instead of 0s and respond accordingly
-      buildStats.magical_power > (parseInt(griffonWingEarrings?.stat_2_val as string) + parseInt(sphinxBaubles?.stat_2_val as string)) && buildStats.physical_power > (parseInt(griffonWingEarrings?.stat_1_val as string) + parseInt(sphinxBaubles?.stat_2_val as string)) ? setItemWarning(true) : setItemWarning(false);
-    }
   }, [buildStats, buildItems, items]);
   
   // Set starter warning
@@ -131,7 +106,8 @@ export default function CreateBuild() {
     console.log(values);
     await addBuild(values);
 
-
+// add setTimeout() to flash a saved icon up after this is clicked and returns a response
+// will need state to store variable 
 
     console.log('added')
   }
@@ -185,7 +161,7 @@ export default function CreateBuild() {
       {/* Goals: 
           - save build button / sign up & login to save builds button
       */}
-
+    <button onClick={() => console.log(itemWarningSetter(items, buildItems))}>Log what you need</button>
       {/* Build items containers + optional god name header */}
 
       <div className='flex flex-col w-full items-center'>
@@ -199,7 +175,7 @@ export default function CreateBuild() {
         {/* Item warning */}
 
         {itemWarning &&
-          <p className='text-red-500 text-xs'>* Warning: Gods must use items of same type (ignore if using GW Earrings or Sphinx Baubles)</p>}
+          <p className='text-red-500 text-xs'>* Warning: Gods must use items of same type</p>}
         
         {/* Starter warning */}
 
@@ -312,11 +288,10 @@ export default function CreateBuild() {
                 Save
               </button>
             :
-              <button 
-                className="aspect-square w-full border-thin border-primaryFontColor rounded-sm col-start-1 row-start-2 md:col-start-auto"
-                >
-                  Login to save
-              </button>
+            <div className='border-thin border-primaryFontColor flex flex-col items-center justify-center w-full'>
+              <SignIn />
+              to save
+            </div>
             }
             </div>
         </div>     

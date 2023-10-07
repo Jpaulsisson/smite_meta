@@ -17,8 +17,22 @@
   box-sizing: border-box;
 }
 
+/* Come back to this idea later */
+
+/* html {
+  background: 
+    linear-gradient(hsla(221, 45%, 13%, 0.9), hsl(221, 45%, 13%, 0.9), #081121e4, #081121),
+    url(../resources/charon.png),  
+    linear-gradient( hsl(221, 45%, 11.8%), hsl(215, 100%, 4%)),
+    hsl(215, 100%, 4%);
+  background-size: 100% 100vh, 100% 100vh, 100%;
+  background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+} */
+
 html {
-  background: linear-gradient(var(--primaryBgColor), hsl(215, 100%, 4%))
+  background: 
+  linear-gradient( hsl(221, 45%, 11.8%), hsl(215, 100%, 4%)),
+  hsl(215, 100%, 4%);
 }
 
 img {
@@ -44,10 +58,3 @@ body {
   background-color: goldenrod;
 }
 
-
-/* @media screen and (min-width: 768px) {
-  html {
-    background-size: cover;
-    background-position: top;
-  }
-} */

@@ -187,8 +187,37 @@ export const combineStats = (buildStats: BuildStats, godStats: GodStats) => {
   return combined;
 }
 
+export const itemWarningHelper = (items: Item[], buildItems: Item[]) => {
+
+  // Set the base level
+  let physical_power_base = 0;
+  let magical_power_base = 0;
+
+  // Pull out all items with both types of power
+  const dualPowerItems = items?.filter((item) => {
+    if ((item.stat_1_desc?.toLowerCase() === 'magical power' && item.stat_2_desc?.toLowerCase() === 'physical power') || (item.stat_1_desc?.toLowerCase() === 'physical power' && item.stat_2_desc?.toLowerCase() === 'magical power')) return true;
+  })
+  
+  // Iterate through the build items checking for matches to dualPowerItems
+  // and adding that item's powers to their respective base variables
+  buildItems.forEach((item) => {
+    if (dualPowerItems.includes(item)) {
+      physical_power_base += parseInt(item.stat_1_val!)
+      magical_power_base += parseInt(item.stat_2_val!)
+    }
+  })
+
+  // Return the new base levels for measuring against
+  return { 
+    physical_power_base: physical_power_base,
+    magical_power_base: magical_power_base,
+  }
+}
+
 module.exports = {
   buildStatsCalculator,
   godStatsCalculator,
-  combineStats
+  combineStats,
+  itemWarningHelper
 }
+

@@ -10,14 +10,14 @@ import GoogleIcon from '@/resources/google.svg';
 import FacebookIcon from '@/resources/facebook.svg';
 import DiscordIcon from '@/resources/discord.svg';
 import Image from 'next/image';
-import { redirect } from 'next/dist/server/api-utils/index';
+import { redirect } from 'next/dist/server/api-utils';
 
 const font = Exo_2({
   weight: ['200', '400'],
   subsets: ["latin"]
 });
 
-export default function SignInForm() {
+export default function SignIn() {
 
   const { appElement } = useUserContext();
   const [isOpen, setIsOpen] = useState(false);

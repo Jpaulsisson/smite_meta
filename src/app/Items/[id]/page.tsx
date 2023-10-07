@@ -59,9 +59,9 @@ export default function Item() {
 
         {/* Stats */}
 
-        {stats ? 
+        {stats[0]?.desc !== null && 
           <div className='mt-4 p-3 grid grid-cols-auto bg-secondaryBgColor text-sm md:text-base text-neutral rounded-md md:w-1/4'>
-            {stats.map((stat, index) => {
+            {stats.map((stat) => {
               return (
                 <div key={Math.floor(Math.random() * 513251)} className='w-2/3 flex gap-2 items-end'>
                   <h3>{stat.desc}</h3>
@@ -70,9 +70,6 @@ export default function Item() {
               )
             })}
           </div>
-          :
-          <>
-          </>
         }
 
         {/* Passive/Special */}
