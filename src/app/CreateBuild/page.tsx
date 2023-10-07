@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import './toastNotification.css';
 import React, { useEffect, useState } from 'react';
@@ -7,7 +7,13 @@ import { useUserContext } from '@/contexts/user.context';
 import ItemsList from '@/components/ItemsList/ItemsList.component';
 import RatItemsList from '@/components/RatItemsList/RatItemsList.component';
 import GodsList from '@/components/GodsList/GodsList.component';
-import { buildStatsCalculator, godStatsCalculator, combineStats, itemWarningHelper, checkItemsForEvolvedDupes } from './buildCalculator';
+import {
+  buildStatsCalculator,
+  godStatsCalculator,
+  combineStats,
+  itemWarningHelper,
+  checkItemsForEvolvedDupes,
+} from './buildLogicHelpers';
 import Image from 'next/image';
 import DropdownArrow from '@/resources/arrow-down.svg';
 import FolderCheck from '@/resources/folder-check.svg';
@@ -15,7 +21,6 @@ import { addBuild } from '@/database/supabase';
 import SignIn from '@/components/SignIn/SignIn.component';
 
 export default function CreateBuild() {
-
   // Context variable declarations
   const { gods, items } = useDataContext();
   const { currentUserId } = useUserContext();
@@ -25,7 +30,7 @@ export default function CreateBuild() {
     if (items) {
       setIsLoading(false);
     }
-  }, [items])
+  }, [items]);
 
   // State variable declarations
   const [isLoading, setIsLoading] = useState(true);
@@ -33,28 +38,28 @@ export default function CreateBuild() {
   const [buildItems, setBuildItems] = useState<Item[]>([]);
   const [selectedGod, setSelectedGod] = useState<God | null>(null);
   const [buildStats, setBuildStats] = useState({
-      physical_power:  0,
-      magical_power:  0,
-      critical_strike_chance: 0,
-      physical_lifesteal: 0,
-      magical_lifesteal:  0,
-      physical_percent_penetration:  0,
-      magical_percent_penetration:  0,
-      physical_flat_penetration:  0,
-      magical_flat_penetration:  0,
-      attack_speed:  0,
-      basic_attack_damage:  0,
-      hp5:  0,
-      mp5:  0,
-      health:  0,
-      mana:  0,
-      speed:  0,
-      physical_protection:  0,
-      magical_protection:  0,
-      damage_reduction:  0,
-      cooldown_reduction:  0,
-      crowd_control_reduction:  0,
-    })
+    physical_power: 0,
+    magical_power: 0,
+    critical_strike_chance: 0,
+    physical_lifesteal: 0,
+    magical_lifesteal: 0,
+    physical_percent_penetration: 0,
+    magical_percent_penetration: 0,
+    physical_flat_penetration: 0,
+    magical_flat_penetration: 0,
+    attack_speed: 0,
+    basic_attack_damage: 0,
+    hp5: 0,
+    mp5: 0,
+    health: 0,
+    mana: 0,
+    speed: 0,
+    physical_protection: 0,
+    magical_protection: 0,
+    damage_reduction: 0,
+    cooldown_reduction: 0,
+    crowd_control_reduction: 0,
+  });
   const [buildStatsDropdown, setBuildStatsDropdown] = useState('active');
   const [buildPassivesDropdown, setBuildPassivesDropdown] = useState('active');
   const [toast, setToast] = useState('');
@@ -65,44 +70,50 @@ export default function CreateBuild() {
   const [buildSaved, setBuildSaved] = useState(false);
   const [throttleBuildSave, setThrottleBuildSave] = useState(0);
 
-
   // Set item type warning
   useEffect(() => {
-    const { physical_power_base, magical_power_base } = itemWarningHelper(items as Item[], buildItems as Item[]);
+    const { physical_power_base, magical_power_base } = itemWarningHelper(
+      items as Item[],
+      buildItems as Item[]
+    );
     const { physical_power, magical_power } = buildStats;
 
-    if (physical_power > physical_power_base && magical_power > magical_power_base) setItemWarning(true);
+    if (
+      physical_power > physical_power_base &&
+      magical_power > magical_power_base
+    )
+      setItemWarning(true);
     else setItemWarning(false);
-
   }, [buildStats, buildItems, items]);
-  
+
   // Set starter, glyph, and dupeItem warnings
   useEffect(() => {
     // Starter logic
     let starterCount = 0;
     buildItems.forEach((item) => {
       if (item.starter === true) starterCount += 1;
-    })
+    });
     starterCount > 1 ? setStarterWarning(true) : setStarterWarning(false);
 
     // Glyph logic
     let glyphCount = 0;
     buildItems.forEach((item) => {
       if (item.glyph === true) glyphCount += 1;
-    })
+    });
     glyphCount > 1 ? setGlyphWarning(true) : setGlyphWarning(false);
 
     // Dupe Item logic
     const evolvedItemDupe = checkItemsForEvolvedDupes(buildItems);
 
     evolvedItemDupe ? setDupeItemWarning(true) : setDupeItemWarning(false);
-    
   }, [buildItems]);
 
   // Keep build stats up-to-date
   useEffect(() => {
     const currentBuildStats = buildStatsCalculator(buildItems);
-    const currentGodStats = selectedGod ? godStatsCalculator(selectedGod) : null;
+    const currentGodStats = selectedGod
+      ? godStatsCalculator(selectedGod)
+      : null;
     if (!currentGodStats) setBuildStats(currentBuildStats);
     if (currentGodStats) {
       const combinedStats = combineStats(currentBuildStats, currentGodStats);
@@ -112,12 +123,11 @@ export default function CreateBuild() {
 
   // Add build to database
   const addUserBuildToDatabase = async () => {
-    
     // Throttling logic
     const current = Date.now();
 
     if (current - throttleBuildSave < 10000) {
-      return alert('Last build save still in progress...')
+      return alert('Last build save still in progress...');
     }
 
     setThrottleBuildSave(current);
@@ -137,58 +147,59 @@ export default function CreateBuild() {
 
     // Send the values and await response
     const response = await addBuild(values);
-      
-      setToast('active');
-      setTimeout(() => setToast(''), 1000)
-    
+
+    setToast('active');
+    setTimeout(() => setToast(''), 1000);
 
     return response;
-  }
+  };
 
   // Add an item to the buildItems array
   const addBuildItem = (item_id: number) => {
+    const target = items?.find((item) => item.id === item_id);
 
-    const target = items?.find(item => item.id === item_id);
-
-    if (target !== undefined){
+    if (target !== undefined) {
       if (buildItems.includes(target)) {
-      return;
+        return;
       }
       if (buildItems.length < 6) {
-        setBuildItems((prev) => [...prev, target])
+        setBuildItems((prev) => [...prev, target]);
       }
     }
-      return;
-    };
+    return;
+  };
 
   // Remove an item from the buildItems array
   const removeBuildItem = (item: Item) => {
-    const target = buildItems.find(target => target.id === item.id);
-    const newBuildItems = buildItems.filter(item => item.id !== target!.id);
-    setBuildItems(newBuildItems)
+    const target = buildItems.find((target) => target.id === item.id);
+    const newBuildItems = buildItems.filter((item) => item.id !== target!.id);
+    setBuildItems(newBuildItems);
   };
 
   // Select a god and add to the build
   const selectGod = (god_id: number) => {
-    const target = gods?.find(god => god.id === god_id);
+    const target = gods?.find((god) => god.id === god_id);
     if (target) setSelectedGod(target);
   };
 
   // Toggle build stats dropdown
   const handleToggleBuildStatsDropdown = () => {
-    buildStatsDropdown === '' ? setBuildStatsDropdown('active') : setBuildStatsDropdown('');
+    buildStatsDropdown === ''
+      ? setBuildStatsDropdown('active')
+      : setBuildStatsDropdown('');
   };
 
   // Toggle build passives dropdown
   const handleToggleBuildPassivesDropdown = () => {
-    buildPassivesDropdown === '' ? setBuildPassivesDropdown('active') : setBuildPassivesDropdown('');
-  }
+    buildPassivesDropdown === ''
+      ? setBuildPassivesDropdown('active')
+      : setBuildPassivesDropdown('');
+  };
 
   // Switch between viewing items or gods
   function handleViewChange() {
     setIsChecked((prev) => !prev);
   }
-
 
   return (
     <div className="w-full flex flex-col items-center justify-center mt-4">
@@ -352,8 +363,10 @@ export default function CreateBuild() {
                 alt="folder with check"
                 width={35}
                 height={35}
-                id='toast'
-                className={`${toast === 'active' ? 'block' : 'hidden'} absolute inset-0 m-auto`}
+                id="toast"
+                className={`${
+                  toast === 'active' ? 'block' : 'hidden'
+                } absolute inset-0 m-auto`}
               />
             </button>
           ) : (
@@ -368,7 +381,6 @@ export default function CreateBuild() {
       {/* Build stats dropdown */}
 
       <div className="w-11/12 md:w-1/2 text-neutral bg-secondaryBgColor rounded-sm mt-2 p-2">
-
         {/* Dropdown toggler */}
 
         <button
