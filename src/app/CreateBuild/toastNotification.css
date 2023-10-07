@@ -1,0 +1,22 @@
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+}
+
+#toast {
+  animation-name: fadeOut;
+  animation-duration: 1s;
+  animation-timing-function: ease-in;
+  animation-delay: 0;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  /* transform: translateY(-100px); */
+  opacity: 1;
+  transform: none;
+}

@@ -77,16 +77,15 @@ export default function GodsList({ selectGod }: any) {
             {searchAllGods?.map((god) => {
               const { id, pic_url, name } = god;
               return (
-                <div key={id} className="text-neutral text-sm md:text-base" >
+                <div key={id} className="text-neutral text-sm md:text-base active:brightness-50">
                   <button
                     onClick={() => selectGod(id)}
-                    style={{ backgroundImage: `url(${pic_url})`}}
+                    style={{ backgroundImage: `url(${pic_url})` }}
                     className="flex flex-col items-center w-full aspect-square border-thin border-neutral rounded-sm bg-cover bg-top"
-                  >
-                  </button>
+                  ></button>
                   <h2>{name}</h2>
                 </div>
-                );
+              );
               })} 
           </>
           :
@@ -94,7 +93,7 @@ export default function GodsList({ selectGod }: any) {
             {currentlyViewedGods?.map((god) => {
               const { id, pic_url, name } = god;
               return (
-                <div key={id} className="text-neutral text-sm md:text-base" >
+                <div key={id} className="text-neutral text-sm md:text-base active:brightness-50" >
                   <button
                     onClick={() => selectGod(id)}
                     style={{ backgroundImage: `url(${pic_url})`}}

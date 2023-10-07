@@ -166,7 +166,11 @@ export default function ItemsList({ addToBuild }: any) {
           {searchAllItems?.map((item) => {
           const { id, pic_url, name, special } = item;
           return (
-            <button key={id} onClick={() => addToBuild(id)} className="flex flex-col items-center">
+            <button
+              key={id}
+              onClick={() => addToBuild(id)}
+              className="flex flex-col items-center active:brightness-50"
+            >
               <Image
                 src={pic_url}
                 alt={name}
@@ -187,7 +191,11 @@ export default function ItemsList({ addToBuild }: any) {
           {currentlyViewedItems?.map((item) => {
           const { id, pic_url, name } = item;
           return (
-            <button key={id} onClick={() => addToBuild(id)} className="flex flex-col items-center">
+            <button
+              key={id}
+              onClick={() => addToBuild(id)}
+              className="flex flex-col items-center active:brightness-50"
+            >
               <Image
                 src={pic_url}
                 alt={name}

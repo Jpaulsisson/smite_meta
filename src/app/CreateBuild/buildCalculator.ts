@@ -214,10 +214,31 @@ export const itemWarningHelper = (items: Item[], buildItems: Item[]) => {
   }
 }
 
+export const checkItemsForEvolvedDupes = (array: Item[]) => {
+  for (let i = 0; i < array.length; i++) {
+    const currentItem = array[i];
+
+    for (let j = 0; j < array.length; j++) {
+      // Skip comparing a string to itself
+      if (i === j) continue;
+
+      const anotherItem = array[j];
+
+      // Check if `currentItem` includes `Evolved` in front of `anotherItem`
+      if (currentItem.name === `Evolved ${anotherItem.name}`) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+
 module.exports = {
   buildStatsCalculator,
   godStatsCalculator,
   combineStats,
-  itemWarningHelper
+  itemWarningHelper,
+  checkItemsForEvolvedDupes
 }
 
