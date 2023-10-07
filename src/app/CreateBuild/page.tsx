@@ -9,6 +9,7 @@ import GodsList from '@/components/GodsList/GodsList.component';
 import { buildStatsCalculator, godStatsCalculator, combineStats, itemWarningHelper } from './buildCalculator';
 import Image from 'next/image';
 import DropdownArrow from '@/resources/arrow-down.svg';
+import FolderCheck from '@/resources/folder-check.svg';
 import { addBuild } from '@/database/supabase';
 import SignIn from '@/components/SignIn/SignIn.component';
 
@@ -57,6 +58,7 @@ export default function CreateBuild() {
   const [buildPassivesDropdown, setBuildPassivesDropdown] = useState('active');
   const [itemWarning, setItemWarning] = useState(false);
   const [starterWarning, setStarterWarning] = useState(false);
+  const [buildSaved, setBuildSaved] = useState(false);
 
   // Set item type warning
   useEffect(() => {
@@ -65,7 +67,7 @@ export default function CreateBuild() {
 
     if (physical_power > physical_power_base && magical_power > magical_power_base) setItemWarning(true);
     else setItemWarning(false);
-    
+
   }, [buildStats, buildItems, items]);
   
   // Set starter warning
@@ -104,12 +106,12 @@ export default function CreateBuild() {
     };
 
     console.log(values);
-    await addBuild(values);
+    const response = await addBuild(values);
+    if (response) {
+      setBuildSaved(true);
+      setTimeout(() => setBuildSaved(false), 300);
+    }
 
-// add setTimeout() to flash a saved icon up after this is clicked and returns a response
-// will need state to store variable 
-
-    console.log('added')
   }
 
   // Add an item to the buildItems state array
@@ -161,7 +163,7 @@ export default function CreateBuild() {
       {/* Goals: 
           - save build button / sign up & login to save builds button
       */}
-    <button onClick={() => console.log(itemWarningSetter(items, buildItems))}>Log what you need</button>
+
       {/* Build items containers + optional god name header */}
 
       <div className='flex flex-col w-full items-center'>
@@ -280,12 +282,15 @@ export default function CreateBuild() {
                 no god selected
             </button>
           }
+
+          {/* Save build button */}
+          
             {currentUserId ?
               <button 
               onClick={addUserBuildToDatabase}
-              className="w-full border-thin border-primaryFontColor rounded-full col-start-4 row-start-2 p-2 bg-secondaryBgColor text-sm"
+              className="w-full border-thin border-primaryFontColor rounded-full col-start-4 row-start-2 p-2 bg-secondaryBgColor text-sm flex items-center justify-center"
               >
-                Save
+                {buildSaved ? <Image src={FolderCheck} alt='folder with check' width={35} height={35}/> : <span>Save build</span> }
               </button>
             :
             <div className='border-thin border-primaryFontColor flex flex-col items-center justify-center w-full'>

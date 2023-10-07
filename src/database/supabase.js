@@ -123,6 +123,8 @@ const key = process.env.SUPABASE_KEY
       },
     ])
 
+    if (data) return data;
+    if (error) console.error(error);
       }
 
 

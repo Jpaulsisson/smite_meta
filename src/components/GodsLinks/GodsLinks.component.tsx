@@ -23,8 +23,9 @@ export default function GodsLinks() {
   // Filter by search bar
   useEffect(() => {
     const filteredGods = gods?.filter((god) => god.role === godFilter);
-    setCurrentlyViewedGods(filteredGods);
-  }, [godFilter, gods])
+    const result = filteredGods?.filter((god) => god.name.toLowerCase().includes(godSearch))
+    setCurrentlyViewedGods(result);
+  }, [godFilter, gods, godSearch])
 
   const searchAllGods = gods?.filter((god) => god.name.toLowerCase().includes(godSearch))
 
