@@ -164,7 +164,7 @@ export default function ItemsList({ addToBuild }: any) {
         {/* if no filters are applied, use just the search bar on all items */}
 
           {searchAllItems?.map((item) => {
-          const { id, pic_url, name, special } = item;
+          const { id, pic_url, name } = item;
           return (
             <button
               key={id}

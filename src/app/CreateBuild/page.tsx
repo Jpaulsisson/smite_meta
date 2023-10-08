@@ -67,7 +67,6 @@ export default function CreateBuild() {
   const [starterWarning, setStarterWarning] = useState(false);
   const [glyphWarning, setGlyphWarning] = useState(false);
   const [dupeItemWarning, setDupeItemWarning] = useState(false);
-  const [buildSaved, setBuildSaved] = useState(false);
   const [throttleBuildSave, setThrottleBuildSave] = useState(0);
 
   // Set item type warning
@@ -381,6 +380,7 @@ export default function CreateBuild() {
       {/* Build stats dropdown */}
 
       <div className="w-11/12 md:w-1/2 text-neutral bg-secondaryBgColor rounded-sm mt-2 p-2">
+        
         {/* Dropdown toggler */}
 
         <button
@@ -402,12 +402,12 @@ export default function CreateBuild() {
           />
         </button>
 
-        {/* Buil stats table */}
+        {/* Build stats table */}
 
         <div
           className={`${
             buildStatsDropdown === 'active' ? ' grid' : 'hidden'
-          } text-xs grid-cols-5 p-1 transition-all ease duration-500`}
+          } text-xs md:text-sm md:tracking-wide grid-cols-5 p-1 transition-all ease duration-500`}
         >
           <h3 className="border-l-primaryFontColor border-l-thin bg-slate-700 p-1">
             Physical Power
