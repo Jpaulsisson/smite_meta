@@ -15,6 +15,7 @@ type UserContext = {
   appElement: HTMLElement | undefined;
   currentUsername: string | null;
   currentUserId: string | null;
+  hashedId: string | null;
 }
 
 const UserContext = createContext<UserContext | null>(null);
@@ -55,7 +56,8 @@ export default function UserContextProvider({ children }: UserContextProviderPro
         setCurrentSession,
         appElement,
         currentUsername,
-        currentUserId
+        currentUserId,
+        hashedId
       }}
     >
       {children}

@@ -155,6 +155,15 @@ const key = process.env.SUPABASE_KEY
     if (error) console.error(error);
       }
 
+  ///// DELETE FROM SUPABASE SECTION /////
+
+  // Delete on the BUILDS table //
+  export const deleteBuild = async (id) => {
+    const { error } = await supabase
+    .from('builds')
+    .delete()
+    .eq('id', id);
+  }
 
   module.exports = {
     supabase,
@@ -170,5 +179,6 @@ const key = process.env.SUPABASE_KEY
     getAbilities,
     getUserRecentBuilds,
     getAllUserBuilds,
-    addBuild
+    addBuild,
+    deleteBuild
   }
