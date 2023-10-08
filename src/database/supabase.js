@@ -103,6 +103,34 @@ const key = process.env.SUPABASE_KEY
     if(error) return console.error(error)
   }
 
+  // Get a user's 10 most recent builds
+  export const getUserRecentBuilds = async (user_id) => {
+    let { data: builds, error } = await supabase
+      .from('builds')
+      .select("*")
+      .eq('user_id', user_id)
+      .order('id', {ascending: false})
+      .range(0, 9);
+
+    if (builds) return builds;
+    if (error) return console.error(error);
+  }
+
+  // Get all of a user's builds
+  export const getAllUserBuilds = async (user_id) => {
+    let { data: builds, error } = await supabase
+      .from('builds')
+      .select("*")
+      .eq('user_id', user_id)
+      .order('id', {ascending: false})
+
+    if (builds) return builds;
+    if (error) return console.error(error);
+  }
+
+
+
+
   ///// POST TO SUPABASE SECTION /////
 
   // Insert on the BUILDS table //
@@ -140,5 +168,7 @@ const key = process.env.SUPABASE_KEY
     getItems,
     getGodSkins,
     getAbilities,
+    getUserRecentBuilds,
+    getAllUserBuilds,
     addBuild
   }

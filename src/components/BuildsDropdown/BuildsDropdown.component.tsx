@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Quicksand } from 'next/font/google';
 
 import DropdownArrow from '../../resources/arrow-down.svg';
+import { useUserContext } from '@/contexts/user.context';
 
 
 const quicksandFont = Quicksand({
@@ -18,11 +19,12 @@ const quicksandFont = Quicksand({
 
 export default function BuildsDropdown() {
   
-  const [isActive, setIsActive] = useState('')
+  const { currentUserId } = useUserContext();
+  const [isActive, setIsActive] = useState('');
 
   const handleToggle = () => {
     isActive === '' ? setIsActive('active') : setIsActive('');
-  }
+  };
 
   return (
     <>
@@ -48,18 +50,23 @@ export default function BuildsDropdown() {
         <div
           className={`${isActive} dropdown-content w-full h-full grid grid-rows-3 gap-16 text-2xl`}
         >
+          {/* Create builds page link */}
           <Link
             href="/CreateBuild"
             className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center justify-start p-2 border-2 border-yellow-600/70 rounded-md bg-slate-100/95 text-slate-800`}
           >
             Create a Build +
           </Link>
+
+          {/* User's saved builds page link */}
           <Link
-            href=""
+            href={`/User/${currentUserId}/Builds`}
             className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center justify-start p-2 border-2 border-yellow-600/70 rounded-md bg-slate-200/95 text-slate-800`}
           >
             My Saved Builds
           </Link>
+
+          {/* Recommended builds page link */}
           <Link
             href=""
             className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center justify-start p-2 border-2 border-yellow-600/70 rounded-md bg-slate-300/95 text-slate-800`}
