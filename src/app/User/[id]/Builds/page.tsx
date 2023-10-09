@@ -5,7 +5,7 @@ import DeleteIcon from '@/resources/trash-can.svg';
 import { God, useDataContext } from '@/contexts/data.context';
 import { useUserContext } from '@/contexts/user.context';
 import { getAllUserBuilds, getUserRecentBuilds, deleteBuild } from '@/database/supabase';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
 type Build = {
   created_at: string,
@@ -63,10 +63,7 @@ export default function SavedUserBuilds() {
 
   return (
     <div className='p-4 md:p-12'>
-      {/* 
-        Goals: 
-        - maybe some links to other areas of the site?
-      */}
+      
       {currentUserId ?
         <div>
 
