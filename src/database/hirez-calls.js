@@ -43,7 +43,6 @@ const matchHistorySignature = makeSignature('getmatchhistory');
 const godsSignature = makeSignature('getgods');
 const godSkinsSignature = makeSignature('getgodskins');
 const itemsSignature = makeSignature('getitems');
-const recommendedItemsSignature = makeSignature('getgodrecommendeditems');
 const eSportsProLeagueDetailsSignature = makeSignature('getesportsproleaguedetails');
 
 // end of signatures section //
@@ -57,7 +56,6 @@ const eSportsProLeagueDetailsSignature = makeSignature('getesportsproleaguedetai
 // - Get Items //
 // - Get Player * //
 // - Get Player Match History * //
-// - Get Recommended Items * //
 // - Get Pro League Info //
 // - Get All Skins for a God * //
 
@@ -135,17 +133,6 @@ const getPlayerMatchHistory = async (playerId) => {
   const jsonData = await response.json();
   console.log(jsonData);
 };
-
-// GET recommended items //
-// * requires a godId (primary key on gods table) //
-const getSmiteRecommendedItemsByGod = async (godId) => {
-  const sessionId = await getSessionId();
-  const response = await fetch(
-    `${smiteAPI}/getgodrecommendeditemsjson/${devId}/${recommendedItemsSignature}/${sessionId}/${timestamp}/${godId}/1`
-  )
-  const jsonData = await response.json();
-  console.log(jsonData);
-}
 
 // GET pro league match details //
 const getESportsProLeagueDetails = async () => {

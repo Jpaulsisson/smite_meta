@@ -4,7 +4,10 @@ export default function Joust() {
   return (
     <div>
       {/* 
-        Provide some general tips about the differences of this game mode as well as links to youtube videos that feature Joust mains
+      -Trelli Relli
+        -youtube: https://www.youtube.com/@TrelliRelli
+        -twitter: https://www.twitter.com/trellirelli
+        -twitch: https://twitch.tv/TrelliRelli
       */}
     </div>
   )

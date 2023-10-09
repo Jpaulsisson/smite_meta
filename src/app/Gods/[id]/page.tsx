@@ -40,11 +40,12 @@ export default function God() {
 
           <h3 className='mt-4 text-xl text-neutral'>Abilities:</h3>
           <div className='flex flex-col mt-4 gap-4 md:w-1/2'>
-            {Object.values(godAbilities).map((ability) => {
+            {Object.values(godAbilities).map((ability, index) => {
               const { name, pic_url, ability_type, mana_cost, description, effect_1, effect_1_value, effect_2, effect_2_value, effect_3,effect_3_value, effect_4, effect_4_value, effect_5, effect_5_value } = ability!;
               return (
                 <div key={name} className='grid gap-2 text-neutral'>
                   <Image src={pic_url} alt={name} width={75} height={75} />
+                  {index === 4 && <aside className='text-primaryFontColor'>Passive</aside>}
                   <h4 className='text-primaryFontColor'>{name}</h4>
                   <aside>{ability_type}</aside>
                   {mana_cost && <aside>Mana: {mana_cost}</aside>}

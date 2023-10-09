@@ -73,7 +73,7 @@ export default function SavedUserBuilds() {
 
           <button 
             onClick={() => seeAllBuilds(currentUserId)}
-            className='text-lg text-primaryFontColor underline underline-offset-2'>See all builds</button>
+            className='text-lg text-primaryFontColor underline underline-offset-2 active:brightness-50'>See all builds</button>
 
           {/* Recent builds container */}
 
