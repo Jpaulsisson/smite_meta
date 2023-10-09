@@ -38,6 +38,7 @@ export type God = {
 
 export type Item = {
   id: number,
+  child_item_id: number,
   name: string,
   pic_url: string,
   restricted: string,

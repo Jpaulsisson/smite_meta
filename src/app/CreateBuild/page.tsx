@@ -13,7 +13,7 @@ import {
   godStatsCalculator,
   combineStats,
   itemWarningHelper,
-  checkItemsForEvolvedDupes,
+  checkItemsForChildItemDupes
 } from './buildLogicHelpers';
 import Image from 'next/image';
 import DropdownArrow from '@/resources/arrow-down.svg';
@@ -64,10 +64,13 @@ export default function CreateBuild() {
   const [buildStatsDropdown, setBuildStatsDropdown] = useState('active');
   const [buildPassivesDropdown, setBuildPassivesDropdown] = useState('active');
   const [toast, setToast] = useState('');
-  const [itemWarning, setItemWarning] = useState(false);
-  const [starterWarning, setStarterWarning] = useState(false);
-  const [glyphWarning, setGlyphWarning] = useState(false);
-  const [dupeItemWarning, setDupeItemWarning] = useState(false);
+  const [warnings, setWarnings] = useState({
+    itemWarning: false,
+    starterWarning: false,
+    glyphWarning: false,
+    childItemWarning: false,
+  })
+
   const [throttleBuildSave, setThrottleBuildSave] = useState(0);
 
   // Set item type warning
@@ -82,30 +85,54 @@ export default function CreateBuild() {
       physical_power > physical_power_base &&
       magical_power > magical_power_base
     )
-      setItemWarning(true);
-    else setItemWarning(false);
+    setWarnings((prev) => (
+      {...prev, itemWarning: true}
+      )) 
+    else setWarnings((prev) => (
+      {...prev, itemWarning: false}
+      )) ;
   }, [buildStats, buildItems, items]);
 
-  // Set starter, glyph, and dupeItem warnings
+  // Set starter, glyph, childItem and dupeItem warnings
   useEffect(() => {
     // Starter logic
     let starterCount = 0;
     buildItems.forEach((item) => {
       if (item.starter === true) starterCount += 1;
     });
-    starterCount > 1 ? setStarterWarning(true) : setStarterWarning(false);
+    starterCount > 1 ? 
+      setWarnings((prev) => (
+        {...prev, starterWarning: true}
+        )) 
+      : 
+      setWarnings((prev) => (
+        {...prev, starterWarning: false}
+        ))
 
     // Glyph logic
     let glyphCount = 0;
     buildItems.forEach((item) => {
       if (item.glyph === true) glyphCount += 1;
     });
-    glyphCount > 1 ? setGlyphWarning(true) : setGlyphWarning(false);
+    glyphCount > 1 ? 
+      setWarnings((prev) => (
+      {...prev, glyphWarning: true}
+      )) 
+      :
+      setWarnings((prev) => (
+        {...prev, glyphWarning: false}
+        )) 
 
-    // Dupe Item logic
-    const evolvedItemDupe = checkItemsForEvolvedDupes(buildItems);
-
-    evolvedItemDupe ? setDupeItemWarning(true) : setDupeItemWarning(false);
+    // Child Item logic
+    const childItem = checkItemsForChildItemDupes(buildItems);
+    childItem ? 
+      setWarnings((prev) => (
+        {...prev, childItemWarning: true}
+        ))
+      :
+      setWarnings((prev) => (
+        {...prev, childItemWarning: false}
+        )) 
   }, [buildItems]);
 
   // Keep build stats up-to-date
@@ -203,9 +230,6 @@ export default function CreateBuild() {
 
   return (
     <div className="w-full flex flex-col items-center justify-center mt-4">
-      {/* Goals: 
-          - make the save button obvious that the save worked.
-      */}
 
       {/* Build items containers + optional god name header */}
 
@@ -218,34 +242,33 @@ export default function CreateBuild() {
 
         {/* Item warning */}
 
-        {itemWarning && (
-          <p className="text-red-500 text-xs">
+        {warnings.itemWarning && (
+          <p className="text-red-500 text-xs text-center">
             * Warning: Gods must use items of same type
           </p>
         )}
 
         {/* Starter warning */}
 
-        {starterWarning && (
-          <p className="text-red-500 text-xs">
+        {warnings.starterWarning && (
+          <p className="text-red-500 text-xs text-center">
             * Warning: Only one starter item is allowed
           </p>
         )}
 
         {/* Glyph warning */}
 
-        {glyphWarning && (
-          <p className="text-red-500 text-xs">
+        {warnings.glyphWarning && (
+          <p className="text-red-500 text-xs text-center">
             * Warning: Only one glyph upgrade is allowed
           </p>
         )}
+        
+        {/* Child item warning */}
 
-        {/* Dupe item warning */}
-
-        {dupeItemWarning && (
-          <p className="text-red-500 text-xs">
-            * Warning: You have a stacked and unstacked version of the same item
-            in your build
+        {warnings.childItemWarning && (
+          <p className="text-red-500 text-xs text-center">
+            * Warning: You have a tier 4 item and it&apos;s child item in the build
           </p>
         )}
 
@@ -366,7 +389,7 @@ export default function CreateBuild() {
                 id="toast"
                 className={`${
                   toast === 'active' ? 'block' : 'hidden'
-                } absolute inset-0 m-auto`}
+                } absolute inset-0 m-auto bg-green-200 border-thin border-primaryFontColor rounded-full w-full aspect-square p-4`}
               />
             </button>
           ) : (
