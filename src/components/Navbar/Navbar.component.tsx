@@ -17,7 +17,7 @@ const exoFont = Exo_2({
 
 export default function Navbar() {
 
-  const { currentSession, currentUsername, currentUserId } = useUserContext();
+  const { currentSession, currentUsername, hashedId } = useUserContext();
 
   return (
     <nav className={`p-8 grid grid-cols-10 items-center ${exoFont.className} text-center`}>
@@ -38,7 +38,7 @@ export default function Navbar() {
         </div>
         :
         <div className="col-start-9 md:col-start-10 md:col-span-1 col-span-2 flex flex-col gap-2 md:w-1/2">
-          <Link href={`/User/${currentUserId}`} className="border-thin border-primaryFontColor rounded-sm p-2">
+          <Link href={`/User/${hashedId}`} className="border-thin border-primaryFontColor rounded-sm p-2">
             <Image src={AvatarPlaceHolder} alt='avatar placeholder'  className='max-h-[40px]' />
           </Link>
           <button className="text-neutral text-sm border-thin border-primaryFontColor rounded-sm" onClick={signOut}>Log Out</button>

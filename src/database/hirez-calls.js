@@ -113,19 +113,30 @@ const getItems = async () => {
 
 // GET player profile by username 
 // * requires the player name from the user //
-const getPlayer = async (playerName) => {
+export const getPlayer = async (playerName) => {
   const sessionId = await getSessionId();
   const response = await fetch(
     `${smiteAPI}/getplayerjson/${devId}/${playerSignature}/${sessionId}/${timestamp}/${playerName}`
   );
   const jsonData = await response.json();
-  console.log(jsonData);
+  return jsonData;
+};
+
+// GET Xbox player profile by username 
+// * requires the player name from the user //
+export const getXboxPlayer = async (playerName) => {
+  const sessionId = await getSessionId();
+  const response = await fetch(
+    `${smiteAPI}/getplayerjson/${devId}/${playerSignature}/${sessionId}/${timestamp}/${playerName}/10`
+  );
+  const jsonData = await response.json();
+  return jsonData;
 };
 
 // GET player match history //
 // * requires the internal playerId from Hirez //
 // * playerId can be obtained from the getPlayer function //
-const getPlayerMatchHistory = async (playerId) => {
+export const getPlayerMatchHistory = async (playerId) => {
   const sessionId = await getSessionId();
   const response = await fetch(
     `${smiteAPI}/getmatchhistoryjson/${devId}/${matchHistorySignature}/${sessionId}/${timestamp}/${playerId}`
@@ -310,6 +321,54 @@ export const addAllGodsToSupabase = async () => {
   }
 }
 
+// Update our Gods table info with newest patch from  hirez API //
+export const updateAllGodsOnSupabaseDB = async () => {
+  try {
+    const gods = await getGods();
+  
+    gods.forEach(async (god) => {
+      const { id, Name, AttackSpeed, AttackSpeedPerLevel, Health, HealthPerLevel, MagicalPower, MagicalPowerPerLevel, MagicProtection, MagicProtectionPerLevel, Mana, ManaPerLevel, PhysicalPower, PhysicalPowerPerLevel, PhysicalProtection, PhysicalProtectionPerLevel, Speed, Roles, Type, godCard_URL, AbilityId1, AbilityId2, AbilityId3, AbilityId4, AbilityId5 } = god;
+  
+      const { error } = await supabase
+      .from('gods')
+      .upsert({ 
+        id: id,
+        name: Name,
+        attack_speed: AttackSpeed,
+        attack_speed_per_level: AttackSpeedPerLevel, 
+        health: Health,
+        health_per_level: HealthPerLevel, 
+        magical_power: MagicalPower,
+        magical_power_per_level: MagicalPowerPerLevel,
+        magical_protection: MagicProtection,
+        magical_protection_per_level: MagicProtectionPerLevel,
+        mana: Mana,
+        mana_per_level: ManaPerLevel,
+        physical_power: PhysicalPower,
+        physical_power_per_level: PhysicalPowerPerLevel,
+        physical_protection: PhysicalProtection,
+        physical_protection_per_level: PhysicalProtectionPerLevel,
+        speed: Speed,
+        role: Roles,
+        type: Type,
+        pic_url: godCard_URL,
+        ability_id_1: AbilityId1,
+        ability_id_2: AbilityId2,
+        ability_id_3: AbilityId3,
+        ability_id_4: AbilityId4,
+        ability_id_5: AbilityId5, 
+      }, {
+        onConflict: 'id',
+        ignoreDuplicates: true
+      }).select();
+    })
+    console.log('all gods data is up to date.')
+  }
+  catch(err) {
+    console.error(err);
+  }
+}
+
 // Populate the Abilties table from the hirez API //
 export const addAllAbilitiesToSupabase = async () => {
   try {
@@ -424,6 +483,132 @@ export const addAllAbilitiesToSupabase = async () => {
   }
 }
 
+// Update our Abilities table info with newest patch from  hirez API //
+export const updateAllAbilitiesOnSupabaseDB = async () => {
+  try {
+    const gods = await getGods();
+  
+    gods.forEach(async (god) => {
+      const { error } = await supabase
+      .from('abilities')
+      .upsert([
+        { //Ability 1 start
+          id: god.Ability_1.Id,
+          description: god.Ability_1.Description.itemDescription.description,
+          cooldown: god.Ability_1.Description.itemDescription.cooldown,
+          mana_cost: god.Ability_1.Description.itemDescription.cost,
+          ability_type: god.Ability_1.Description.itemDescription.menuitems[0].value,
+          effect_1: god.Ability_1?.Description?.itemDescription?.rankitems[0]?.description,
+          effect_1_value: god.Ability_1?.Description?.itemDescription?.rankitems[0]?.value,
+          effect_2: god?.Ability_1?.Description?.itemDescription?.rankitems[1]?.description,
+          effect_2_value: god?.Ability_1?.Description?.itemDescription?.rankitems[1]?.value,
+          effect_3: god?.Ability_1?.Description?.itemDescription?.rankitems[2]?.description,
+          effect_3_value: god?.Ability_1?.Description?.itemDescription?.rankitems[2]?.value,
+          effect_4: god?.Ability_1?.Description?.itemDescription?.rankitems[3]?.description,
+          effect_4_value: god?.Ability_1?.Description?.itemDescription?.rankitems[3]?.value,
+          effect_5: god?.Ability_1?.Description?.itemDescription?.rankitems[4]?.description,
+          effect_5_value: god?.Ability_1?.Description?.itemDescription?.rankitems[4]?.value,
+          name: god.Ability_1.Summary,
+          pic_url: god.Ability_1.URL
+        }, //Ability 1 end
+        {  //Ability 2 start
+          id: god.Ability_2.Id,
+          description: god.Ability_2.Description.itemDescription.description,
+          cooldown: god.Ability_2.Description.itemDescription.cooldown,
+          mana_cost: god.Ability_2.Description.itemDescription.cost,
+          ability_type: god.Ability_2.Description.itemDescription.menuitems[0].value,
+          effect_1: god.Ability_2?.Description?.itemDescription?.rankitems[0]?.description,
+          effect_1_value: god.Ability_2?.Description?.itemDescription?.rankitems[0]?.value,
+          effect_2: god.Ability_2?.Description?.itemDescription?.rankitems[1]?.description,
+          effect_2_value: god.Ability_2?.Description?.itemDescription?.rankitems[1]?.value,
+          effect_3: god.Ability_2?.Description?.itemDescription?.rankitems[2]?.description,
+          effect_3_value: god.Ability_2?.Description?.itemDescription?.rankitems[2]?.value,
+          effect_4: god.Ability_2?.Description?.itemDescription?.rankitems[3]?.description,
+          effect_4_value: god.Ability_2?.Description?.itemDescription?.rankitems[3]?.value,
+          effect_5: god.Ability_2?.Description?.itemDescription?.rankitems[4]?.description,
+          effect_5_value: god.Ability_2?.Description?.itemDescription?.rankitems[4]?.value,
+          name: god.Ability_2.Summary,
+          pic_url: god.Ability_2.URL
+        }, //Ability 2 end
+        {  //Ability 3 start
+          id: god.Ability_3.Id,
+          description: god.Ability_3.Description.itemDescription.description,
+          cooldown: god.Ability_3.Description.itemDescription.cooldown,
+          mana_cost: god.Ability_3.Description.itemDescription.cost,
+          ability_type: god.Ability_3.Description.itemDescription.menuitems[0].value,
+          effect_1: god.Ability_3?.Description?.itemDescription?.rankitems[0]?.description,
+          effect_1_value: god.Ability_3?.Description?.itemDescription?.rankitems[0]?.value,
+          effect_2: god.Ability_3?.Description?.itemDescription?.rankitems[1]?.description,
+          effect_2_value: god.Ability_3?.Description?.itemDescription?.rankitems[1]?.value,
+          effect_3: god.Ability_3?.Description?.itemDescription?.rankitems[2]?.description,
+          effect_3_value: god.Ability_3?.Description?.itemDescription?.rankitems[2]?.value,
+          effect_4: god.Ability_3?.Description?.itemDescription?.rankitems[3]?.description,
+          effect_4_value: god.Ability_3?.Description?.itemDescription?.rankitems[3]?.value,
+          effect_5: god.Ability_3?.Description?.itemDescription?.rankitems[4]?.description,
+          effect_5_value: god.Ability_3?.Description?.itemDescription?.rankitems[4]?.value,
+          name: god.Ability_3.Summary,
+          pic_url: god.Ability_3.URL
+        }, //Ability 3 end
+        {  //Ability 4 start
+          id: god.Ability_4.Id,
+          description: god.Ability_4?.Description?.itemDescription?.description,
+          cooldown: god.Ability_4?.Description?.itemDescription?.cooldown,
+          mana_cost: god.Ability_4?.Description?.itemDescription?.cost,
+          ability_type: god.Ability_4?.Description?.itemDescription?.menuitems[0]?.value,
+          effect_1: god.Ability_4?.Description?.itemDescription?.rankitems[0]?.description,
+          effect_1_value: god.Ability_4?.Description?.itemDescription?.rankitems[0]?.value,
+          effect_2: god.Ability_4?.Description?.itemDescription?.rankitems[1]?.description,
+          effect_2_value: god.Ability_4?.Description?.itemDescription?.rankitems[1]?.value,
+          effect_3: god.Ability_4?.Description?.itemDescription?.rankitems[2]?.description,
+          effect_3_value: god.Ability_4?.Description?.itemDescription?.rankitems[2]?.value,
+          effect_4: god.Ability_4?.Description?.itemDescription?.rankitems[3]?.description,
+          effect_4_value: god.Ability_4?.Description?.itemDescription?.rankitems[3]?.value,
+          effect_5: god.Ability_4?.Description?.itemDescription?.rankitems[4]?.description,
+          effect_5_value: god.Ability_4?.Description?.itemDescription?.rankitems[4]?.value,
+          name: god.Ability_4.Summary,
+          pic_url: god.Ability_4.URL
+        }, //Ability 4 end
+        {  //Ability 5 start
+          id: god.Ability_5.Id,
+          description: god.Ability_5.Description.itemDescription.description,
+          cooldown: god.Ability_5.Description.itemDescription.cooldown,
+          mana_cost: god.Ability_5.Description.itemDescription.cost,
+          ability_type: god.Ability_5.Description.itemDescription.menuitems[0].value,
+          effect_1: god.Ability_5?.Description?.itemDescription?.rankitems[0]?.description,
+          effect_1_value: god.Ability_5?.Description?.itemDescription?.rankitems[0]?.value,
+          effect_2: god.Ability_5?.Description?.itemDescription?.rankitems[1]?.description,
+          effect_2_value: god.Ability_5?.Description?.itemDescription?.rankitems[1]?.value,
+          effect_3: god.Ability_5?.Description?.itemDescription?.rankitems[2]?.description,
+          effect_3_value: god.Ability_5?.Description?.itemDescription?.rankitems[2]?.value,
+          effect_4: god.Ability_5?.Description?.itemDescription?.rankitems[3]?.description,
+          effect_4_value: god.Ability_5?.Description?.itemDescription?.rankitems[3]?.value,
+          effect_5: god.Ability_5?.Description?.itemDescription?.rankitems[4]?.description,
+          effect_5_value: god.Ability_5?.Description?.itemDescription?.rankitems[4]?.value,
+          name: god.Ability_5.Summary,
+          pic_url: god.Ability_5.URL
+        } //Ability 5 end
+        ], {
+          onConflict: 'id',
+          ignoreDuplicates: true,
+          defaultToNull: true
+        }).select();
+        ;      
+    })
+
+    console.log('abilities table updated');
+  }
+  catch(err) {
+    console.error(err);
+  }
+}
+
+export const deleteAbilitiesTableInfo = async () => {
+const { error } = await supabase
+.from('abilities')
+.delete()
+.gt('id', 1)
+}
+
 // Populate the Items table from the hirez API //
 // * Because of the structure of Hirez's database this //
 // * this call has to be done in a very specific way //
@@ -467,3 +652,7 @@ export const addAllSkinsToSupabase = async () => {
   }
 }
 
+
+
+/////// CALL NOTES //////////
+// ABILITIES TABLE MUST UPDATE FIRST //

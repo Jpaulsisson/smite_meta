@@ -19,7 +19,7 @@ const quicksandFont = Quicksand({
 
 export default function BuildsDropdown() {
   
-  const { currentUserId, hashedId } = useUserContext();
+  const { hashedId } = useUserContext();
   const [isActive, setIsActive] = useState('');
 
   const handleToggle = () => {
@@ -68,7 +68,7 @@ export default function BuildsDropdown() {
 
           {/* Recommended builds page link */}
           <Link
-            href=""
+            href="/RecommendedBuilds"
             className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center justify-start p-2 border-2 border-yellow-600/70 rounded-md bg-slate-300/95 text-slate-800`}
           >
             Recommended Builds

@@ -154,7 +154,7 @@ export default function CreateBuild() {
     const current = Date.now();
 
     if (current - throttleBuildSave < 10000) {
-      return alert('Last build save still in progress...');
+      return alert('Build already saved');
     }
 
     setThrottleBuildSave(current);
