@@ -37,19 +37,17 @@ export default function LinkAccount() {
 
     // first we need to call the hirez api and check the given in-game name to make sure we get a match
     // if we get the player back correctly then we can push the rest to our database
-
+    let playerInfo = null;
     if (platform !== 'Xbox') {
-        const playerInfo = await getPlayer(smiteUsernameInput);  
-        
-        if (!playerInfo) return alert('That name could not be found in the Smite Database. Double check your spelling and capitalization as it must match EXACTLY how it appears in Smite.');
+      playerInfo = await getPlayer(smiteUsernameInput);  
     }
     if (platform === 'Xbox') {
-        const playerInfo = await getXboxPlayer(smiteUsernameInput);  
-        
-        if (!playerInfo) return alert('That name could not be found in the Smite Database. Double check your spelling and capitalization as it must match EXACTLY how it appears in Smite.');
+      playerInfo = await getXboxPlayer(smiteUsernameInput);
     }
-
-    
+    if (playerInfo.length === 0) {
+      return alert('That name could not be found in the Smite Database. Double check your spelling and capitalization as it must match EXACTLY how it appears in Smite.');
+    }
+    console.log(playerInfo);
   }
 
   // const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -70,6 +68,8 @@ export default function LinkAccount() {
         match history
       </h2>
 
+      <button className='text-5xl text-white' onClick={() => console.log(getPlayer('Pro1337Shot'))}>Get Player</button>
+
       {/* Form start */}
 
       <form
@@ -88,7 +88,7 @@ export default function LinkAccount() {
           placeholder="What should we call you?"
           className="p-2 text-black text-xl placeholder:text-sm placeholder:text-black/60"
         />
-        <fieldset className="grid grid-cols-2 gap-6 md:flex md:justify-evenly  border-thin border-neutral p-2">
+        <fieldset className="grid grid-cols-2 gap-6 md:flex md:justify-evenly  border-thin border-neutral p-2 pb-6">
           <legend className="p-2">Choose a platform *</legend>
           <div className="flex gap-2 items-center">
             <input
