@@ -3,7 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { useUserContext } from '@/contexts/user.context';
 import { getUserBuildsPreview } from '@/database/supabase';
+import Image from 'next/image';
 import Link from 'next/link';
+import { useDataContext } from '@/contexts/data.context';
 
 type Build = {
   created_at: string,
@@ -19,7 +21,8 @@ type Build = {
 
 export default function UserProfile() {
 
-  const { currentUserId, currentUsername } = useUserContext();
+  const { currentUserId, currentUsername, hashedId } = useUserContext();
+  const { gods, items } = useDataContext();
 
   const [buildsPreview, setBuildsPreview] = useState<Build[]>()
 
@@ -32,22 +35,31 @@ export default function UserProfile() {
     
   }, [currentUserId]);
 
+  
 
   return (
     <div className='p-4 md:p-12'>
       {/* Goals:
             - Button to link your smite gamertag to your profile
-            - Link to see your match history
             - Saved builds preview
             */}
           
           {/* Link to account link form */}
 
       {!currentUsername ?
-        <Link href={'/LinkAccount'} className='text-2xl text-primaryFontColor underline underline-offset-4 tracking-wide'>Link your Smite Username to your Smite Meta profile</Link> : null}
+        <Link href={'/LinkAccount'} className='text-xl text-primaryFontColor underline underline-offset-4 tracking-wide'>Link your Smite Username to your Smite Meta profile</Link> : null}
 
-
-      
+        <h2>Latest builds</h2>
+        <Link href={`/User/${hashedId}/Builds`}>
+          {buildsPreview?.map((build, index) => {
+            return (
+              <div key={index}>
+                {/* <Image src={} /> */}
+              </div>
+            )
+          })}
+        </Link>
+        
     </div>
   )
 }

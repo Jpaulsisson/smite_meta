@@ -80,7 +80,7 @@ const testSession = async () => {
 };
 
 // GET all god data from hirez API //
-const getGods = async () => {
+export const getGods = async () => {
   const sessionId = await getSessionId();
   const response = await fetch(
     `${smiteAPI}/getgodsjson/${devId}/${godsSignature}/${sessionId}/${timestamp}/1`
@@ -102,7 +102,7 @@ const getGodsWithSessionId = async (sessionId) => {
 }
 
 // GET all item data from hirez API //
-const getItems = async () => {
+export const getItems = async () => {
   const sessionId = await getSessionId();
   const response = await fetch(
     `${smiteAPI}/getitemsjson/${devId}/${itemsSignature}/${sessionId}/${timestamp}/1`

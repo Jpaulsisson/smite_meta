@@ -38,9 +38,9 @@ export default function LinkAccount() {
     // first we need to call the hirez api and check the given in-game name to make sure we get a match
     // if we get the player back correctly then we can push the rest to our database
     let playerInfo = null;
-    if (platform !== 'Xbox') {
-      playerInfo = await getPlayer(smiteUsernameInput);  
-    }
+    // if (platform !== 'Xbox') {
+    //   playerInfo = await getPlayer(smiteUsernameInput);  
+    // }
     if (platform === 'Xbox') {
       playerInfo = await getXboxPlayer(smiteUsernameInput);
     }
@@ -58,6 +58,15 @@ export default function LinkAccount() {
   //     alert('You rock! Cancel That! JK, your password and confirm password are different. Try again');
   //     return;
   //   }
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({ name: 'Pro1337Shot'})
+  }
+
+  const getPlayer = async() => {
+    const player = await fetch('/api/smite/handleGetPlayer/', options);
+    
+  }
 
   return (
     <div className="m-auto flex flex-col items-center justify-center text-neutral">
@@ -67,8 +76,6 @@ export default function LinkAccount() {
         This will allow us to save you as a member of our site and show you your
         match history
       </h2>
-
-      <button className='text-5xl text-white' onClick={() => console.log(getPlayer('Pro1337Shot'))}>Get Player</button>
 
       {/* Form start */}
 

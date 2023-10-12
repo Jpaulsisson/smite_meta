@@ -21,7 +21,10 @@ import FolderCheck from '@/resources/folder-check.svg';
 import { addBuild } from '@/database/supabase';
 import SignIn from '@/components/SignIn/SignIn.component';
 
+
+
 export default function CreateBuild() {
+
   // Context variable declarations
   const { gods, items } = useDataContext();
   const { currentUserId } = useUserContext();
@@ -70,7 +73,6 @@ export default function CreateBuild() {
     glyphWarning: false,
     childItemWarning: false,
   })
-
   const [throttleBuildSave, setThrottleBuildSave] = useState(0);
 
   // Set item type warning
@@ -228,6 +230,8 @@ export default function CreateBuild() {
     setIsChecked((prev) => !prev);
   }
 
+  const warningsCheck = Object.values(warnings).every(value => value === false);
+
   return (
     <div className="w-full flex flex-col items-center justify-center mt-4">
 
@@ -377,10 +381,13 @@ export default function CreateBuild() {
 
           {currentUserId ? (
             <button
+              disabled={!warningsCheck}
               onClick={addUserBuildToDatabase}
-              className="relative w-full border-thin border-primaryFontColor rounded-full col-start-4 row-start-2 p-2 bg-secondaryBgColor text-sm flex items-center justify-center active:brightness-50"
+              className="relative w-full border-thin border-primaryFontColor rounded-full col-start-4 row-start-2 p-2 bg-secondaryBgColor text-sm flex items-center justify-center active:brightness-50 disabled:brightness-50 disabled:bg-stone-500 disabled:border-slate-600"
             >
-              <span>Save build</span>
+              {warningsCheck ? 
+              <span>Save build</span> : <span>Cancel That!</span>}
+
               <Image
                 src={FolderCheck}
                 alt="folder with check"
