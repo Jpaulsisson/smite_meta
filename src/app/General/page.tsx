@@ -1,52 +1,127 @@
 import React from 'react'
+import Link from 'next/link';
+import Image from 'next/image';
+import Youtube from '@/resources/youtube.svg';
+import Twitch from '@/resources/twitch.svg';
+import Facebook from '@/resources/facebook.svg';
+import Twitter from '@/resources/twitter.svg';
+import Discord from '@/resources/discord.svg';
+import Insta from '@/resources/instagram.svg';
+
+
+const generalContent = [
+  {
+    name: 'SmiteOfficial',
+    youtubeLink: 'https://www.youtube.com/@smitegame',
+    embed: '<iframe width="321" src="https://www.youtube.com/embed/7RzXrjhUdSM?si=C1heKjD32bNv_-x8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
+  },
+  {
+    name: 'SoloDoubleJ',
+    youtubeLink: 'https://www.youtube.com/@soloDoubleJ',
+    embed: '<iframe width="321" src="https://www.youtube.com/embed/JvcNfbuxfgg?si=brWUZ31yxZ_crJGo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
+    twitterLink: 'https://www.twitter.com/SoloDoubleJ',
+    twitterShort: 'twitter.com/SoloDoubleJ',
+    twitchLink: 'https://www.twitch.tv/solodoublej',
+    twitchShort: 'twitch.tv/solodoublej'
+  },
+  {
+    name: 'KittenOfDoom',
+    youtubeLink: 'https://www.youtube.com/@KittenOfDoom',
+    embed: '<iframe width="321" src="https://www.youtube.com/embed/Yobg6fBQ1EI?si=bXSto_IpiYF59QSK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
+    twitterLink: 'https://www.twitter.com/Kitten0fDoom',
+    twitterShort: 'twitter.com/Kitten0fDoom',
+    instagramLink: 'https://www.instagram.com/Kitten0fDoom',
+    instagramShort: 'instagram.com/Kitten0fDoom',
+    facebookLink: 'https://www.facebook.com/Kitten0fDoom',
+    facebookShort: 'facebook.com/Kitten0fDoom',
+    discordLink: 'https://discord.com/invite/aEpVhXN',
+    discordShort: 'discord.join.Kitten0fDoom',
+  },
+  {
+    name: 'El leon',
+    youtubeLink: 'https://www.youtube.com/@ELLEONGAMING',
+    embed: '<iframe width="321" src="https://www.youtube.com/embed/X2rybmf4Yck?si=UTqDFaFmbVpmWu_V" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
+    twitterLink: 'https://www.twitter.com/SSGELLEON',
+    twitterShort: 'twitter.com/SSGELLEON',
+    instagramLink: 'https://www.instagram.com/andyboii',
+    instagramShort: 'instagram.com/andyboii',
+    twitchLink: 'https://www.twitch.tv/elleon',
+    twitchShort: 'twitch.tv/elleon',
+  },
+  {
+    name: 'Inters3ct',
+    youtubeLink: 'https://www.youtube.com/@Inters3ct/',
+    embed: '<iframe width="321" src="https://www.youtube.com/embed/UeMcDz_NPbg?si=KSUGqAbvdCAzJrLF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
+    discordLink: 'https://www.discord.gg/wpNKHBs',
+    discordShort: 'discord.gg/wpNKHBs',
+  },
+  {
+    name: 'Incon',
+    youtubeLink: 'https://www.youtube.com/@InconSSG',
+    embed: '<iframe width="321" src="https://www.youtube.com/embed/2g-7H7AGFno?si=m9cqenPeJU0ES3I7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
+    twitchLink: 'https://www.twitch.tv/Incon',
+    twitchShort: 'twitch.tv/Incon',
+    twitterLink: 'https://www.twitter.com/SSG_Incon',
+    twitterShort: 'twitter.com/SSG_Incon',
+  }
+]
 
 export default function General() {
+
   return (
-    <div>
-      {/* This should be a page of every helpful resource we can scrounge together, organized neatly and displayed 
+    <div className='p-4 md:p-16 text-neutral flex flex-col gap-20'>
+
+      <h2 className='text-4xl md:text-7xl'>Smite Content</h2>
+
+      {/* Content mapping */}
       
-      GENERIC/GENERAL CONTENT CREATORS
-      -SmiteOfficial
-        -youtube: https://www.youtube.com/@smitegame
-        -facebook: https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqbjlvak1LNlFiVzEwQ19QTUtjWWR6Mk9TUXRPQXxBQ3Jtc0tseEk1dldmYXVLdVdzTmp0WXpubldHTnJNYVlSa0lWYUtPRHZ5RVVnWFp0QTFCTXBiZEM3RFhxcU1lLVdoWWFDbHdralZKcEJja2kwU3A2dWx3VldBWGJrLVdBejdZaWxIWEdVX0pFOW1YczFYUGxZQQ&q=http%3A%2F%2Ffacebook.com%2Fsmitegame
-        -twitter: https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqblFXSUNRbVJUMmZZM1ExNGxzRkotbnhpNFBUd3xBQ3Jtc0tsQjA4NUVkZ0ZVZ3oxcUFYWlI0d1pCX1JIVWpIVy1xaVpKZWF0eTR3UWFCVmtWLU1HNTBDeHZpWVhDazVkWTNpRmVidDVtNTVreEhIZzlzRkR4dXhGbVozRGxoaXhlOGdKYUFGaVVESEVTVHI3YzhlMA&q=http%3A%2F%2Ftwitter.com%2Fsmitegame
-        
-      -KittenOfDoom
-        -youtube: https://www.youtube.com/@KittenOfDoom
-        -twitter: https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqbGVCQWpjY1ViSnJvam03bGRldkpueTN0TzViQXxBQ3Jtc0trUmFpT3k0SGxYckpDZldIaDAzOXVJZkNrVU9BSGR6TE5EYk1aOHhUb0xKZW5vcWdUYkJNU1RCbDVlNVNrc2ZseHNJbGhxY3FuUUt6NGlZTzJJTVBRaDRLU29QNXpDcFFLWldlVzhVdkUzWkVxVk9kbw&q=https%3A%2F%2Fwww.twitter.com%2FKitten0fDoom
-        -tiktok: https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqa0NzVENTTXdOek1LMHhrdkN6NExTLVNwb1B6UXxBQ3Jtc0ttMGdVM01kVXFILThYU2F2c2pDaUxQb3ZyUkljNktQR056T1V3M08wamFuUG1LUkpVLVp5QWV5aWR5bV9OdXhTVkd0TkhNU1BVQWVoUmRtcG80QU4zMm1MUlB2OE1pVS1WcGtYTThUZW0tVW42RXhXTQ&q=https%3A%2F%2Fwww.tiktok.com%2F%40kitten0fdoom
-        -instagram: https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqbnRoWENwQ0p4WlhyXzdDVkJsZlhRdXN6YUZzQXxBQ3Jtc0ttVzlUVUgtNi1xVmI2Y3g1UTBiMUF5V1ZxeWVoMU5IdDA1Yk8yVW94V0tFclJodngwbGhwLUt0YXlNUGVITnR1QnBmRGU3QkoxOGdWa1pUSjQ3bXZ1T2pmcFBCLXF5YnM4MUxxSWQxRENGbnpjb1A3dw&q=instagram.com%2FKitten0fDoom
-        -facebook: https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqa045V1Yzajg1ZmdVQ1pieE44ZnBrMHlZdmYxd3xBQ3Jtc0tsbno2NkVqTHd2MmFteHFCNHRGQXhCUXRqMXp6UFBOcUFYOXkxTUtzUkJtZmk2SXJTQ3FfSE1MNnByZDk2cmhhUFJnVTJJeDVPejNiUVBGN0Y1Z014MkdhaU1weTNLLVROdlJVTGJRMV9vOW5JdTRUYw&q=www.facebook.com%2FKitten0fDoom
-        -twitch: https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqbEtLU2JxeG51cTRnQlV5dDBSdlM4R3diaEk0d3xBQ3Jtc0ttbGlZYmN6OFdnYmNJX3pqdF9jYUU3MFlZeTVfdDF1VTU1dFlrM016MkJpSElOb0VPaDc4bUE3MldUSHlkaV9KUk1XWThvZnhOQ2dUYmJlNTZFeG1td2J6cERybjk1akJZeUZobmZRb2xnVXMwZmRtQQ&q=https%3A%2F%2Fwww.twitch.tv%2Fkittenofdoom
-        -discord: https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqbUY1QlpfaW84NGhXSDB1VGo5NklQOFhWMm1zQXxBQ3Jtc0tsc3FURWVLQ1FWT3ZESzdxYm9XUndtTVhFYjNBLS12cVVtbEowYkx1a2JsZUI5MmYtZFVJMnAwUmVTX2pxd2tCNThtRHl3WnVnSlZVMnhVX3cyS1VIVFczZzdfUE1aRmttNkV1TDZhNXRaY2pFX1R5bw&q=https%3A%2F%2Fdiscord.gg%2FaEpVhXN
-
-      -El Leon
-        -youtube: https://www.youtube.com/@ELLEONGAMING
-        -twitter: https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqbFpzMHFLYlRxVlIxVFpZSktWMkNKNGRITXp0Z3xBQ3Jtc0tsMFNxQk9NNk5Ca3NCbUNtS1NRMGNVd2dRbWhUOGpTNV9RV2R6WmR4elFCaHM5Y0hSQTUtWnhGUEl1SDZMMFdlc2tVbmQ3cG9Ddkhndk51ZmtudVNEVHBoN2d4Yko3dzE4QTB1bl9FcUxPY1daMmJYcw&q=https%3A%2F%2Ftwitter.com%2FSSGELLEON
-        -instagram: https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqbDZ3U3BPQi05VUVtWFQtS091NG15cG1aOExwUXxBQ3Jtc0tseDFNS1kyR3FKUzRYbE9KTGJVQmI0VTE4djdwWGJYUGk1Z2lTUE9OWVZRY203aWJ6aUIzWGczWW1UTnlibWwxTUtSWmVwNHNTYl9XblMyZUs5ZkY3WWxPRjFmUHFvb2tfb3FSWlpsTUNVNjRhRlplMA&q=https%3A%2F%2Fwww.instagram.com%2Fandyboii
-        -twitch: https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqa1c1MWprbVV5ODh3N1NWUWt1d3ZLMW15S3owUXxBQ3Jtc0tuS2stUXpaQjByQmJLckdXRUh1dkhhTnBwZHZ0aTZWMVdINXR0NkdxOUVhZFRYSW9CNGdnVFV5Wm5DZjZ6OFE5UHpwakxWSmx4Zjc5MFlWRzZ2M1owYmlBNVZvbGVBNGRVMUZHcTRRX2QtU2FRaE12NA&q=https%3A%2F%2Fwww.twitch.tv%2Felleon
-        -tiktok: https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqa1V2OWZFQU5KSVNuZmtpRlh6RXFhUTlnb1prQXxBQ3Jtc0tuX2VmdjU4NjRlckdaZVEyYWxKYktIVFlfZmpnZWJFV0NWRHllc1JQN2xuV0pndlBzOVlqZTFOMXJPSm5MVndPUFNoaDJNQjcyQ09qaVlwSWM1WjhLX0xZYVJiUUptY21sVUZpS2J1TW44TUZ3ZEttSQ&q=https%3A%2F%2Fwww.tiktok.com%2F%40ttvelleon
-
-      - BunnyWinterLily
-        -twitch: twitch.tv/bunnywinterlily
-        -twitter: twitter.com/blackbunny072
-        -discord: discord.gg/thebunnypalace
-      
-      -Inters3ct
-        -discord: https://discord.gg/wpNKHBs
-        -youtube: https://www.youtube.com/@Inters3ct
-
-      -SoloDoubleJ
-        -Youtube: https://www.youtube.com/@soloDoubleJ
-        -Twitter: https://www.twitter.com/SoloDoubleJ
-        -Twitch: twitch.tv/solodoublej
-
-      -Incon
-        -youtube: https://youtube.com/channel/UCIDMkgbTRWCYvxALvCXCPUQ
-        -twitch: https://twitch.tv/Incon
-        -twitter: https://twitter.com/SSG_Incon
-        -instagram: https://www.instagram.com/ssg_incon/
-      */}
+      {generalContent.map((content) => {
+        const { name, youtubeLink, embed } = content;
+        return (
+          <div key={name} className='flex flex-col gap-2 md:text-2xl md:flex-row '>
+            <div className='flex flex-col gap-3 '>
+              <Link href={youtubeLink} className='flex items-center gap-3 text-primaryFontColor text-2xl md:text-4xl underline'>
+                {name}
+                <Image src={Youtube} alt='Youtube' width={20} height={20} />
+              </Link>
+              <div dangerouslySetInnerHTML={{__html: embed}}></div>
+            </div>
+            <div className='flex flex-col justify-center'>
+              {content.twitchLink ?
+              <div className='flex gap-3'>
+                <Image src={Twitch} alt='Twitch' width={20} height={20} />
+                <Link className='underline' href={content.twitchLink}>{content.twitchShort}</Link>
+              </div>
+              : null }
+              {content.twitterLink ?
+              <div className='flex gap-3'>
+                <Image src={Twitter} alt='Twitter' width={20} height={20} />
+                <Link className='underline' href={content.twitterLink}>{content.twitterShort}</Link>
+              </div>
+              : null }
+              {content.instagramLink ?
+              <div className='flex gap-3'>
+                <Image src={Insta} alt='Instagram' width={20} height={20} />
+                <Link className='underline' href={content.instagramLink}>{content.instagramShort}</Link>
+              </div>
+              : null }
+              {content.discordLink ?
+              <div className='flex gap-3'>
+                <Image src={Discord} alt='discord' width={20} height={20} />
+                <Link className='underline' href={content.discordLink}>{content.discordShort}</Link>
+              </div>
+              : null }
+              {content.facebookLink ?
+              <div className='flex gap-3'>
+                <Image src={Facebook} alt='facebook' width={20} height={20} />
+                <Link className='underline' href={content.facebookLink}>{content.facebookShort}</Link>
+              </div>
+              : null }
+            </div>
+            
+          </div>
+        )
+      })}
     </div>
   )
 }

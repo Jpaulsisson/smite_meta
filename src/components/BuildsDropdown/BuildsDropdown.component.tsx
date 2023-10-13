@@ -67,12 +67,12 @@ export default function BuildsDropdown() {
           </Link>
 
           {/* Recommended builds page link */}
-          <Link
+          {/* <Link
             href="/RecommendedBuilds"
             className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center justify-start p-2 border-2 border-yellow-600/70 rounded-md bg-slate-300/95 text-slate-800`}
           >
             Recommended Builds
-          </Link>
+          </Link> */}
         </div>
       </div>
     </>

@@ -31,7 +31,7 @@
 
 html {
   background: 
-  linear-gradient( hsl(221, 45%, 11.8%), hsl(215, 100%, 4%)),
+  linear-gradient(hsl(221, 45%, 11.8%), hsl(215, 100%, 4%)),
   hsl(215, 100%, 4%);
 }
 
@@ -42,6 +42,7 @@ img {
 
 body {
   min-height: 100vh;
+
 }
 
 .home-page-link {

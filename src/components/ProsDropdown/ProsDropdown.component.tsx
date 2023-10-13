@@ -30,15 +30,12 @@ export default function ProsDropdown() {
           <Image src={DropdownArrow} alt='dropdown arrow' width={15} className={`${isActive === 'active' ? 'rotate-0 mix-blend-difference' : '-rotate-90 '}`} />
         </button>
         <div className={`${isActive} dropdown-content w-full h-full grid grid-cols-2 gap-1 text-2xl`}>
-          <Link href="/General" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-100/95 border-2 border-yellow-600/70 rounded-md`}>General</Link>
-          <Link href="/Mid" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-100/95 border-2 border-yellow-600/70 rounded-md`}>Mid</Link>
-          <Link href="/Carry" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-200/95 border-2 border-yellow-600/70 rounded-md`}>Carry</Link>
-          <Link href="/Jungle" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-200/95 border-2 border-yellow-600/70 rounded-md`}>Jungle</Link>
-          <Link href="/Solo" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-300/95 border-2 border-yellow-600/70 rounded-md`}>Solo</Link>
-          <Link href="/Support" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-300/95 border-2 border-yellow-600/70 rounded-md`}>Support</Link>
-          <Link href="/Joust" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-400/95 border-2 border-yellow-600/70 rounded-md`}>Joust</Link>
-          <Link href="/Duel" className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-400/95 border-2 border-yellow-600/70 rounded-md`}>Duel</Link>
-
+          <Link href="/General" className={`${isActive} dropdown-item w-full h-full min-h-[50px] flex items-center p-2 bg-slate-100/95 border-2 border-yellow-600/70 rounded-md`}>General</Link>
+          <Link href="/Mid" className={`${isActive} dropdown-item w-full h-full min-h-[50px] flex items-center p-2 bg-slate-100/95 border-2 border-yellow-600/70 rounded-md`}>Mid</Link>
+          <Link href="/Carry" className={`${isActive} dropdown-item w-full h-full min-h-[50px] flex items-center p-2 bg-slate-200/95 border-2 border-yellow-600/70 rounded-md`}>Carry</Link>
+          <Link href="/Jungle" className={`${isActive} dropdown-item w-full h-full min-h-[50px] flex items-center p-2 bg-slate-200/95 border-2 border-yellow-600/70 rounded-md`}>Jungle</Link>
+          <Link href="/Solo" className={`${isActive} dropdown-item w-full h-full min-h-[50px] flex items-center p-2 bg-slate-300/95 border-2 border-yellow-600/70 rounded-md`}>Solo</Link>
+          <Link href="/Support" className={`${isActive} dropdown-item w-full h-full min-h-[50px] flex items-center p-2 bg-slate-300/95 border-2 border-yellow-600/70 rounded-md`}>Support</Link>
         </div>
       </div>
     </>

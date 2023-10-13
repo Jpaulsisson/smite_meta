@@ -44,24 +44,27 @@ export default function GodsItemsDropdown() {
         <div
           className={`${isActive} dropdown-content w-full h-full grid grid-rows-3 gap-16 text-2xl`}
         >
+          {/* Gods link */}
           <Link
             href="/Gods"
             className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-100/95 border-2 border-yellow-600/70 rounded-md`}
           >
             Gods
           </Link>
+
+          {/* Items link */}
           <Link
             href="/Items"
             className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-200/95 border-2 border-yellow-600/70 rounded-md`}
           >
             Items
           </Link>
-          <Link
+          {/* <Link
             href="/RecommendedItems"
             className={`${isActive} dropdown-item w-full h-full min-h-[60px] flex items-center p-2 bg-slate-300/95 border-2 border-yellow-600/70 rounded-md`}
           >
             Tier Lists
-          </Link>
+          </Link> */}
         </div>
       </div>
     </>

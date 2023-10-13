@@ -3,7 +3,7 @@
 import { Exo_2 } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import AvatarPlaceHolder from "../../resources/avatar.svg";
+import LinkArrow from "../../resources/arrow-up-right.svg";
 import SmiteLogo from '../../resources/smite_logo.png';
 import { useUserContext } from "@/contexts/user.context";
 import SignInForm from "../SignIn/SignIn.component";
@@ -17,34 +17,46 @@ const exoFont = Exo_2({
 
 export default function Navbar() {
 
-  const { currentSession, currentUsername, hashedId } = useUserContext();
+  const { currentSession, hashedId } = useUserContext();
 
   return (
-    <nav className={`p-8 grid grid-cols-10 items-center ${exoFont.className} text-center`}>
-      <Link href='/' className={`col-start-4 col-end-8 md:col-start-1 md:col-end-2 text-primaryFontColor text-3xl flex flex-col items-center`}>
-        <h1 className='w-full h-full'>
+    <nav className={`p-6 grid grid-cols-10 items-center ${exoFont.className} text-center`}>
+
+      {/* Logo and link to home page */}
+
+      <Link href='/' className={`col-start-4 col-end-8 md:col-start-1 md:col-end-2 md:row-span-2 text-primaryFontColor text-3xl flex flex-col items-center`}>
+        <h1 className='w-full h-full flex items-center justify-center flex-col'>
           <Image src={SmiteLogo} alt='Smite logo' />
           META
         </h1>
       </Link>
-      {!currentUsername ?
-        <h2 className="text-neutral text-6xl hidden md:block md:col-start-3 md:col-end-9">Welcome, You Rock!</h2>
-        :
-        <h2 className="text-neutral text-6xl hidden md:block md:col-start-3 md:col-end-9">Welcome, {currentUsername}</h2>
-        }
+
+      {/* Welcome header for desktop */}
+
+      <h2 className="text-neutral text-6xl row-span-full hidden md:block col-start-3 col-end-9">Welcome, You Rock!</h2>
+
+      {/* Sign in or Log out */}
+
+      {!currentSession ? 
+
+        // No Session ? Sign in or Sign up
+      <div className="w-full col-start-9 col-span-2 p-2">
+        <SignInForm />
+      </div>
+      :
+
+      // Session is active ? Link to profile page and log out button
+      <div className="col-start-10 md:row-start-2 col-span-1 flex flex-col gap-2 md:w-1/2">
+        <button className="text-neutral text-sm md:text-lg" onClick={signOut}>Log Out</button>
+      </div>
+      }
+
       {!currentSession ?
-        <div className="w-full col-start-9 col-span-2 p-2">
-          <SignInForm />
-        </div>
+        null
         :
-        <div className="col-start-9 md:col-start-10 md:col-span-1 col-span-2 flex flex-col gap-2 md:w-1/2">
-          <Link href={`/User/${hashedId}`} className="border-thin border-primaryFontColor rounded-sm p-2">
-            <Image src={AvatarPlaceHolder} alt='avatar placeholder'  className='max-h-[40px]' />
-          </Link>
-          <button className="text-neutral text-sm border-thin border-primaryFontColor rounded-sm" onClick={signOut}>Log Out</button>
-        </div>
-        }
-      
+        <Link href={`/User/${hashedId}`} className="col-start-1 md:col-start-10 row-start-1 text-sm md:text-xl text-neutral p-2 flex">
+        My META
+      </Link>}
     </nav>
   )
 }

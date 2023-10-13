@@ -39,7 +39,7 @@ export default function SignIn() {
 
   return (
     <div className={`${font.className}`}>
-      <button onClick={handleModalToggle} className='uppercase text-primaryFontColor'>Sign In</button>
+      <button onClick={handleModalToggle} className='uppercase text-neutral'>Sign In</button>
       <ReactModal
       isOpen={isOpen}
       contentLabel='sign in form'

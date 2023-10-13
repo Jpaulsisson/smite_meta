@@ -86,8 +86,11 @@ export type Ability = {
 
 type DataContext = {
   gods: God[] | undefined,
+  findGod: (god_id: number) => God | undefined,
   items: Item[] | undefined,
+  findItem: (item_id: number) => Item | undefined,
   abilities: Ability[] | undefined,
+  formatTimestamp: (timestamp: string) => { formattedDate: string, formattedTime: string }
 }
 
 const DataContext = createContext<DataContext | null>(null);
@@ -97,6 +100,28 @@ export default function DataContextProvider({ children }: DataContextProviderPro
   const [gods, setGods] = useState<God[] | undefined>(undefined);
   const [items, setItems] = useState<Item[] | undefined>([]);
   const [abilities, setAbilities] = useState<Ability[] | undefined>(undefined);
+
+  // Format "created_at" for use
+function formatTimestamp(timestamp: string) {
+  const date = new Date(timestamp);
+  const time = new Date(timestamp);
+  const formattedDate =  date.toLocaleDateString('en-US', {year: 'numeric', month: '2-digit', day: '2-digit'});
+  const formattedTime = time.toLocaleTimeString('en-US', {hour: 'numeric', minute: 'numeric'})
+  return {
+    formattedDate: formattedDate,
+    formattedTime: formattedTime
+  };
+}
+
+  const findItem = (item_id: number) => {
+    const target = items?.find(item => item.id === item_id);
+    return target;
+  }
+
+  const findGod = (god_id: number) => {
+    const target = gods?.find(god => god.id === god_id);
+    return target;
+  }
 
   useEffect(() => {
     const dataFetch = async () => {
@@ -121,8 +146,11 @@ export default function DataContextProvider({ children }: DataContextProviderPro
     <DataContext.Provider
       value={{
         gods,
+        findGod,
         items,
-        abilities
+        findItem,
+        abilities,
+        formatTimestamp
       }}
     >
       {children}

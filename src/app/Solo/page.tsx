@@ -1,34 +1,106 @@
 import React from 'react'
+import Link from 'next/link';
+import Image from 'next/image';
+import Youtube from '@/resources/youtube.svg';
+import Twitch from '@/resources/twitch.svg';
+import Twitter from '@/resources/twitter.svg';
+import Discord from '@/resources/discord.svg';
+import Insta from '@/resources/instagram.svg';
+
+
+const soloContent = [
+  {
+    name: 'fineokay',
+    youtubeLink: 'https://www.youtube.com/@DudeImFonz',
+    embed: '<iframe width="321" src="https://www.youtube.com/embed/VTrJTCNCZu0?si=ilsEqA4elt4xIlNu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
+    twitchLink: 'https://www.twitch.tv/fineokay',
+    twitchShort: 'twitch.tv/fineokay',
+    twitterLink: 'https://www.twitter.com/fineokay_',
+    twitterShort: 'twitter.com/fineokay_',
+  },
+  {
+    name: 'MAST',
+    youtubeLink: 'https://www.youtube.com/channel/UCU0oLTV2RO-l4uUkQVy2TvA',
+    embed: '<iframe width="321" src="https://www.youtube.com/embed/8hcshJ3oIls?si=ehN8jB2PH2R8WKut" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
+    twitchLink: 'https://twitch.tv/CallMeMast',
+    twitchShort: 'twitch.tv/CallMeMast',
+    twitterLink: 'https://twitter.com/CallMeMast',
+    twitterShort: 'https://twitter.com/CallMeMast',
+  },
+  {
+    name: 'Haddix',
+    youtubeLink: 'https://www.youtube.com/@Haddixx',
+    embed: '<iframe width="321" src="https://www.youtube.com/embed/Kk-ZW3y6ONU?si=l8adrShecUOu5uMB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
+    twitterLink: 'https://twitter.com/notHaddix',
+    twitterShort: 'twitter.com/notHaddix',
+    instagramLink: 'https://www.instagram.com/nothaddix',
+    instagramShort: 'instagram.com/nothaddix',
+    twitchLink: 'https://www.twitch.tv/haddix',
+    twitchShort: 'twitch.tv/haddix',
+    discordLink: 'https://www.discord.gg/4eSRtGwW73',
+    discordShort: 'discord.gg/4eSRtGwW73',
+  },
+  {
+    name: 'SoloOrTroll',
+    youtubeLink: 'https://www.youtube.com/@SoloOrTroll',
+    embed: '<iframe width="321" src="https://www.youtube.com/embed/vSazIOtvgtg?si=Pmbc-T4JDBMEtz5R" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>',
+    twitchLink: 'https://twitch.tv/solo0rtroll',
+    twitchShort: 'twitch.tv/solo0rtroll',
+    twitterLink: 'https://twitter.com/SoloOrTroll',
+    twitterShort: 'twitter.com/SoloOrTroll',
+  }
+]
 
 export default function Solo() {
+
   return (
-    <div>
-            {/* Links to youtubers that main solo or specific youtube videos that coach solo play
-          as well as Smite's helpful tips and general gameplay strategy for this role
-          
-          CONTENT CREATORS TO SHARE ON THIS PAGE:
-          -fineokay
-            -youtube: https://www.youtube.com/@DudeImFonz
-            -twitter: https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqbHg0M0hySmdZSE5aTHlnSWxhcTRxbldLX0h2UXxBQ3Jtc0tsT0hiTkEyYnl4MnhhYWZOYmdvWHo4eXZ5ekpaM3FHSFJwUU5wUDdOSEpqMlhDOXg5a0dvTTRfamdSb3JZalpkU25PRHByQ0RFTGdUZjY1emh3WVN6Nk5vYTIwb0MyR0V5LWJMZURKVzAzdTNxSzQwMA&q=twitter.com%2Ffineokay_
-            -twitch: https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqbEVUU0VLZm1Zc0R2dlNJcTg1WmNRTFppalJ5Z3xBQ3Jtc0tuQUJFQk90MmVRUE4tUXZIakJKajlrMHNyQ0ZSRXFqTjBISWw5OW8tV2tpalJlNkpyWDZoZXgzUlE5aXItQ2lTdGRTX2Q1bW5jSlNrUnVqYjBWdlBvY1JRREZNV0xlanRVeERVQWRYWXN2MWt5QTNSVQ&q=twitch.tv%2Ffineokay
+    <div className='p-4 md:p-16 text-neutral flex flex-col gap-20'>
 
-          -MAST 
-            -youtube: https://www.youtube.com/channel/UCU0oLTV2RO-l4uUkQVy2TvA
-            -twitch: https://twitch.tv/CallMeMast
-            -twitter: https://twitter.com/CallMeMast
+      <h2 className='text-4xl md:text-7xl'>Solo</h2>
 
-          -Haddix
-            - Youtube: https://www.youtube.com/@HaddixGaming
-            ► Twitch: https://www.twitch.tv/haddix
-            ► Twitter: https://twitter.com/notHaddix
-            ► Insta: https://www.instagram.com/nothaddix
-            ► Discord: https://discord.gg/4eSRtGwW73
-
-          -SoloOrTroll
-            -youtube: https://www.youtube.com/@SoloOrTroll
-            -twitch: https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqbUw0YnY3cEtkVE9USjJTZEo0M3R5V0FLQmkzZ3xBQ3Jtc0tsU2pUdUtBejduQ2J4b1VTMHdVaGZWTXVoeDNuM09GUHM5R3M1bVoxc3ZCM1FaQ3pWX1BjcUtSWi11UEtsak5ORDgzYVhoUVBTaUw4d0lZYklwaDZnMWJ5XzJENFNka2lUWEg2NkdST00zcDdldk9BRQ&q=https%3A%2F%2Fwww.twitch.tv%2Fsolo0rtroll
-            -twitter: https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqbXpuZnZSeTRQYVlJQTMwLVUyVVRCcHFMM0J6Z3xBQ3Jtc0tudXZibkVmUmE5dVpKT0Fzam91ZnBWM3I4bWNmejQ5OEl4aEVFUk9URUN2M1VfWFVjNWZhaG4xbXRiM09hMDBfRlBDZnVyd1Z1SS1YZEM5U1QtREZ2N2hSNEFqNThFS3k5Zmo0bDJ1YkNtY29vRVdWYw&q=https%3A%2F%2Ftwitter.com%2FSoloOrTroll
-          */}
+      {/* Content mapping */}
+      
+      {soloContent.map((content) => {
+        const { name, youtubeLink, embed } = content;
+        return (
+          <div key={name} className='flex flex-col gap-2 md:text-2xl md:flex-row '>
+            <div className='flex flex-col gap-3 '>
+              <Link href={youtubeLink} className='flex items-center gap-3 text-primaryFontColor text-2xl md:text-4xl underline'>
+                {name}
+                <Image src={Youtube} alt='Youtube' width={20} height={20} />
+              </Link>
+              <div dangerouslySetInnerHTML={{__html: embed}}></div>
+            </div>
+            <div className='flex flex-col justify-center'>
+              {content.twitchLink ?
+              <div className='flex gap-3'>
+                <Image src={Twitch} alt='Twitch' width={20} height={20} />
+                <Link className='underline' href={content.twitchLink}>{content.twitchShort}</Link>
+              </div>
+              : null }
+              {content.twitterLink ?
+              <div className='flex gap-3'>
+                <Image src={Twitter} alt='Twitter' width={20} height={20} />
+                <Link className='underline' href={content.twitterLink}>{content.twitterShort}</Link>
+              </div>
+              : null }
+              {content.instagramLink ?
+              <div className='flex gap-3'>
+                <Image src={Insta} alt='Instagram' width={20} height={20} />
+                <Link className='underline' href={content.instagramLink}>{content.instagramShort}</Link>
+              </div>
+              : null }
+              {content.discordLink ?
+              <div className='flex gap-3'>
+                <Image src={Discord} alt='discord' width={20} height={20} />
+                <Link className='underline' href={content.discordLink}>{content.discordShort}</Link>
+              </div>
+              : null }
+            </div>
+            
+          </div>
+        )
+      })}
     </div>
   )
 }

@@ -71,10 +71,6 @@ export default function SavedUserBuilds() {
 
           <h2 className='text-neutral text-7xl'>Your builds</h2>
 
-          <button 
-            onClick={() => seeAllBuilds(currentUserId)}
-            className='text-lg text-primaryFontColor underline underline-offset-2 active:brightness-50'>See all builds</button>
-
           {/* Recent builds container */}
 
           <div className='flex flex-col gap-y-6 max-w-screen-md p-4'>
@@ -158,6 +154,9 @@ export default function SavedUserBuilds() {
               )
             })}
           </div>
+          <button 
+            onClick={() => seeAllBuilds(currentUserId)}
+            className='p-4 text-lg text-primaryFontColor underline underline-offset-2 active:brightness-50'>Load all builds</button>
         </div>
       :
         <div>
