@@ -79,7 +79,9 @@ export default function ItemsList({ addToBuild }: any) {
       return currentFilters.every(filter => statDescriptions.includes(filter?.toLowerCase()));
   }
   const allItems = items?.filter((item) => item.active_status && (item.tier >= 3 || (item.tier === 2 && item.starter === true)) && item.type === 'Item' && !item.name.includes('Acorn'));
+
   const filteredItems = allItems?.filter(item => matchesAllFilters(item));
+  
   const searchBarFilteredItems = filteredItems?.filter((item) => item.name.toLowerCase().includes(itemSearch))
   setCurrentlyViewedItems(searchBarFilteredItems);
   }, [currentFilters, items, itemSearch]);
@@ -125,7 +127,7 @@ export default function ItemsList({ addToBuild }: any) {
           <div className='w-full md:w-1/2 grid grid-cols-5 grid-rows-3 text-xs md:text-base text-neutral gap-2 mb-4'>
           
           {!showFilters ?
-            <button className='col-span-full row-span-2 w-full flex items-center justify-center gap-3 text-lg bg-secondaryBgColor rounded-sm p-2' onClick={() => setShowFilters(prev => !prev)}>
+            <button className='col-span-full row-span-2 w-full flex items-center justify-center gap-3 text-lg bg-accentBg rounded-sm p-2' onClick={() => setShowFilters(prev => !prev)}>
               Item Filters
               <Image src={DropdownArrow} alt='dropdown arrow' width={15} />
             </button>
@@ -145,7 +147,7 @@ export default function ItemsList({ addToBuild }: any) {
               </div>
             )
           })}
-          <button className='col-span-full row-span-2 w-full flex items-center justify-center gap-3 text-lg bg-secondaryBgColor rounded-sm p-2' onClick={() => setShowFilters(prev => !prev)}>
+          <button className='col-span-full row-span-2 w-full flex items-center justify-center gap-3 text-lg bg-accentBg rounded-sm p-2' onClick={() => setShowFilters(prev => !prev)}>
               Hide filters
               <Image src={DropdownArrow} className='rotate-180' alt='dropdown arrow' width={15} />
             </button>

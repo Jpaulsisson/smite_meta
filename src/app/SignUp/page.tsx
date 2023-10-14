@@ -67,7 +67,7 @@ export default function SignUp() {
             - Facebook button
             -Discord button
       */}
-      <div className="mb-8 p-4 h-full w-11/12 md:w-full bg-secondaryBgColor rounded-sm border-thin border-slate-300">
+      <div className="mb-8 p-4 h-full w-11/12 md:w-full bg-accentBg rounded-sm border-thin border-slate-300">
 
         {/* Header */}
 

@@ -46,25 +46,25 @@ export default function Mid() {
       {midContent.map((content) => {
         const { name, youtubeLink, embed } = content;
         return (
-          <div key={name} className='flex flex-col gap-2 md:text-2xl md:flex-row '>
+          <div key={name} className='flex flex-col gap-2 md:flex-row '>
             <div className='flex flex-col gap-3 '>
-              <Link href={youtubeLink} className='flex items-center gap-3 text-primaryFontColor text-2xl md:text-4xl underline'>
+              <Link href={youtubeLink} className='flex items-center gap-3 text-neutral text-2xl md:text-4xl border-b-neutral border-b-thin'>
                 {name}
                 <Image src={Youtube} alt='Youtube' width={20} height={20} />
               </Link>
               <div dangerouslySetInnerHTML={{__html: embed}}></div>
             </div>
-            <div className='flex flex-col justify-center'>
+            <div className='flex flex-col justify-center gap-1'>
               {content.twitchLink ?
               <div className='flex gap-3'>
                 <Image src={Twitch} alt='Twitch' width={20} height={20} />
-                <Link className='underline' href={content.twitchLink}>{content.twitchShort}</Link>
+                <Link className='hover:underline' href={content.twitchLink}>{content.twitchShort}</Link>
               </div>
               : null }
               {content.twitterLink ?
               <div className='flex gap-3'>
                 <Image src={Twitter} alt='Twitter' width={20} height={20} />
-                <Link className='underline' href={content.twitterLink}>{content.twitterShort}</Link>
+                <Link className='hover:underline' href={content.twitterLink}>{content.twitterShort}</Link>
               </div>
               : null }
             </div>

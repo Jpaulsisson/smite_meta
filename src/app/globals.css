@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --primaryBgColor: hsl(221, 45%, 13%);
-  --secondaryBgColor: hsl(221, 69%, 8%);
+  --primaryBg: hsl(221, 45%, 13%);
+  --accentBg: hsl(221, 69%, 8%);
   --primaryFontColor: hsl(45deg 80% 40%);
   --neutralFontColor: hsl(60, 41%, 95%);
 }
@@ -51,7 +51,7 @@ body {
 
 ::-webkit-scrollbar {
   width: 2px;
-  background-color: var(--primaryBgColor);
+  background-color: var(--primaryBg);
 }
 
 ::-webkit-scrollbar-thumb {

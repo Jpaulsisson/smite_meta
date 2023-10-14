@@ -48,7 +48,7 @@ export default function SignIn() {
       style={{
         content: {
           zIndex: '999',
-          backgroundColor: 'var(--secondaryBgColor)',
+          backgroundColor: 'var(--accentBg)',
           color: 'var(--neutralFontColor)',
           width: '80%',
           margin: 'auto',

@@ -5,16 +5,19 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Quicksand } from 'next/font/google';
-
 import DropdownArrow from '../../resources/arrow-down.svg';
 import { useUserContext } from '@/contexts/user.context';
-
 
 const quicksandFont = Quicksand({
   weight: ['300', '400', '500'],
   subsets: ['latin']
 });
 
+const getGodsFromHirez = async () => {
+  const response = await fetch('/api/smite/items', {method: 'GET'});
+  const { data } = await response.json();
+  return data;
+}
 
 
 export default function BuildsDropdown() {

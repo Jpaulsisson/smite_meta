@@ -52,7 +52,7 @@ export default function GodsList({ selectGod }: any) {
 
       {/* filter inputs */}
 
-      <fieldset className='w-full md:w-1/2 grid grid-cols-3 md:grid-cols-6 border-thin border-white text-white p-2 mb-4 bg-secondaryBgColor rounded-sm'>
+      <fieldset className='w-full md:w-1/2 grid grid-cols-3 md:grid-cols-6 border-thin border-white text-white p-2 mb-4 bg-accentBg rounded-sm'>
         <legend className='ml-4 p-1 text-xl'>Filter Gods:</legend>
         <div className='text-neutral flex flex-col items-center gap-1' >
           <input type="radio" id='all' value='all' name="god-type" defaultChecked onChange={() => setGodFilter('all')}/>

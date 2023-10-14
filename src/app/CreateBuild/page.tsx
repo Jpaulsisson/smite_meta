@@ -383,7 +383,7 @@ export default function CreateBuild() {
             <button
               disabled={!warningsCheck}
               onClick={addUserBuildToDatabase}
-              className="relative w-full border-thin border-primaryFontColor rounded-full col-start-4 row-start-2 p-2 bg-secondaryBgColor text-sm flex items-center justify-center active:brightness-50 disabled:brightness-50 disabled:bg-stone-500 disabled:border-slate-600"
+              className="relative w-full border-thin border-primaryFontColor rounded-full col-start-4 row-start-2 p-2 bg-accentBg text-sm flex items-center justify-center active:brightness-50 disabled:brightness-50 disabled:bg-stone-500 disabled:border-slate-600"
             >
               {warningsCheck ? 
               <span>Save build</span> : <span>Cancel That!</span>}
@@ -410,7 +410,7 @@ export default function CreateBuild() {
 
       {/* Build stats dropdown */}
 
-      <div className="w-11/12 md:w-1/2 text-neutral bg-secondaryBgColor rounded-sm mt-2 p-2">
+      <div className="w-11/12 md:w-1/2 text-neutral bg-accentBg rounded-sm mt-2 p-2">
         
         {/* Dropdown toggler */}
 
@@ -566,7 +566,7 @@ export default function CreateBuild() {
       {/* Build passives dropdown */}
 
       {buildItems.length > 0 && (
-        <div className="w-11/12 md:w-1/2 text-neutral bg-secondaryBgColor rounded-sm mt-2 p-2">
+        <div className="w-11/12 md:w-1/2 text-neutral bg-accentBg rounded-sm mt-2 p-2">
           <button
             onClick={handleToggleBuildPassivesDropdown}
             className="text-center text-lg w-full flex items-center justify-center gap-2"

@@ -9,8 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'primaryBgColor': 'var(--primaryBgColor)',
-        'secondaryBgColor': 'var(--secondaryBgColor)',
+        'primaryBg': 'var(--primaryBg)',
+        'accentBg': 'var(--accentBg)',
         'primaryFontColor': 'var(--primaryFontColor)',
         'neutral': 'var(--neutralFontColor)',
       },

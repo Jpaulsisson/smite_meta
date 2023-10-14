@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function PrivacyPolicy() {
   return (
-    <div className='min-h-screen flex flex-col items-center justify-center p-20 gap-3 text-neutral bg-secondaryBgColor'>
+    <div className='min-h-screen flex flex-col items-center justify-center p-20 gap-3 text-neutral bg-accentBg'>
       <a href='/' className='border-primaryFontColor  border-thin p-3 underline underline-offset-4 mb-8'>Go back home</a>
       <blockquote className='w-full md:w-1/2 text-5xl'>We are not going to use your data in any way, shape, or form that benefits us monetarily or otherwise. 
       </blockquote>

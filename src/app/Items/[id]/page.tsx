@@ -60,7 +60,7 @@ export default function Item() {
         {/* Stats */}
 
         {stats[0]?.desc !== null && 
-          <div className='mt-4 p-3 grid grid-cols-auto bg-secondaryBgColor text-sm md:text-base text-neutral rounded-md md:w-1/4'>
+          <div className='mt-4 p-3 grid grid-cols-auto bg-accentBg text-sm md:text-base text-neutral rounded-md md:w-1/4'>
             {stats.map((stat) => {
               return (
                 <div key={Math.floor(Math.random() * 513251)} className='w-2/3 flex gap-2 items-end'>
@@ -75,7 +75,7 @@ export default function Item() {
         {/* Passive/Special */}
 
         {item.special &&
-        <div className='mt-4 p-3 bg-secondaryBgColor text-neutral rounded-md tracking-wide md:w-1/3'>
+        <div className='mt-4 p-3 bg-accentBg text-neutral rounded-md tracking-wide md:w-1/3'>
           <p>{item.special}</p>
         </div>
           }
