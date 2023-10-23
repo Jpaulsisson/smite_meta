@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { useDataContext } from '@/contexts/data.context';
+import { God, useDataContext } from '@/contexts/data.context';
 import Image from 'next/image';
 import DropdownArrow from '@/resources/arrow-down.svg';
 import { Item } from '@/contexts/data.context';
@@ -25,13 +25,18 @@ const checkboxes = [
   { name: "Movement Speed", label: "Movement Speed" }
 ]
 
-export default function ItemsList({ addToBuild }: any) {
+type ItemsListProps = {
+  addToBuild: (item_id: number) => void;
+  selectedGod?: God | null;
+}
+
+export default function ItemsList({ addToBuild, selectedGod }: ItemsListProps) {
 
   // Bring in the item info
   const { items } = useDataContext();
 
   // Filter out inactive items and Ratatoskr special items
-  const activeItems = items?.filter((item) => item.active_status && (item.tier >= 3 || (item.tier === 2 && item.starter === true)) && item.type === 'Item' && !item.name.includes('Acorn'));
+  let activeItems = items?.filter((item) => item.active_status && (item.tier >= 3 || (item.tier === 2 && item.starter === true)) && item.type === 'Item' && !item.name.includes('Acorn'));
 
   const [currentlyViewedItems, setCurrentlyViewedItems] = useState<Item[] | undefined>([]);
   const [itemSearch, setItemSearch] = useState('');
@@ -76,15 +81,60 @@ export default function ItemsList({ addToBuild }: any) {
           item.stat_5_desc?.toLowerCase(),
           item.stat_6_desc?.toLowerCase()
       ];
+      
+      
       return currentFilters.every(filter => statDescriptions.includes(filter?.toLowerCase()));
   }
+
   const allItems = items?.filter((item) => item.active_status && (item.tier >= 3 || (item.tier === 2 && item.starter === true)) && item.type === 'Item' && !item.name.includes('Acorn'));
 
-  const filteredItems = allItems?.filter(item => matchesAllFilters(item));
+  let godFilteredItems: Item[] | undefined;
   
+  if (selectedGod) {
+
+    selectedGod.role?.toLowerCase() === 'guardian' || selectedGod.role?.toLowerCase() === 'mage' ?
+      
+      godFilteredItems = allItems?.filter(item => {
+        switch (true) {
+          case item.restricted.toLowerCase().includes(selectedGod.role?.toLowerCase()):
+            return false;
+          case item.stat_1_desc?.toLowerCase() === 'attack speed':
+            return false;
+          case item.stat_1_desc?.toLowerCase() === 'magical power':
+            return true;
+          case item.stat_2_desc?.toLowerCase() === 'magical power':
+            return true;
+          case item.stat_1_desc?.toLowerCase() === 'physical power' && item.stat_2_desc?.toLowerCase() !== 'magical power':
+            return false;
+            default:
+              return true;
+        }
+      })
+      :
+      godFilteredItems = allItems?.filter(item => {
+        switch (true) {
+          case item.restricted.toLowerCase().includes(selectedGod.role?.toLowerCase()):
+            return false;
+          case item.stat_1_desc?.toLowerCase() === 'physical power':
+            return true;
+          case item.stat_2_desc?.toLowerCase() === 'physical power':
+            return true;
+          case item.stat_1_desc?.toLowerCase() === 'magical power' && item.stat_2_desc?.toLowerCase() !== 'physical power':
+            return false;
+            default:
+              return true;
+        }
+      })
+  }
+  if (!selectedGod) {
+    godFilteredItems = allItems;
+  }
+
+  const filteredItems = godFilteredItems?.filter(item => matchesAllFilters(item));
+
   const searchBarFilteredItems = filteredItems?.filter((item) => item.name.toLowerCase().includes(itemSearch))
   setCurrentlyViewedItems(searchBarFilteredItems);
-  }, [currentFilters, items, itemSearch]);
+  }, [currentFilters, items, itemSearch, selectedGod]);
 
   // Search bar functionality
   const handleItemSearch = (e: ChangeEvent<HTMLInputElement>) => {
@@ -161,9 +211,9 @@ export default function ItemsList({ addToBuild }: any) {
 
       <div className="w-full grid grid-cols-4 md:grid-cols-10 gap-2">
         
-        {currentFilters.length === 0 ?
+        {currentFilters.length === 0 && !selectedGod ?
         <>
-        {/* if no filters are applied, use just the search bar on all items */}
+        {/* if no filters and no selected God, use just the search bar on all items */}
 
           {searchAllItems?.map((item) => {
           const { id, pic_url, name } = item;
@@ -188,7 +238,7 @@ export default function ItemsList({ addToBuild }: any) {
         :
         <>
 
-        {/* if filters are applied, use them + the search bar on all items */}
+        {/* if filters and/or selected God, use them + the search bar on all items */}
 
           {currentlyViewedItems?.map((item) => {
           const { id, pic_url, name } = item;

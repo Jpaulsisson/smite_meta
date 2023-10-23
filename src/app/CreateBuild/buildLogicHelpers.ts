@@ -36,42 +36,44 @@ type GodStats = {
 }
 
 export const buildStatsCalculator = (buildItems: Item[]) => {
+  
   // Set up the final form
   const build = {
-  physical_power:  0,
-  magical_power:  0,
-  critical_strike_chance: 0,
-  physical_lifesteal: 0,
-  magical_lifesteal:  0,
-  physical_percent_penetration:  0,
-  magical_percent_penetration:  0,
-  physical_flat_penetration:  0,
-  magical_flat_penetration:  0,
-  attack_speed: 0,
-  basic_attack_damage:  0,
-  hp5:  0,
-  mp5:  0,
-  health:  0,
-  mana:  0,
-  speed:  0,
-  physical_protection:  0,
-  magical_protection:  0,
-  damage_reduction:  0,
-  cooldown_reduction:  0,
-  crowd_control_reduction:  0,
+  physical_power: 0,
+  magical_power: 0,
+  critical_strike_chance:0,
+  physical_lifesteal:0,
+  magical_lifesteal: 0,
+  physical_percent_penetration: 0,
+  magical_percent_penetration: 0,
+  physical_flat_penetration: 0,
+  magical_flat_penetration: 0,
+  attack_speed:0,
+  basic_attack_damage: 0,
+  hp5: 0,
+  mp5: 0,
+  health: 0,
+  mana: 0,
+  speed: 0,
+  physical_protection: 0,
+  magical_protection: 0,
+  damage_reduction: 0,
+  cooldown_reduction: 0,
+  crowd_control_reduction: 0,
   }
 
+  if (buildItems.length === 0) return build;
   // Map through the build items' stats
   buildItems.map((item) => {
     
     // Grab the stat names and values
     const stats = [ 
-      { desc: item.stat_1_desc, val: item.stat_1_val},
-      { desc: item.stat_2_desc, val: item.stat_2_val},
-      { desc: item.stat_3_desc, val: item.stat_3_val},
-      { desc: item.stat_4_desc, val: item.stat_4_val},
-      { desc: item.stat_5_desc, val: item.stat_5_val},
-      { desc: item.stat_6_desc, val: item.stat_6_val}
+      { desc: item?.stat_1_desc, val: item?.stat_1_val},
+      { desc: item?.stat_2_desc, val: item?.stat_2_val},
+      { desc: item?.stat_3_desc, val: item?.stat_3_val},
+      { desc: item?.stat_4_desc, val: item?.stat_4_val},
+      { desc: item?.stat_5_desc, val: item?.stat_5_val},
+      { desc: item?.stat_6_desc, val: item?.stat_6_val}
     ]
 
     // Add them up dependent on their type
@@ -149,6 +151,19 @@ export const buildStatsCalculator = (buildItems: Item[]) => {
 }
 
 export const godStatsCalculator = (god: God) => {
+  if (!god) {
+    return {
+      attack_speed: 0,
+      health: 0,
+      magical_power: 0,
+      magical_protection: 0,
+      mana: 0,
+      physical_power: 0,
+      physical_protection: 0,
+      speed: 0,
+    }
+  }
+
   const { 
     attack_speed, attack_speed_per_level, 
     health, health_per_level,
@@ -158,7 +173,7 @@ export const godStatsCalculator = (god: God) => {
     physical_power, physical_power_per_level,
     physical_protection, physical_protection_per_level,
     speed
-  } = god;
+  } = god || 0;
 
   const finalGodStats = {
     attack_speed: attack_speed + ((attack_speed_per_level * 20) / 100),
@@ -225,7 +240,7 @@ export const checkItemsForChildItemDupes = (array: Item[]) => {
       const anotherItem = array[j];
 
       //
-      if (currentItem.id === anotherItem.child_item_id) {
+      if (currentItem?.id === anotherItem?.child_item_id) {
         return true;
       }
     }

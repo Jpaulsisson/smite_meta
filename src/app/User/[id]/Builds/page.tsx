@@ -2,10 +2,11 @@
 
 import Image from 'next/image';
 import DeleteIcon from '@/resources/trash-can.svg';
-import { God, useDataContext } from '@/contexts/data.context';
+import { useDataContext } from '@/contexts/data.context';
 import { useUserContext } from '@/contexts/user.context';
 import { getAllUserBuilds, getUserRecentBuilds, deleteBuild } from '@/database/supabase';
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 type Build = {
   created_at: string,
@@ -159,9 +160,11 @@ export default function SavedUserBuilds() {
             className='p-4 text-lg text-primaryFontColor underline underline-offset-2 active:brightness-50'>Load all builds</button>
         </div>
       :
-        <div>
-          <h2 className='text-neutral text-7xl' >Loading...</h2>
-          <p className='text-neutral text-xl mt-12'>If this has been here longer than 10 seconds, you must not be logged in. Maybe try clicking that sign in thing at the top right. Or maybe hit refresh. Also, how did you get to this page without being logged in?</p>
+        <div className='flex flex-col gap-5'>
+          <h2 className='text-neutral text-5xl' >
+            This page is for signed in users.
+          </h2>
+          <Link href={'/SignUp'} className='hover:underline text-3xl text-primaryFontColor'> Click here to sign up.</Link>
         </div>
         }
     </div>

@@ -7,6 +7,7 @@ import { getUserBuildsPreview } from '@/database/supabase';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useDataContext } from '@/contexts/data.context';
+import { updateAllItemsOnSupabaseDB } from '@/database/hirez-calls';
 
 type Build = {
   id: number, 
@@ -20,6 +21,11 @@ type Build = {
   item_6_id: number | null,
   god_id: number | null,
 }
+
+// async function getItems() {
+//   const updateItems = await fetch('/api/db-updates/items', {method: 'GET'})
+//   console.log(updateItems);
+// }
 
 export default function UserProfile() {
 

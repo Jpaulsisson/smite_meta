@@ -1,6 +1,6 @@
 # Smite Meta
 
-**_Smite Meta_**™ is a simple-to-use resource for players of all experience levels.
+**Smite Meta**™ is a simple-to-use resource for players of all experience levels.
 
 ### Main site features:
 
