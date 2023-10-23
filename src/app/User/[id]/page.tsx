@@ -7,9 +7,9 @@ import { getUserBuildsPreview } from '@/database/supabase';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useDataContext } from '@/contexts/data.context';
-import { updateAllItemsOnSupabaseDB } from '@/database/hirez-calls';
 
-type Build = {
+
+export type Build = {
   id: number, 
   created_at: string,
   user_id: string,
@@ -22,10 +22,18 @@ type Build = {
   god_id: number | null,
 }
 
-// async function getItems() {
-//   const updateItems = await fetch('/api/db-updates/items', {method: 'GET'})
-//   console.log(updateItems);
-// }
+export const createBuildHref = (build: Build) => {
+    const buildQueryString = {
+      item1Id: typeof build.item_1_id === 'number' ? String(build.item_1_id) + ',' : '',
+      item2Id: typeof build.item_2_id === 'number' ? String(build.item_2_id) + ',' : '',
+      item3Id: typeof build.item_3_id === 'number' ? String(build.item_3_id) + ',' : '',
+      item4Id: typeof build.item_4_id === 'number' ? String(build.item_4_id) + ',' : '',
+      item5Id: typeof build.item_5_id === 'number' ? String(build.item_5_id) + ',' : '',
+      item6Id: typeof build.item_6_id === 'number' ? String(build.item_6_id) : '',
+      godId: typeof build.god_id === 'number' ? String(build.god_id) : 'null',
+    }
+    return buildQueryString;
+}
 
 export default function UserProfile() {
 
@@ -44,11 +52,19 @@ export default function UserProfile() {
     
   }, [currentUserId]);
 
+  const updateItems = async() => {
+    const response = await fetch('/api/db-updates/skins');
+    console.log(response);
+  }
+
+
   return (
     <div className='p-4 md:p-12 text-neutral'>
 
-        <h2 className='text-4xl'>Latest builds</h2>
-        <Link href={`${pathname}/Builds`} className='text-primaryFontColor text-sm'>See all builds</Link>
+        {/* <button onClick={updateItems} className='text-white text-2xl'>Update items</button> */}
+        <h2 className='text-4xl'>Recent</h2>
+        <Link href={`${pathname}/Builds`} className='text-primaryFontColor text-lg
+        focus:underline hover:underline'>See all builds</Link>
         <div className='flex flex-col gap-2'>
         {
           buildsPreview?.map((build) => {
@@ -61,8 +77,12 @@ export default function UserProfile() {
             const item6 = typeof item_6_id === 'number' ? findItem(item_6_id) : null;
             const god =  typeof god_id === 'number' ? findGod(god_id) : null;
             const timestamp = formatTimestamp(created_at);
+            const buildQueryString = createBuildHref(build);
             return (
-              <div key={id} className='grid grid-cols-7 gap-1 md:w-1/2 md:gap-4'>
+              <Link 
+                key={id} 
+                href={`/CreateBuild?build=${buildQueryString.item1Id}${buildQueryString.item2Id}${buildQueryString.item3Id}${buildQueryString.item4Id}${buildQueryString.item5Id}${buildQueryString.item6Id}&god=${buildQueryString.godId}`}
+                className='grid grid-cols-7 gap-1 md:w-1/2 md:gap-4'>
                 {god ? 
                 <div className='col-span-full'>
                   <h2>{god.name}</h2>
@@ -104,14 +124,14 @@ export default function UserProfile() {
                 <div className='col-span-full row-start-3'>
                   <h2 className='text-xs tracking-wider'>{timestamp.formattedDate} {timestamp.formattedTime}</h2>
                 </div>
-              </div>
+              </Link>
             )
           })
         }
         </div>
-        <Link href={`/User/${hashedId}/Builds`}>
-          
-        </Link>
+        <div className='mt-6'>
+          <p className='text-neutral text-xl'>Click on a build to edit it on the Create Builds page</p>
+        </div>
         
     </div>
   )

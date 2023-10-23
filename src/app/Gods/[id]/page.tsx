@@ -33,7 +33,7 @@ export default function God() {
           <h2 className='text-5xl md:text-7xl text-neutral'>{god.name}</h2>
           
           <div style={{ backgroundImage: `url(${god.pic_url}`}} className='mt-4 bg-cover bg-no-repeat bg-top h-52 w-1/2 md:w-1/6 flex items-end justify-end rounded-sm border-neutral border-thin'>
-            <aside className='text-lg text-neutral bg-slate-800/90 p-3 rounded-sm'>{god.role}</aside>
+            <aside className='text-lg text-neutral bg-slate-800/90 p-3 rounded-tl-3xl'>{god.role}</aside>
           </div>
           
           <Link href={`/Gods/${god.id}/Skins`} className='text-lg text-primaryFontColor underline w-24 text-end' >Go to {god.name}&apos;s skins</Link>

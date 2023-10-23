@@ -236,7 +236,7 @@ export const updateAllItemsOnSupabaseDB = async () => {
     items.forEach(async (item) => {
         const { ItemId, ChildItemId, ActiveFlag, DeviceName, itemIcon_URL, RestrictedRoles, StartingItem, Glyph, ItemTier, ShortDesc, Type, Price } = item;
   
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from('items')
         .update({ 
               id: ItemId ,
@@ -265,7 +265,8 @@ export const updateAllItemsOnSupabaseDB = async () => {
               type: Type,
               price: Price 
             })
-        .eq('id', ItemId);      
+        .eq('id', ItemId)
+        .select('*');      
       })
 
     console.log('item added successfully');
@@ -591,7 +592,7 @@ export const updateAllAbilitiesOnSupabaseDB = async () => {
           onConflict: 'id',
           ignoreDuplicates: true,
           defaultToNull: true
-        }).select();
+        }).select('*');
         ;      
     })
 
@@ -652,6 +653,46 @@ export const addAllSkinsToSupabase = async () => {
   }
 }
 
+export const updateAllSkinsOnSupabaseDB = async () => {
+  //Create one instance of a sessionId to save calls to Hirez then get all gods
+  try {
+    const sessionId = await getSessionId();
+    const gods = await getGodsWithSessionId(sessionId);
+
+    // for every god we need to grab just the god_id
+    // so we can call Hirez to get the skins for that god
+    gods.forEach(async(god) => {
+
+      const god_id = god.id;
+
+      const skins = await getAllGodSkinsHelper(god_id, sessionId);
+
+      // then we populate a new row in our supabase for each skin on each god
+      skins.forEach(async(skin) => {
+
+        const { skin_id1, god_id, godSkin_URL, obtainability, price_favor, price_gems } = skin;
+
+        const { data, error } = await supabase
+        .from('skins')
+        .update({
+          id: skin_id1,
+          god_id: god_id,
+          pic_url: godSkin_URL,
+          tier: obtainability,
+          price_favor: price_favor,
+          price_gems: price_gems
+        })
+        .eq('id', skin_id1)
+        .select('*');
+      })
+
+      console.log('skins table updated')
+
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 
 /////// CALL NOTES //////////

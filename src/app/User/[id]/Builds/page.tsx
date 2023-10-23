@@ -2,23 +2,16 @@
 
 import Image from 'next/image';
 import DeleteIcon from '@/resources/trash-can.svg';
+import EditIcon from '@/resources/edit.svg';
 import { useDataContext } from '@/contexts/data.context';
 import { useUserContext } from '@/contexts/user.context';
 import { getAllUserBuilds, getUserRecentBuilds, deleteBuild } from '@/database/supabase';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import type { Build } from '../page';
+import { createBuildHref } from '../page';
+import DeleteConfirmationPopup from '@/components/DeleteConfirmationPopup/DeleteConfirmationPopup.component';
 
-type Build = {
-  created_at: string,
-  god_id: number | null,
-  id: number, 
-  item_1_id: number | null, 
-  item_2_id: number | null, 
-  item_3_id: number | null, 
-  item_4_id: number | null, 
-  item_5_id: number | null, 
-  item_6_id: number | null,
-}
 
 // Format "created_at" for use
 function formatTimestamp(timestamp: string) {
@@ -34,10 +27,12 @@ function formatTimestamp(timestamp: string) {
 
 export default function SavedUserBuilds() {
 
-  const { currentUsername, currentUserId } = useUserContext();
+  const { currentUserId } = useUserContext();
   const { gods, items } = useDataContext();
 
   const [recentBuilds, setRecentBuilds] = useState<Build[]>();
+  const [buildIdToDelete, setBuildIdToDelete] = useState<number>();
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   // Set recentBuilds to all user builds
   const seeAllBuilds = async (user_id: string) => {
@@ -45,11 +40,21 @@ export default function SavedUserBuilds() {
     setRecentBuilds(allBuilds as Build[]);
   }
 
+  // Open delete build confirmation/set build ID to be deleted
+  const prepForDelete = (id: number) => {
+    setBuildIdToDelete(id);
+    setModalOpen(true);
+  }
+
   // Delete builds
   const deleteUserBuildFromDB = async (id: number) => {
+
+  if (!id) return;
+
   const response = await deleteBuild(id);
   const newRecentBuilds = recentBuilds!.filter((build) => build.id !== id);
   setRecentBuilds(newRecentBuilds);
+  setModalOpen(false);
 }
 
   // Set recentBuilds to 10 most recent user builds
@@ -64,6 +69,13 @@ export default function SavedUserBuilds() {
 
   return (
     <div className='p-4 md:p-12'>
+
+      <DeleteConfirmationPopup 
+        deleteBuild={deleteUserBuildFromDB} 
+        buildId={buildIdToDelete as number} 
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        />
       
       {currentUserId ?
         <div>
@@ -90,7 +102,7 @@ export default function SavedUserBuilds() {
               const item6 = items?.find(item => item.id === item_6_id);
               const thisBuild = [item1, item2, item3, item4, item5, item6];
               const timestamp = formatTimestamp(build.created_at);
-
+              const buildQueryString = createBuildHref(build);
               return (
                 <div key={id} className='pb-4 grid grid-cols-5 grid-rows-auto gap-2 border-b-thin border-b-primaryFontColor'>
                   
@@ -98,14 +110,22 @@ export default function SavedUserBuilds() {
 
                   {typeof god !== 'undefined' ?
                   <>
-                    <div className='col-span-full text-start text-neutral text-lg grid grid-cols-3 grid-rows-2'>
+                    <div className='col-span-full text-start text-neutral text-lg grid grid-cols-4 grid-rows-2'>
                       <h2 className='col-start-1 col-span-2'>{god.name} build</h2>
                       <aside className='col-start-1 col-span-2 text-xs'>Saved: {timestamp.formattedDate} {timestamp.formattedTime} </aside>
-                      <button
-                      onClick={() => deleteUserBuildFromDB(build.id)}
-                      className='col-start-3 row-span-full justify-self-end'>
-                        <Image src={DeleteIcon} alt='trash can delete button' width={25} height={25}/>
-                      </button>
+                      <div className='col-start-4 row-span-full justify-self-end flex gap-3 items-center'>
+                        <Link
+                          href={`/CreateBuild?build=${buildQueryString.item1Id}${buildQueryString.item2Id}${buildQueryString.item3Id}${buildQueryString.item4Id}${buildQueryString.item5Id}${buildQueryString.item6Id}&god=${buildQueryString.godId}`} >
+                          <Image src={EditIcon} alt='trash can delete button' width={25} height={25}/>
+                        </Link>
+                        <button
+                        // onClick={() => deleteUserBuildFromDB(build.id)}
+                        onClick={() => prepForDelete(build.id)}
+                        className=''>
+                          <Image src={DeleteIcon} alt='trash can delete button' width={25} height={25}/>
+                        </button>
+                        
+                      </div>
                     </div>
                     <div className='col-span-2 row-span-2 max-h-36 aspect-square'>
                     <Image

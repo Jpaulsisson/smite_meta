@@ -1,12 +1,16 @@
 import { NextResponse } from "next/server";
-import { getGods } from "@/database/hirez-calls";
+import { updateAllSkinsOnSupabaseDB } from "@/database/hirez-calls";
 
-export async function UPDATE() {
+
+export async function GET() {
 try {
-  const gods = await getGods();
-
   
+  const skinsUpdate = await updateAllSkinsOnSupabaseDB();
+
+  console.log(skinsUpdate);
+  return NextResponse.json({ data: skinsUpdate }, { status: 200 });
 } catch (error) {
-  return NextResponse.json({error: error})
+
+  return NextResponse.json({error: error});
 }
 }
