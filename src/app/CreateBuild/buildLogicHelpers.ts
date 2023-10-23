@@ -202,7 +202,9 @@ export const combineStats = (buildStats: BuildStats, godStats: GodStats) => {
   return combined;
 }
 
-export const itemWarningHelper = (items: Item[], buildItems: Item[]) => {
+export const itemWarningHelper = (items: Item[] | undefined, buildItems: (Item | undefined)[], combinedStats: BuildStats | undefined) => {
+
+  if (!items || !buildItems || !combinedStats) return false;
 
   // Set the base level
   let physical_power_base = 0;
@@ -216,28 +218,58 @@ export const itemWarningHelper = (items: Item[], buildItems: Item[]) => {
   // Iterate through the build items checking for matches to dualPowerItems
   // and adding that item's powers to their respective base variables
   buildItems.forEach((item) => {
-    if (dualPowerItems.includes(item)) {
-      physical_power_base += parseInt(item.stat_1_val!)
-      magical_power_base += parseInt(item.stat_2_val!)
+    if (dualPowerItems.includes(item!)) {
+      physical_power_base += parseInt(item!.stat_1_val!)
+      magical_power_base += parseInt(item!.stat_2_val!)
     }
   })
 
   // Return the new base levels for measuring against
-  return { 
-    physical_power_base: physical_power_base,
-    magical_power_base: magical_power_base,
-  }
+  // return { 
+  //   physical_power_base: physical_power_base,
+  //   magical_power_base: magical_power_base,
+  // }
+  const { physical_power, magical_power } = combinedStats;
+
+  if (physical_power > physical_power_base && magical_power > magical_power_base) return true;
+  else return false;
 }
 
-export const checkItemsForChildItemDupes = (array: Item[]) => {
-  for (let i = 0; i < array.length; i++) {
-    const currentItem = array[i];
+export const starterWarningHelper = (buildItems: (Item | undefined)[]) => {
+  if (buildItems.length < 1) return false;
 
-    for (let j = 0; j < array.length; j++) {
+  let starterCount = 0;
+
+  buildItems.forEach((item) => {
+    if (item?.starter === true) starterCount += 1;
+  });
+
+  if (starterCount > 1) return true;
+  else return false;
+}
+
+export const glyphWarningHelper = (buildItems: (Item | undefined)[]) => {
+  if (buildItems.length < 1) return false;
+
+  let glyphCount = 0;
+
+  buildItems.forEach((item) => {
+    if (item?.glyph === true) glyphCount += 1;
+  });
+
+  if (glyphCount > 1) return true;
+  else return false;
+}
+
+export const checkItemsForChildItemDupes = (buildItems: (Item | undefined)[]) => {
+  for (let i = 0; i < buildItems.length; i++) {
+    const currentItem = buildItems[i];
+
+    for (let j = 0; j < buildItems.length; j++) {
       // Skip comparing a string to itself
       if (i === j) continue;
 
-      const anotherItem = array[j];
+      const anotherItem = buildItems[j];
 
       //
       if (currentItem?.id === anotherItem?.child_item_id) {
@@ -254,6 +286,8 @@ module.exports = {
   godStatsCalculator,
   combineStats,
   itemWarningHelper,
+  starterWarningHelper,
+  glyphWarningHelper,
   checkItemsForChildItemDupes
 }
 

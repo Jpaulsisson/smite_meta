@@ -132,7 +132,8 @@ export default function ItemsList({ addToBuild, selectedGod }: ItemsListProps) {
 
   const filteredItems = godFilteredItems?.filter(item => matchesAllFilters(item));
 
-  const searchBarFilteredItems = filteredItems?.filter((item) => item.name.toLowerCase().includes(itemSearch))
+  const searchBarFilteredItems = filteredItems?.filter((item) => item.name.toLowerCase().includes(itemSearch));
+  
   setCurrentlyViewedItems(searchBarFilteredItems);
   }, [currentFilters, items, itemSearch, selectedGod]);
 

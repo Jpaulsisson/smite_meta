@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { useDataContext } from '@/contexts/data.context';
+import { God, useDataContext } from '@/contexts/data.context';
 import Image from 'next/image';
 import DropdownArrow from '@/resources/arrow-down.svg';
 import { Item } from '@/contexts/data.context';
@@ -25,7 +25,12 @@ const checkboxes = [
   { name: "Movement Speed", label: "Movement Speed" }
 ]
 
-export default function ItemsList({ addToBuild }: any) {
+type ItemsListProps = {
+  addToBuild: (item_id: number) => void;
+  selectedGod?: God | null;
+}
+
+export default function ItemsList({ addToBuild, selectedGod }: ItemsListProps) {
 
   // Bring in the item info
   const { items } = useDataContext();
@@ -63,24 +68,70 @@ export default function ItemsList({ addToBuild }: any) {
     setCurrentFilters(selectedOptions);
   }, [filterOptions]);
 
-  // Update shown items based on current filters
+  //  Update currentlyViewedItems based on current filters
   useEffect(() => {
     function matchesAllFilters(item: Item) {
       const statDescriptions = [
-          item.stat_1_desc,
-          item.stat_2_desc,
-          item.stat_3_desc,
-          item.stat_4_desc,
-          item.stat_5_desc,
-          item.stat_6_desc
+        item.stat_1_desc?.toLowerCase(),
+        item.stat_2_desc?.toLowerCase(),
+        item.stat_3_desc?.toLowerCase(),
+        item.stat_4_desc?.toLowerCase(),
+        item.stat_5_desc?.toLowerCase(),
+        item.stat_6_desc?.toLowerCase()
       ];
-      return currentFilters.every(filter => statDescriptions.includes(filter));
+      return currentFilters.every(filter => statDescriptions.includes(filter?.toLowerCase()));
   }
-  const allItems = items?.filter((item) => item.active_status && item.tier >= 3 && item.type === 'Item');
-  const filteredItems = allItems?.filter(item => matchesAllFilters(item));
-  const searchBarFilteredItems = filteredItems?.filter((item) => item.name.toLowerCase().includes(itemSearch))
+
+  const allItems = items?.filter((item) => item.active_status && (item.tier >= 3 || (item.tier === 2 && item.starter === true)) && item.type === 'Item');
+
+  let godFilteredItems: Item[] | undefined;
+
+  if (selectedGod) {
+
+    selectedGod.role?.toLowerCase() === 'guardian' || selectedGod.role?.toLowerCase() === 'mage' ?
+      
+      godFilteredItems = allItems?.filter(item => {
+        switch (true) {
+          case item.restricted.toLowerCase().includes(selectedGod.role?.toLowerCase()):
+            return false;
+          case item.stat_1_desc?.toLowerCase() === 'attack speed':
+            return false;
+          case item.stat_1_desc?.toLowerCase() === 'magical power':
+            return true;
+          case item.stat_2_desc?.toLowerCase() === 'magical power':
+            return true;
+          case item.stat_1_desc?.toLowerCase() === 'physical power' && item.stat_2_desc?.toLowerCase() !== 'magical power':
+            return false;
+            default:
+              return true;
+        }
+      })
+      :
+      godFilteredItems = allItems?.filter(item => {
+        switch (true) {
+          case item.restricted.toLowerCase().includes(selectedGod.role?.toLowerCase()):
+            return false;
+          case item.stat_1_desc?.toLowerCase() === 'physical power':
+            return true;
+          case item.stat_2_desc?.toLowerCase() === 'physical power':
+            return true;
+          case item.stat_1_desc?.toLowerCase() === 'magical power' && item.stat_2_desc?.toLowerCase() !== 'physical power':
+            return false;
+            default:
+              return true;
+        }
+      })
+  }
+  if (!selectedGod) {
+    godFilteredItems = allItems;
+  }
+
+  const filteredItems = godFilteredItems?.filter(item => matchesAllFilters(item));
+
+  const searchBarFilteredItems = filteredItems?.filter((item) => item.name.toLowerCase().includes(itemSearch));
+
   setCurrentlyViewedItems(searchBarFilteredItems);
-  }, [currentFilters, items, itemSearch]);
+  }, [currentFilters, items, itemSearch, selectedGod]);
 
   // Search bar functionality
   const handleItemSearch = (e: ChangeEvent<HTMLInputElement>) => {
@@ -157,7 +208,7 @@ export default function ItemsList({ addToBuild }: any) {
 
       <div className="w-full grid grid-cols-4 md:grid-cols-10 gap-2">
         
-        {currentFilters.length === 0 ?
+        {currentFilters.length === 0 && !selectedGod ?
         <>
         {/* if no filters are applied, use just the search bar on all items */}
 

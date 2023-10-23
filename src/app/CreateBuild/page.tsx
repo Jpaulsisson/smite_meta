@@ -13,6 +13,8 @@ import {
   godStatsCalculator,
   combineStats,
   itemWarningHelper,
+  starterWarningHelper,
+  glyphWarningHelper,
   checkItemsForChildItemDupes
 } from './buildLogicHelpers';
 import Image from 'next/image';
@@ -66,83 +68,17 @@ export default function CreateBuild() {
   const currentGodStats = godStatsCalculator(currentGod as God) || null;
   const combinedStats = combineStats(currentBuildStats, currentGodStats);
 
-  
-
   // Set item type warning
-  // useEffect(() => {
-  //   const { physical_power_base, magical_power_base } = itemWarningHelper(
-  //     items as Item[],
-  //     currentBuild as Item[]
-  //   );
-  //   const { physical_power, magical_power } = combinedStats;
+  const itemWarning = itemWarningHelper(items, currentBuild, combinedStats);
 
-  //   if (
-  //     physical_power > physical_power_base &&
-  //     magical_power > magical_power_base
-  //   )
-  //   setWarnings((prev) => (
-  //     {...prev, itemWarning: true}
-  //     )) 
-  //   else setWarnings((prev) => (
-  //     {...prev, itemWarning: false}
-  //     ));
-  // }, [combinedStats, currentBuild, items]);
+  // Set multiple starter item warning
+  const starterWarning = starterWarningHelper(currentBuild);
 
-  // Set starter, glyph, childItem and dupeItem warnings
-  // useEffect(() => {
-  //   // Starter logic
-  //   let starterCount = 0;
-  //   currentBuild.forEach((item) => {
-  //     if (item?.starter === true) starterCount += 1;
-  //   });
-  //   starterCount > 1 ? 
-  //     setWarnings((prev) => (
-  //       {...prev, starterWarning: true}
-  //       )) 
-  //     : 
-  //     setWarnings((prev) => (
-  //       {...prev, starterWarning: false}
-  //       ))
+  // Set multiple glyph item warning
+  const glyphWarning = glyphWarningHelper(currentBuild);
 
-  //   // Glyph logic
-  //   let glyphCount = 0;
-  //   currentBuild.forEach((item) => {
-  //     if (item?.glyph === true) glyphCount += 1;
-  //   });
-  //   glyphCount > 1 ? 
-  //     setWarnings((prev) => (
-  //     {...prev, glyphWarning: true}
-  //     )) 
-  //     :
-  //     setWarnings((prev) => (
-  //       {...prev, glyphWarning: false}
-  //       )) 
-
-  //   // Child Item logic
-  //   const childItem = checkItemsForChildItemDupes(currentBuild as Item[]);
-  //   childItem ? 
-  //     setWarnings((prev) => (
-  //       {...prev, childItemWarning: true}
-  //       ))
-  //     :
-  //     setWarnings((prev) => (
-  //       {...prev, childItemWarning: false}
-  //       )) 
-  // }, [currentBuild]);
-
-  // Keep build stats up-to-date
-  // useEffect(() => {
-  //   const currentBuildStats = buildStatsCalculator(currentBuild as Item[]);
-  //   const currentGodStats = currentGod
-  //     ? godStatsCalculator(currentGod)
-  //     : null;
-  //   if (!currentGodStats) setBuildStats(currentBuildStats);
-  //   if (currentGodStats) {
-  //     const combinedStats = combineStats(currentBuildStats, currentGodStats);
-  //     setBuildStats(combinedStats);
-  //   }
-  // }, [currentBuild, currentGod]);
-
+  // Set dupe item/child item warning
+  const childItemWarning = checkItemsForChildItemDupes(currentBuild);
 
   // Add build to database
   const addUserBuildToDatabase = async () => {
@@ -257,11 +193,11 @@ export default function CreateBuild() {
     setIsChecked((prev) => !prev);
   }
 
-  const warningsCheck = Object.values(warnings).every(value => value === false);
+  const warningsCheck = [itemWarning, starterWarning, glyphWarning, childItemWarning].every(warning => warning === false);
 
   return (
     <div className="w-full flex flex-col items-center justify-center mt-4">
-<button className='text-white text-2xl' onClick={() => console.log(currentGod)}>LOG</button>
+
       {/* Build items containers + optional god name header */}
 
       <div className="flex flex-col w-full items-center">
@@ -273,15 +209,20 @@ export default function CreateBuild() {
 
         {/* Item warning */}
 
-        {warnings.itemWarning && (
-          <p className="text-red-500 text-xs text-center">
-            * Warning: Gods must use items of same type
-          </p>
+        {itemWarning && (
+          <>
+            <p className="text-red-500 text-xs text-center">
+              * Warning: Gods must use items of same type
+            </p>
+            <p className="text-red-500 text-xs text-center">
+              * Select a god first to auto-filter items appropriately
+            </p>
+          </>
         )}
 
         {/* Starter warning */}
 
-        {warnings.starterWarning && (
+        {starterWarning && (
           <p className="text-red-500 text-xs text-center">
             * Warning: Only one starter item is allowed
           </p>
@@ -289,7 +230,7 @@ export default function CreateBuild() {
 
         {/* Glyph warning */}
 
-        {warnings.glyphWarning && (
+        {glyphWarning && (
           <p className="text-red-500 text-xs text-center">
             * Warning: Only one glyph upgrade is allowed
           </p>
@@ -297,10 +238,16 @@ export default function CreateBuild() {
         
         {/* Child item warning */}
 
-        {warnings.childItemWarning && (
-          <p className="text-red-500 text-xs text-center">
-            * Warning: You have a tier 4 item and it&apos;s child item in the build
-          </p>
+        {childItemWarning && (
+          <>
+            <p className="text-red-500 text-xs text-center">
+              * Warning: You have a tier 4 item and it&apos;s child item in the build
+            </p>
+            <p className="text-red-500 text-xs text-center p-2">
+              * This is MOST LIKELY due to an evolved item and it&apos;s unevolved form in the same build OR a glyph item and it&apos;s un-glyph form which is not allowed in Smite.
+            </p>
+          </>
+          
         )}
 
         {/* Build item containers */}
@@ -646,7 +593,7 @@ export default function CreateBuild() {
           {isChecked ? (
             <>
               {currentGod?.name === 'Ratatoskr' ? (
-                <RatItemsList addToBuild={addBuildItem} />
+                <RatItemsList addToBuild={addBuildItem} selectedGod={currentGod} />
               ) : (
                 <ItemsList addToBuild={addBuildItem} selectedGod={currentGod} />
               )}
