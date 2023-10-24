@@ -4,6 +4,7 @@ import { supabase } from '@/database/supabase';
 import { Session } from '@supabase/supabase-js';
 import React, {Dispatch, SetStateAction, createContext, ReactNode, useContext, useState, useEffect } from 'react';
 import md5 from 'md5';
+import { useRouter } from 'next/navigation';
 
 type UserContextProviderProps = {
   children: ReactNode;
@@ -18,6 +19,8 @@ type UserContext = {
   hashedId: string | null;
 }
 
+
+
 const UserContext = createContext<UserContext | null>(null);
 
 export default function UserContextProvider({ children }: UserContextProviderProps) {
@@ -26,6 +29,7 @@ export default function UserContextProvider({ children }: UserContextProviderPro
   const [currentUsername, setcurrentUsername] = useState<string | null>(null);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [hashedId, setHashedId] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (document) {
@@ -36,6 +40,7 @@ export default function UserContextProvider({ children }: UserContextProviderPro
 
   useEffect(() => {
       const unsubscribe = supabase.auth.onAuthStateChange((event, session) => {
+        if (event === 'PASSWORD_RECOVERY') router.push('/ChangePassword');
         if (session) {
           setCurrentSession(session);
           setCurrentUserId(session.user.id);
@@ -47,7 +52,7 @@ export default function UserContextProvider({ children }: UserContextProviderPro
           setHashedId(null);
         }
       });
-  }, [])
+  }, [router])
 
   return (
     <UserContext.Provider

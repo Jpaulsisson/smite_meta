@@ -10,7 +10,6 @@ import GoogleIcon from '@/resources/google.svg';
 import FacebookIcon from '@/resources/facebook.svg';
 import DiscordIcon from '@/resources/discord.svg';
 import Image from 'next/image';
-import { redirect } from 'next/dist/server/api-utils';
 
 const font = Exo_2({
   weight: ['200', '400'],
@@ -77,6 +76,7 @@ export default function SignIn() {
             <input onChange={handleLoginInputChange} name='password' type="password" placeholder='Password' className='p-2 md:p-4 placeholder:text-slate-600 placeholder:text-xl rounded-md focus:outline-2 focus:outline-amber-400' />
           </div>
           <button onClick={() => signInWithEmailAndPassword(loginInfo.email, loginInfo.password)} className='bg-slate-700 p-2 md:p-4 w-1/2 rounded-md text-xl border-thin border-black'>Sign In</button>
+          <Link href={'/PasswordReset'} onClick={handleModalToggle} className='text-xs md:text-sm lowercase hover:underline' >forgot your password?</Link>
           <div className="p-2 md:p-4 flex flex-col items-center w-full gap-3 font-normal text-center border-white border-t-2">
           <h2 className='text-xs md:text-base'>Or use one of these easy mode sign in options</h2>
           <button
