@@ -106,6 +106,7 @@ export default function SignUp() {
           <input
             onChange={handleFormChange}
             required
+            minLength={6}
             placeholder="A password like all other sites"
             className="w-full p-2 text-black text-lg rounded-sm border-2 border-black bg-slate-300 focus:outline-yellow-600 placeholder:text-black/40 placeholder:text-sm "
             name="password"

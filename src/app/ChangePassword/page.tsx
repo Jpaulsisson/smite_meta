@@ -35,7 +35,7 @@ export default function ChangePassword() {
       </label>
       <label htmlFor="password" className="w-1/2 md:w-1/4 text-xl text-start flex flex-col">
         Password
-        <input className="text-black text-base p-2" id="password" type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input className="text-black text-base p-2" id="password" type='password' minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} />
       </label>
       <label htmlFor="confirm" className="w-1/2 md:w-1/4 text-xl text-start flex flex-col">
         Confirm Password
