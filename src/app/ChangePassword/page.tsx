@@ -7,6 +7,8 @@ const updatePassword = async (email: string, password: string, confirm: string)=
 
   if (password != confirm) return alert('Passwords do not match');
 
+  console.log('before supabase call');
+
   const { data, error } = await supabase.auth.updateUser({
     email: email,
     password: password,

@@ -8,10 +8,20 @@ import { useUserContext } from '@/contexts/user.context';
 import { getAllUserBuilds, getUserRecentBuilds, deleteBuild } from '@/database/supabase';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import type { Build } from '../page';
-import { createBuildHref } from '../page';
 import DeleteConfirmationPopup from '@/components/DeleteConfirmationPopup/DeleteConfirmationPopup.component';
 
+type Build = {
+  id: number, 
+  created_at: string,
+  user_id: string,
+  item_1_id: number | null, 
+  item_2_id: number | null, 
+  item_3_id: number | null, 
+  item_4_id: number | null, 
+  item_5_id: number | null, 
+  item_6_id: number | null,
+  god_id: number | null,
+}
 
 // Format "created_at" for use
 function formatTimestamp(timestamp: string) {
@@ -23,6 +33,20 @@ function formatTimestamp(timestamp: string) {
     formattedDate: formattedDate,
     formattedTime: formattedTime
   };
+}
+
+// Format query string
+const createBuildHref = (build: Build) => {
+  const buildQueryString = {
+    item1Id: typeof build.item_1_id === 'number' ? String(build.item_1_id) + ',' : '',
+    item2Id: typeof build.item_2_id === 'number' ? String(build.item_2_id) + ',' : '',
+    item3Id: typeof build.item_3_id === 'number' ? String(build.item_3_id) + ',' : '',
+    item4Id: typeof build.item_4_id === 'number' ? String(build.item_4_id) + ',' : '',
+    item5Id: typeof build.item_5_id === 'number' ? String(build.item_5_id) + ',' : '',
+    item6Id: typeof build.item_6_id === 'number' ? String(build.item_6_id) : '',
+    godId: typeof build.god_id === 'number' ? String(build.god_id) : 'null',
+  }
+  return buildQueryString;
 }
 
 export default function SavedUserBuilds() {

@@ -22,7 +22,7 @@ export type Build = {
   god_id: number | null,
 }
 
-export const createBuildHref = (build: Build) => {
+const createBuildHref = (build: Build) => {
     const buildQueryString = {
       item1Id: typeof build.item_1_id === 'number' ? String(build.item_1_id) + ',' : '',
       item2Id: typeof build.item_2_id === 'number' ? String(build.item_2_id) + ',' : '',

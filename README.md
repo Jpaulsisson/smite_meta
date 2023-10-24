@@ -4,8 +4,7 @@
 
 ### Main site features:
 
-- Create custom or get recommended builds
-- Create your profile and save your favorite builds to it
+- Create custom builds and save them on your user profile
 - See your build's final stats on the god of your choosing (level 20 stats) or just the stats
 - Find out what the pros are doing and learn from them
 - Read up on god info and see which gods are most popular currently
