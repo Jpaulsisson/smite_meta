@@ -32,7 +32,7 @@ const key = process.env.SUPABASE_KEY
     let { data, error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password
-    }, {redirectTo: 'http://localhost:3000'});
+    }, {redirectTo: 'http://smite-meta.vercel.app/'});
     if (error) alert(`That email and password combo doesn't exist in our database`)
   } 
 
@@ -40,7 +40,7 @@ const key = process.env.SUPABASE_KEY
   export const signInWithThirdParty = async (provider) => {
     let { data, error } = await supabase.auth.signInWithOAuth({
       provider: provider,
-    }, {redirectTo: 'http://localhost:3000'});
+    }, {redirectTo: 'http://smite-meta.vercel.app/'});
     if (error) {
       console.log(error.message);
     }
