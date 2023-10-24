@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { useDataContext } from '@/contexts/data.context';
 
 
-export type Build = {
+type Build = {
   id: number, 
   created_at: string,
   user_id: string,
