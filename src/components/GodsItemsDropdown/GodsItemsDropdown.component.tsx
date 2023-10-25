@@ -23,11 +23,11 @@ export default function GodsItemsDropdown() {
   return (
     <>
       <div
-        className={`${isActive} ${quicksandFont.className} dropdown bg-slate-800 max-w-[700px] w-5/6 aspect-[3.75] md:aspect-[4.25] rounded-md border-[1px] border-slate-950 z-40`}
+        className={`${isActive} ${quicksandFont.className} dropdown w-full max-h-24 bg-slate-800 max-w-[700px]  rounded-md border-[1px] border-slate-950 z-40`}
       >
         <button
           onClick={handleToggle}
-          className="link w-full h-full text-3xl flex items-center justify-start p-4 gap-x-4"
+          className="link w-full h-full text-xl inline-flex items-center justify-start p-4 gap-x-4"
         >
           Gods & Items
           <Image

@@ -25,8 +25,8 @@ export default function ProsDropdown() {
 
   return (
     <>
-      <div className={`${isActive} ${quicksandFont.className} dropdown max-w-[700px] bg-slate-800 w-5/6 aspect-[3.75] md:aspect-[4.25] rounded-md border-[1px] border-slate-950 z-30 mb-32 md:mb-0`}>
-        <button onClick={handleToggle} className="link w-full h-full text-3xl flex items-center justify-start p-4 gap-x-4">Learn from Pros
+      <div className={`${isActive} ${quicksandFont.className} dropdown w-full max-h-24 bg-slate-800 max-w-[700px] rounded-md border-[1px] border-slate-950`}>
+        <button onClick={handleToggle} className="link w-full h-full text-xl flex items-center justify-start p-4 gap-x-4">Learn from Pros
           <Image src={DropdownArrow} alt='dropdown arrow' width={15} className={`${isActive === 'active' ? 'rotate-0 mix-blend-difference' : '-rotate-90 '}`} />
         </button>
         <div className={`${isActive} dropdown-content w-full h-full grid grid-cols-2 gap-1 text-2xl`}>

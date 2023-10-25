@@ -7,7 +7,7 @@ export default function Home() {
 
   return (
     <main className='m-auto w-full h-full'>
-      <section className='flex flex-col md:flex-row md:max-w-[80%] m-auto items-center justify-center mt-12 gap-4 md:gap-8 min-h-[60dvh]'>
+      <section className='grid grid-cols-1 md:grid-cols-3 items-center gap-2 w-11/12 md:max-w-5xl m-auto mt-12 min-h-[60dvh]'>
         <BuildsDropdown />
         <GodsItemsDropdown />
         <ProsDropdown />
