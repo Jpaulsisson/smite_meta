@@ -37,7 +37,7 @@ export default function Navbar() {
 
       {/* Sign in or Log out */}
 
-      {!currentSession ? 
+      {currentSession ? 
 
         // No Session ? Sign in or Sign up
       <div className="w-full col-start-9 col-span-2 p-2">
@@ -46,17 +46,13 @@ export default function Navbar() {
       :
 
       // Session is active ? Link to profile page and log out button
-      <div className="col-start-10 md:row-start-2 col-span-1 flex flex-col gap-2 md:w-1/2">
+      <div className="col-start-10 flex flex-col items-center gap-2 md:w-1/2">
+        <Link href={`/User/${hashedId}`} className="col-start-1 md:col-start-10 row-start-1 text-sm md:text-xl text-neutral p-2 flex">
+        My META
+        </Link>
         <button className="text-neutral text-sm md:text-lg" onClick={signOut}>Log Out</button>
       </div>
       }
-
-      {!currentSession ?
-        null
-        :
-        <Link href={`/User/${hashedId}`} className="col-start-1 md:col-start-10 row-start-1 text-sm md:text-xl text-neutral p-2 flex">
-        My META
-      </Link>}
     </nav>
   )
 }
