@@ -37,7 +37,7 @@ export default function Navbar() {
 
       {/* Sign in or Log out */}
 
-      {currentSession ? 
+      {!currentSession ? 
 
         // No Session ? Sign in or Sign up
       <div className="w-full col-start-9 col-span-2 p-2">
